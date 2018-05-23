@@ -1,4 +1,4 @@
-package com.ankush.techtatva18;
+package in.mittt.tt18;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

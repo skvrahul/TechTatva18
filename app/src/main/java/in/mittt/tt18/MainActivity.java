@@ -1,4 +1,4 @@
-package com.ankush.techtatva18;
+package in.mittt.tt18;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.ankush.techtatva18.fragments.CategoriesFragment;
-import com.ankush.techtatva18.fragments.HomeFragment;
-import com.ankush.techtatva18.fragments.ResultsFragment;
-import com.ankush.techtatva18.fragments.ScheduleFragment;
-import com.ankush.techtatva18.fragments.WorkshopsFragment;
+import in.mittt.tt18.fragments.CategoriesFragment;
+import in.mittt.tt18.fragments.HomeFragment;
+import in.mittt.tt18.fragments.ResultsFragment;
+import in.mittt.tt18.fragments.ScheduleFragment;
+import in.mittt.tt18.fragments.WorkshopsFragment;
 
 public class MainActivity extends AppCompatActivity {
     // Listener for the selected bottom navigation items
