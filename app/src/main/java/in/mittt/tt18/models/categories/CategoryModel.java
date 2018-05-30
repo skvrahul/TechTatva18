@@ -1,17 +1,25 @@
 package in.mittt.tt18.models.categories;
 
-public class CategoryModel {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+public class CategoryModel  {
+
+    @SerializedName("cid")
+    @Expose
     private String categoryID;
 
+    @SerializedName("cname")
+    @Expose
     private String categoryName;
 
+    @SerializedName("cdesc")
+    @Expose
     private String categoryDescription;
 
-    public CategoryModel() {
-        // Required empty public constructor
-    }
+    public CategoryModel(){
 
+    }
     public String getCategoryName() {
         return categoryName;
     }

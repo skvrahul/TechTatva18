@@ -1,27 +1,46 @@
 package in.mittt.tt18.models.events;
 
-public class EventDetailsModel {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class EventDetailsModel extends RealmObject {
+
+    @SerializedName("ename")
+    @Expose
     private String eventName;
-
+    @SerializedName("eid")
+    @Expose
+    @PrimaryKey
     private String eventID;
-
+    @SerializedName("edesc")
+    @Expose
     private String description;
-
+    @SerializedName("emaxteamsize")
+    @Expose
     private String maxTeamSize;
-
+    @SerializedName("cid")
+    @Expose
     private String catID;
-
+    @SerializedName("cname")
+    @Expose
     private String catName;
-
+    @SerializedName("cntctname")
+    @Expose
     private String contactName;
-
+    @SerializedName("cntctno")
+    @Expose
     private String contactNo;
-
+    @SerializedName("type")
+    @Expose
     private String type;
-
+    @SerializedName("hash")
+    @Expose
     private String hash;
-
+    @SerializedName("day")
+    @Expose
     private String day;
 
     public String getEventName() {

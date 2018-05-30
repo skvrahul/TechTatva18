@@ -12,6 +12,7 @@ import in.mittt.tt18.fragments.HomeFragment;
 import in.mittt.tt18.fragments.ResultsFragment;
 import in.mittt.tt18.fragments.ScheduleFragment;
 import in.mittt.tt18.fragments.WorkshopsFragment;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
     // Listener for the selected bottom navigation items
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Load the home fragment first when the app launches
         loadFragment(new HomeFragment());
+
     }
 
     /**

@@ -1,14 +1,19 @@
 package in.mittt.tt18.models.categories;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CategoriesListModel {
 
+    @SerializedName("data")
+    @Expose
     private List<CategoryModel> categoriesList = new ArrayList<>();
 
     public CategoriesListModel() {
-        // Required empty public constructor
     }
 
     public List<CategoryModel> getCategoriesList() {
