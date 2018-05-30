@@ -1,6 +1,8 @@
 package in.mittt.tt18.models.events;
 
-public class EventModel {
+import io.realm.RealmObject;
+
+public class EventModel extends RealmObject{
 
     private String eventName;
     private String eventId;
