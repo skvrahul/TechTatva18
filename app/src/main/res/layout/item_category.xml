@@ -16,7 +16,7 @@
     android:id="@+id/cat_logo_image_view"
     android:layout_width="50dp"
     android:layout_height="50dp"
-    android:background="5dp"
+    android:background="#ffff"
     android:src="@mipmap/ic_launcher"/>
 
 
