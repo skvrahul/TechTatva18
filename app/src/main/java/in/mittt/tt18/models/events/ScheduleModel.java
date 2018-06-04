@@ -1,25 +1,42 @@
 package in.mittt.tt18.models.events;
 
-public class ScheduleModel {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
+
+public class ScheduleModel extends RealmObject {
+
+    @SerializedName("eid")
+    @Expose
     private String eventID;
-
+    @SerializedName("ename")
+    @Expose
     private String eventName;
-
+    @SerializedName("catid")
+    @Expose
     private String catID;
-
+    @SerializedName("catname")
+    @Expose
     private String catName;
-
+    @SerializedName("round")
+    @Expose
     private String round;
-
+    @SerializedName("venue")
+    @Expose
     private String venue;
-
+    @SerializedName("stime")
+    @Expose
     private String startTime;
-
+    @SerializedName("etime")
+    @Expose
     private String endTime;
-
+    @SerializedName("day")
+    @Expose
     private String day;
-
+    @SerializedName("date")
+    @Expose
     private String date;
 
     public String getEventID() {
