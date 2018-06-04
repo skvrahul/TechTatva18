@@ -5,6 +5,11 @@
     <string name="title_categories">Categories</string>
     <string name="title_workshops">Workshops</string>
     <string name="title_results">Results</string>
-
+    <string name="team_position">0</string>
+    <string name="no_events">No events</string>
+    <string name="day_1">Day 1</string>
+    <string name="day_2">Day 2</string>
+    <string name="day_3">Day 3</string>
+    <string name="day_4">Day 4</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import in.mittt.tt18.R;
 import in.mittt.tt18.activities.CategoryActivity;
+import in.mittt.tt18.R;
 import in.mittt.tt18.models.categories.CategoryModel;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
@@ -45,7 +45,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            catLogo = (ImageView) itemView.findViewById(R.id.cat_logo_image_view);
             catName = (TextView) itemView.findViewById(R.id.cat_name_text_view);
             itemView.setOnClickListener(this);
         }

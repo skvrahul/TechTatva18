@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="in.mittt.tt18.MainActivity">
+    tools:context="in.mittt.tt18.activities.MainActivity">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

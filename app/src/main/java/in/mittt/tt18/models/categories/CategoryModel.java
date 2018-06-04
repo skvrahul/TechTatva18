@@ -1,9 +1,12 @@
 package in.mittt.tt18.models.categories;
 
+import android.app.Activity;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import io.realm.RealmObject;
 
-public class CategoryModel  {
+public class CategoryModel extends RealmObject{
 
     @SerializedName("cid")
     @Expose

@@ -2,6 +2,9 @@ package in.mittt.tt18.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,13 +54,37 @@ public class  ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.Results
         TextView eventRound;
         public ResultsViewHolder(View itemView) {
             super(itemView);
-
+            eventName=(TextView)itemView.findViewById(R.id.event_name_text_view);
+            eventRound=(TextView)itemView.findViewById(R.id.event_round_text_view);
+            eventLogo=(ImageView)itemView.findViewById(R.id.event_logo_image_view);
 
             itemView.setOnClickListener(this);
         }
         @Override
         public void onClick(View view) {
+            displayBottomSheet(resultsList.get(getAdapterPosition()));
+        }
+        public void displayBottomSheet(EventResultModel result)
+        {
+            View bottomSheetView =View.inflate(context,R.layout.dialog_results,null);
+            final BottomSheetDialog dialog =new BottomSheetDialog(context);
 
+            dialog.setContentView(bottomSheetView);
+
+            BottomSheetBehavior bottomSheetBehavior=BottomSheetBehavior.from((View)bottomSheetView.getParent());
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            TextView eventName=(TextView)bottomSheetView.findViewById(R.id.result_dialog_event_name_text_view);
+            eventName.setText(result.eventName);
+
+            TextView eventRound=(TextView)bottomSheetView.findViewById(R.id.result_dialog_round_text_view);
+            eventRound.setText(result.eventRound);
+
+            RecyclerView teamsRecyclerView=(RecyclerView)bottomSheetView.findViewById(R.id.result_dialog_teams_recycler_view);
+            teamsRecyclerView.setAdapter(new QualifiedTeamsAdapter(result.eventResultsList,context));
+            teamsRecyclerView.setLayoutManager(new GridLayoutManager(context,2));
+
+            dialog.show();
         }
 
     }
