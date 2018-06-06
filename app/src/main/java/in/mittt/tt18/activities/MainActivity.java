@@ -1,4 +1,4 @@
-package in.mittt.tt18;
+package in.mittt.tt18.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,8 @@ import in.mittt.tt18.fragments.HomeFragment;
 import in.mittt.tt18.fragments.ResultsFragment;
 import in.mittt.tt18.fragments.ScheduleFragment;
 import in.mittt.tt18.fragments.WorkshopsFragment;
+import in.mittt.tt18.R;
+
 
 public class MainActivity extends AppCompatActivity {
     // Listener for the selected bottom navigation items
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Load the home fragment first when the app launches
         loadFragment(new HomeFragment());
+
     }
 
     /**
