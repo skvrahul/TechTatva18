@@ -18,8 +18,10 @@ public class APIClient {
     public static APIInterface getAPIInterface(){
 
         if (retrofit == null){
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
-
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
         }
         return retrofit.create(APIInterface.class);
@@ -36,8 +38,6 @@ public class APIClient {
 
         @GET("schedule")
         Call<ScheduleListModel> getScheduleList();
-
-
 
     }
 

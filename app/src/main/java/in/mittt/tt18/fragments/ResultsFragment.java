@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ import retrofit2.Response;
  */
 public class ResultsFragment extends Fragment {
     Realm mDatabase;
-    private List<EventResultModel> resultsList=new ArrayList<>();
+    private List<EventResultModel> resultsList = new ArrayList<>();
     private ResultsAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout rootLayout;
@@ -50,15 +51,16 @@ public class ResultsFragment extends Fragment {
     }
 
     public static ResultsFragment newInstance(){
-        ResultsFragment fragment=new ResultsFragment();
-        return fragment;
+        return new ResultsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().setTitle("Results");
+        if (getActivity() != null){
+            getActivity().setTitle("Results");
+        }
         mDatabase = Realm.getDefaultInstance();
     }
 
@@ -66,21 +68,21 @@ public class ResultsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_results,container,false);
-        rootLayout=(LinearLayout)view.findViewById(R.id.results_root_layout);
-        resultsAvailable=(CardView)view.findViewById(R.id.results_available);
-        noResultsLayout=(LinearLayout)view.findViewById(R.id.no_results_layout);
-        RecyclerView resultsRecyclerView=(RecyclerView)view.findViewById(R.id.results_recycler_view);
-        swipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.results_swipe_refresh_layout);
-        adapter=new ResultsAdapter(resultsList,getContext(),getActivity());
-        DividerItemDecoration dividerItemDecoration=new DividerItemDecoration(resultsRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
+        rootLayout = view.findViewById(R.id.results_root_layout);
+        resultsAvailable = view.findViewById(R.id.results_available);
+        noResultsLayout = view.findViewById(R.id.no_results_layout);
+        RecyclerView resultsRecyclerView = view.findViewById(R.id.results_recycler_view);
+        swipeRefreshLayout = view.findViewById(R.id.results_swipe_refresh_layout);
+        adapter = new ResultsAdapter(resultsList,getContext(),getActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(resultsRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
         resultsRecyclerView.addItemDecoration(dividerItemDecoration);
         displayData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ConnectivityManager cmTemp=(ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo activeNetworkTemp=cmTemp.getActiveNetworkInfo();
-                boolean isConnectedTemp=activeNetworkTemp!=null&&activeNetworkTemp.isConnectedOrConnecting();
+                ConnectivityManager cmTemp = (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetworkTemp = cmTemp.getActiveNetworkInfo();
+                boolean isConnectedTemp = activeNetworkTemp != null && activeNetworkTemp.isConnectedOrConnecting();
                 if(isConnectedTemp){
                     updateData();
                 }
@@ -96,29 +98,30 @@ public class ResultsFragment extends Fragment {
     }
     private void displayData(){
         if(mDatabase==null){
+            Log.d("results", "Database is null");
             resultsAvailable.setVisibility(View.GONE);
             noResultsLayout.setVisibility(View.VISIBLE);
             return;
         }
 
-        RealmResults<ResultModel> results =mDatabase.where(ResultModel.class).findAll();
-        results.sort("eventName", Sort.ASCENDING,"position",Sort.ASCENDING);
+        RealmResults<ResultModel> results = mDatabase.where(ResultModel.class).findAll();
+        results.sort("eventName", Sort.ASCENDING,"position", Sort.ASCENDING);
+        Log.d("TAG", "" + results.isEmpty());
         if(!results.isEmpty()){
             resultsList.clear();
-            List<String> eventNamesList=new ArrayList<>();
+            List<String> eventNamesList = new ArrayList<>();
 
-            for(ResultModel result:results)
-            {
-                String eventName=result.getEventName()+" "+result.getRound();
+            for(ResultModel result : results) {
+                String eventName = result.getEventName()+" "+result.getRound();
                 if(eventNamesList.contains(eventName)){
                     resultsList.get(eventNamesList.indexOf(eventName)).eventResultsList.add(result);
                 }
                 else
                 {
-                    EventResultModel eventResult=new EventResultModel();
-                    eventResult.eventName=result.getEventName();
-                    eventResult.eventRound=result.getRound();
-                    eventResult.eventCategory=result.getCatName();
+                    EventResultModel eventResult = new EventResultModel();
+                    eventResult.eventName = result.getEventName();
+                    eventResult.eventRound= result.getRound();
+                    eventResult.eventCategory = result.getCatName();
                     eventResult.eventResultsList.add(result);
                     resultsList.add(eventResult);
                     eventNamesList.add(eventName);
@@ -138,8 +141,8 @@ public class ResultsFragment extends Fragment {
             List<ResultModel> results=new ArrayList<>();
             @Override
             public void onResponse(Call<ResultsListModel> call, Response<ResultsListModel> response) {
-                if(response.isSuccessful()&&response.body()!=null){
-                    results=response.body().getData();
+                if(response.isSuccessful() && response.body() != null){
+                    results = response.body().getData();
                     mDatabase.beginTransaction();
                     mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
                     mDatabase.copyToRealm(results);

@@ -6,8 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 
 import in.mittt.tt18.models.categories.CategoriesListModel;
-import io.realm.Realm;
-import io.realm.RealmResults;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,8 +31,8 @@ import in.mittt.tt18.adapters.CategoriesAdapter;
 import in.mittt.tt18.application.TT18;
 import in.mittt.tt18.models.categories.CategoryModel;
 import io.realm.Realm;
-import io.realm.RealmModel;
 import io.realm.RealmResults;
+
 
 import static android.content.ContentValues.TAG;
 
@@ -54,26 +53,29 @@ public class CategoriesFragment extends Fragment {
     }
 
     public static CategoriesFragment newInstance() {
-        CategoriesFragment fragment = new CategoriesFragment();
-        return fragment;
+        return new CategoriesFragment();
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().setTitle(R.string.title_categories);
+        if (getActivity() != null){
+            getActivity().setTitle(R.string.title_categories);
+        }
         mDatabase = Realm.getDefaultInstance();
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("hey");
         View view= inflater.inflate(R.layout.fragment_categories, container, false);
-        RecyclerView categoriesRecyclerView = (RecyclerView)view.findViewById(R.id.categories_recycler_view);
+        RecyclerView categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view);
         adapter = new CategoriesAdapter(categoriesList, getActivity());
         categoriesRecyclerView.setAdapter(adapter);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(categoriesRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(categoriesRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
         categoriesRecyclerView.addItemDecoration(dividerItemDecoration);
 
         if (mDatabase.where(CategoryModel.class).findAll().size() != 0){
@@ -92,8 +94,7 @@ public class CategoriesFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         }
-        //else
-            //System.out.println("HEY");
+
     }
     private void displaySearchData(String text){
         if (mDatabase != null){
@@ -152,12 +153,14 @@ public class CategoriesFragment extends Fragment {
 
         });
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
         setHasOptionsMenu(false);
         setMenuVisibility(false);
     }
+
     @Override
     public void onResume() {
         super.onResume();
