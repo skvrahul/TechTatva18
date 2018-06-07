@@ -2,6 +2,7 @@ package in.mittt.tt18.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,16 +25,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         this.categoriesList = categoriesList;
         this.activity = activity;
     }
+
+    @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CategoryViewHolder(LayoutInflater.from(activity).inflate(R.layout.item_category, parent, false));
     }
+
     @Override
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         CategoryModel category = categoriesList.get(position);
         holder.catName.setText(category.getCategoryName());
 
     }
+
     @Override
     public int getItemCount() {
         return categoriesList.size();
@@ -45,7 +50,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            catName = (TextView) itemView.findViewById(R.id.cat_name_text_view);
+            catName = itemView.findViewById(R.id.cat_name_text_view);
+            catLogo = itemView.findViewById(R.id.cat_logo_image_view);
             itemView.setOnClickListener(this);
         }
         @Override
