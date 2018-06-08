@@ -109,8 +109,10 @@ public class ResultsFragment extends Fragment {
             return;
         }
 
-        RealmResults<ResultModel> results = mDatabase.where(ResultModel.class).findAll();
-        results.sort("eventName", Sort.ASCENDING,"position", Sort.ASCENDING);
+        RealmResults<ResultModel> realmResults = mDatabase.where(ResultModel.class).findAll();
+        realmResults.sort("eventName", Sort.ASCENDING,"position", Sort.ASCENDING);
+        List<ResultModel> results = mDatabase.copyFromRealm(realmResults);
+
         Log.d("TAG", "" + results.isEmpty());
         if(!results.isEmpty()){
             resultsList.clear();
