@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,8 +75,12 @@ public class ResultsFragment extends Fragment {
         RecyclerView resultsRecyclerView = view.findViewById(R.id.results_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.results_swipe_refresh_layout);
         adapter = new ResultsAdapter(resultsList,getContext(),getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(resultsRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
         resultsRecyclerView.addItemDecoration(dividerItemDecoration);
+        resultsRecyclerView.setAdapter(adapter);
+        resultsRecyclerView.setLayoutManager(layoutManager);
         displayData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -140,7 +145,7 @@ public class ResultsFragment extends Fragment {
         callResultsList.enqueue(new Callback<ResultsListModel>() {
             List<ResultModel> results=new ArrayList<>();
             @Override
-            public void onResponse(Call<ResultsListModel> call, Response<ResultsListModel> response) {
+            public void onResponse(@NonNull Call<ResultsListModel> call, @NonNull Response<ResultsListModel> response) {
                 if(response.isSuccessful() && response.body() != null){
                     results = response.body().getData();
                     mDatabase.beginTransaction();
@@ -155,7 +160,7 @@ public class ResultsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ResultsListModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResultsListModel> call, @NonNull Throwable t) {
                 resultsAvailable.setVisibility(View.GONE);
                 noResultsLayout.setVisibility(View.VISIBLE);
                 Snackbar.make(rootLayout, "Error fetching results", Snackbar.LENGTH_SHORT).show();
