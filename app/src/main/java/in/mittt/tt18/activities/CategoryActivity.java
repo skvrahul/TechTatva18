@@ -55,7 +55,7 @@ public class CategoryActivity extends AppCompatActivity{
         if(catDesc==null)
             catDesc="";
 
-        Toolbar toolbar=(Toolbar)findViewById(R.id.category_toolbar);
+        Toolbar toolbar=findViewById(R.id.category_toolbar);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar()!=null)
@@ -70,7 +70,7 @@ public class CategoryActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu_category_activity,menu);
-        return  true;
+        return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -79,20 +79,17 @@ public class CategoryActivity extends AppCompatActivity{
         {
             case android.R.id.home:
                 finish();
-                break;
+                return true;
             case R.id.about_category:
                 View view=View.inflate(this,R.layout.dialog_about_category,null);
                 final BottomSheetDialog dialog=new BottomSheetDialog(this);
                 dialog.setContentView(view);
-                catNameTextView=(TextView)view.findViewById(R.id.category_about_name);
-                catDescTextView = (TextView)view.findViewById(R.id.category_about_description);
+                catNameTextView=view.findViewById(R.id.category_about_name);
+                catDescTextView = view.findViewById(R.id.category_about_description);
                 catNameTextView.setText(catName);
                 catDescTextView.setText(catDesc);
-
                 dialog.show();
-                break;
-
-
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -104,10 +101,10 @@ public class CategoryActivity extends AppCompatActivity{
         List<EventModel> day3List=new ArrayList<>();
         List<EventModel> day4List=new ArrayList<>();
 
-        noEventsDay1=(TextView)findViewById(R.id.cat_day_1_no_events);
-        noEventsDay2=(TextView)findViewById(R.id.cat_day_1_no_events);
-        noEventsDay3=(TextView)findViewById(R.id.cat_day_1_no_events);
-        noEventsDay4=(TextView)findViewById(R.id.cat_day_1_no_events);
+        noEventsDay1=findViewById(R.id.cat_day_1_no_events);
+        noEventsDay2=findViewById(R.id.cat_day_2_no_events);
+        noEventsDay3=findViewById(R.id.cat_day_3_no_events);
+        noEventsDay4=findViewById(R.id.cat_day_4_no_events);
 
         if(mDatabase==null)
             return;
@@ -136,7 +133,7 @@ public class CategoryActivity extends AppCompatActivity{
         eventSort(day3List);
         eventSort(day4List);
 
-        RecyclerView recyclerViewDay1 =(RecyclerView)findViewById(R.id.category_day_1_recycler_view);
+        RecyclerView recyclerViewDay1 =findViewById(R.id.category_day_1_recycler_view);
         if(day1List.isEmpty()){
             noEventsDay1.setVisibility(View.VISIBLE);
             recyclerViewDay1.setVisibility(View.GONE);
@@ -147,7 +144,7 @@ public class CategoryActivity extends AppCompatActivity{
             recyclerViewDay1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         }
 
-        RecyclerView recyclerViewDay2 = (RecyclerView)findViewById(R.id.category_day_2_recycler_view);
+        RecyclerView recyclerViewDay2 = findViewById(R.id.category_day_2_recycler_view);
         if(day2List.isEmpty()){
             noEventsDay2.setVisibility(View.VISIBLE);
             recyclerViewDay2.setVisibility(View.GONE);
@@ -158,7 +155,7 @@ public class CategoryActivity extends AppCompatActivity{
             recyclerViewDay2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         }
 
-        RecyclerView recyclerViewDay3 = (RecyclerView)findViewById(R.id.category_day_3_recycler_view);
+        RecyclerView recyclerViewDay3 = findViewById(R.id.category_day_3_recycler_view);
         if(day3List.isEmpty()){
             noEventsDay3.setVisibility(View.VISIBLE);
             recyclerViewDay3.setVisibility(View.GONE);
@@ -169,7 +166,7 @@ public class CategoryActivity extends AppCompatActivity{
             recyclerViewDay3.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         }
 
-        RecyclerView recyclerViewDay4 = (RecyclerView)findViewById(R.id.category_day_4_recycler_view);
+        RecyclerView recyclerViewDay4 = findViewById(R.id.category_day_4_recycler_view);
         if(day4List.isEmpty()){
             noEventsDay4.setVisibility(View.VISIBLE);
             recyclerViewDay4.setVisibility(View.GONE);

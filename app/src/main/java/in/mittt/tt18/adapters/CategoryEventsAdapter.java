@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-;
+
 import in.mittt.tt18.R;
 import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventModel;
@@ -54,8 +55,9 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public CategoryEventsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoryEventsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CategoryEventsViewHolder(LayoutInflater.from(activity).inflate(R.layout.category_event, parent, false));
     }
 

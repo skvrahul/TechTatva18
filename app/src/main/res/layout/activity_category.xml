@@ -76,7 +76,6 @@
                         android:layout_marginBottom="@dimen/padding_default"
                         />
 
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/category_day_1_recycler_view"
                         android:layout_width="match_parent"
