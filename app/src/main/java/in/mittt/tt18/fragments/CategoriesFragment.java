@@ -60,7 +60,7 @@ public class CategoriesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (getActivity() != null){
+        if (getActivity() != null) {
             getActivity().setTitle(R.string.title_categories);
         }
         mDatabase = Realm.getDefaultInstance();
@@ -69,26 +69,27 @@ public class CategoriesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_categories, container, false);
+        View view = inflater.inflate(R.layout.fragment_categories, container, false);
         RecyclerView categoriesRecyclerView = view.findViewById(R.id.categories_recycler_view);
         adapter = new CategoriesAdapter(categoriesList, getActivity());
         categoriesRecyclerView.setAdapter(adapter);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(categoriesRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
+                new DividerItemDecoration(categoriesRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
         categoriesRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        if (mDatabase.where(CategoryModel.class).findAll().size() != 0){
+        if (mDatabase.where(CategoryModel.class).findAll().size() != 0) {
             displayData();
         }
         return view;
     }
-    private void displayData(){
-        if (mDatabase != null){
+
+    private void displayData() {
+        if (mDatabase != null) {
             categoriesList.clear();
             RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class).findAll();
             categoryResults.sort("categoryName");
-            if (!categoryResults.isEmpty()){
+            if (!categoryResults.isEmpty()) {
                 categoriesList.clear();
                 categoriesList.addAll(categoryResults);
                 adapter.notifyDataSetChanged();
@@ -96,18 +97,20 @@ public class CategoriesFragment extends Fragment {
         }
 
     }
-    private void displaySearchData(String text){
-        if (mDatabase != null){
+
+    private void displaySearchData(String text) {
+        if (mDatabase != null) {
             categoriesList.clear();
-            RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class).contains("categoryName",text).findAll();
+            RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class).contains("categoryName", text).findAll();
             categoryResults.sort("categoryName");
-            if (!categoryResults.isEmpty()){
+            if (!categoryResults.isEmpty()) {
                 categoriesList.clear();
                 categoriesList.addAll(categoryResults);
                 adapter.notifyDataSetChanged();
             }
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -116,14 +119,15 @@ public class CategoriesFragment extends Fragment {
         if (dialog != null && dialog.isShowing())
             dialog.hide();
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_hardware, menu);
         searchItem = menu.findItem(R.id.action_search);
         MenuItem filter = menu.findItem(R.id.menu_filter);
         filter.setVisible(false);
-        final SearchView searchView = (SearchView)searchItem.getActionView();
-        SearchManager searchManager = (SearchManager)getActivity().getSystemService(Context.SEARCH_SERVICE);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -133,6 +137,7 @@ public class CategoriesFragment extends Fragment {
                 TT18.searchOpen = 1;
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String text) {
                 displaySearchData(text);
