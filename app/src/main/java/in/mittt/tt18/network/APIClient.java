@@ -4,6 +4,8 @@ import in.mittt.tt18.models.categories.CategoriesListModel;
 import in.mittt.tt18.models.events.EventsListModel;
 import in.mittt.tt18.models.events.ScheduleListModel;
 import in.mittt.tt18.models.results.ResultsListModel;
+import in.mittt.tt18.models.workshops.WorkshopsListModel;
+import in.mittt.tt18.models.workshops.WorkshopsModel;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -39,6 +41,12 @@ public class APIClient {
         @GET("schedule")
         Call<ScheduleListModel> getScheduleList();
 
+<<<<<<< HEAD
+=======
+        @GET("workshops")
+        Call<WorkshopsListModel> getWorkshopsList();
+
+>>>>>>> c3920adaab697de7b3894eccfc09e833dc73b1b9
     }
 
 }
