@@ -26,6 +26,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/background_circle"
+
             android:layout_marginEnd="@dimen/padding_default"/>
 
         <LinearLayout
@@ -70,7 +71,7 @@
             android:layout_weight="0"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            app:srcCompat="@drawable/ic_right"
+
             android:tint="@color/colorPrimary"/>
 
     </LinearLayout>
