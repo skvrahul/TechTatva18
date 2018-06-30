@@ -16,7 +16,7 @@
         android:background="@drawable/background_circle"
         android:layout_marginEnd="10dp"
         android:contentDescription="Event Logo"
-        app:srcCompat="@drawable/ic_dummy" />
+         />
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
