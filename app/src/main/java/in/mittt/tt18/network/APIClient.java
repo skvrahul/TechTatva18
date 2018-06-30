@@ -41,12 +41,9 @@ public class APIClient {
         @GET("schedule")
         Call<ScheduleListModel> getScheduleList();
 
-<<<<<<< HEAD
-=======
         @GET("workshops")
         Call<WorkshopsListModel> getWorkshopsList();
 
->>>>>>> c3920adaab697de7b3894eccfc09e833dc73b1b9
     }
 
 }

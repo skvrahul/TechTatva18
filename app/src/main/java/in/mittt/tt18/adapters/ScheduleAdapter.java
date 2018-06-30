@@ -33,7 +33,7 @@ import in.mittt.tt18.resources.IconCollection;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventViewHolder> {
     String TAG = "EventsAdapter";
     private final int EVENT_DAY_ZERO = 03;
     private final int EVENT_MONTH = Calendar.OCTOBER;
@@ -117,7 +117,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
             }
         }
     }
-    public EventsAdapter(Activity activity, List<EventModel> events, EventClickListener eventListener, EventLongPressListener eventLongPressListener, FavouriteClickListener favouriteListener){
+    public ScheduleAdapter(Activity activity, List<EventModel> events, EventClickListener eventListener, EventLongPressListener eventLongPressListener, FavouriteClickListener favouriteListener){
         this.eventList = events;
         this.eventListener = eventListener;
         this.favouriteListener = favouriteListener;

@@ -22,10 +22,7 @@ import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventsListModel;
 import in.mittt.tt18.models.results.ResultModel;
 import in.mittt.tt18.models.results.ResultsListModel;
-<<<<<<< HEAD
-=======
-import in.mittt.tt18.models.workshops.WorkshopsListModel;
->>>>>>> c3920adaab697de7b3894eccfc09e833dc73b1b9
+
 import in.mittt.tt18.network.APIClient;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -101,10 +98,6 @@ public class SplashActivity extends AppCompatActivity {
         loadResultsFromInternet();
         loadEventsFromInternet();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c3920adaab697de7b3894eccfc09e833dc73b1b9
         test = new Runnable() {
             @Override
             public void run() {
@@ -184,10 +177,6 @@ public class SplashActivity extends AppCompatActivity {
                     Log.d("TAG","Events");
                 }
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> c3920adaab697de7b3894eccfc09e833dc73b1b9
             @Override
             public void onFailure(Call<EventsListModel> call, Throwable t) {
                 apiCallsRecieved++;
