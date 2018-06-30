@@ -13,10 +13,6 @@ licenses:
 - android-sdk-license-.+
 - google-gdk-license-.+
 before_install:
-- openssl aes-256-cbc -K $encrypted_5cdaa1185d95_key -iv $encrypted_5cdaa1185d95_iv
-  -in key.jks.enc -out ./key.jks -d
-- openssl aes-256-cbc -K $encrypted_90e4fb44b88e_key -iv $encrypted_90e4fb44b88e_iv
-  -in key.keystore.enc -out ./key.keystore -d
 - yes | sdkmanager "platforms;android-27"
 - chmod +x gradlew
 script:
