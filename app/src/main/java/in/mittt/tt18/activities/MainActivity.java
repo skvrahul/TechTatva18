@@ -7,12 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import in.mittt.tt18.R;
 import in.mittt.tt18.fragments.CategoriesFragment;
 import in.mittt.tt18.fragments.HomeFragment;
 import in.mittt.tt18.fragments.ResultsFragment;
 import in.mittt.tt18.fragments.ScheduleFragment;
 import in.mittt.tt18.fragments.WorkshopsFragment;
-import in.mittt.tt18.R;
+import in.mittt.tt18.utilities.BottomNavigationViewHelper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,14 +26,19 @@ public class MainActivity extends AppCompatActivity {
             // Load the respective fragments when each item is selected
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    setTitle(R.string.title_home);
                     return loadFragment(new HomeFragment());
                 case R.id.navigation_schedule:
+                    setTitle(R.string.title_schedule);
                     return loadFragment(new ScheduleFragment());
                 case R.id.navigation_categories:
+                    setTitle(R.string.title_categories);
                     return loadFragment(new CategoriesFragment());
                 case R.id.navigation_workshops:
+                    setTitle(R.string.title_workshops);
                     return loadFragment(new WorkshopsFragment());
                 case R.id.navigation_results:
+                    setTitle(R.string.title_results);
                     return loadFragment(new ResultsFragment());
             }
             return false;
@@ -45,9 +51,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
+        BottomNavigationViewHelper.removeShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Load the home fragment first when the app launches
+        setTitle(R.string.title_home);
         loadFragment(new HomeFragment());
 
     }

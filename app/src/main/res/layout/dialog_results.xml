@@ -8,7 +8,6 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/padding_default"
     android:paddingRight="@dimen/padding_default"
-    android:background="@color/colorPrimaryDark"
     android:paddingTop="20dp"
     android:paddingBottom="20dp"
     android:scrollbars="vertical">
@@ -17,7 +16,6 @@
         android:id="@+id/event_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:gravity="start"
         android:orientation="horizontal"
         android:padding="8dp">
@@ -25,20 +23,15 @@
 
         <TextView
             android:id="@+id/result_dialog_event_name_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-
             android:layout_gravity="center_vertical"
-
             android:fontFamily="sans-serif-medium"
             android:gravity="center_vertical"
-
-            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
             android:text="Event Name"
-            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/typography_title"
-
             tools:text="Category Name" />
 
         <TextView
@@ -46,7 +39,6 @@
             android:layout_height="wrap_content"
             android:text="Round : "
             android:gravity="center"
-            android:textColor="@color/white"
             android:textSize="@dimen/typography_title"/>
 
         <TextView
