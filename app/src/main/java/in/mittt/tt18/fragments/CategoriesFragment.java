@@ -4,9 +4,6 @@ package in.mittt.tt18.fragments;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
-
-import in.mittt.tt18.models.categories.CategoriesListModel;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +12,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,11 +26,9 @@ import in.mittt.tt18.R;
 import in.mittt.tt18.adapters.CategoriesAdapter;
 import in.mittt.tt18.application.TT18;
 import in.mittt.tt18.models.categories.CategoryModel;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-
-import static android.content.ContentValues.TAG;
 
 /**
  * A {@link Fragment} for displaying the categories.
@@ -99,9 +93,10 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void displaySearchData(String text) {
+        text = text.toLowerCase();
         if (mDatabase != null) {
             categoriesList.clear();
-            RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class).contains("categoryName", text).findAll();
+            RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class).contains("categoryName", text, Case.INSENSITIVE).findAll();
             categoryResults.sort("categoryName");
             if (!categoryResults.isEmpty()) {
                 categoriesList.clear();

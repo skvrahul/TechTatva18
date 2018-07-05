@@ -25,6 +25,7 @@
             android:id="@+id/result_cat_logo_image_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:src="@mipmap/ic_launcher"
             android:background="@drawable/background_circle"
             android:layout_marginEnd="@dimen/padding_default"/>
 
@@ -39,7 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/typography_subheading"
-                android:textColor="#FFFFFF"
                 tools:text="Event Name"
                 android:fontFamily="sans-serif-medium"/>
 
@@ -71,7 +71,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             app:srcCompat="@drawable/ic_right"
-            android:tint="@color/colorPrimary"/>
+            android:tint="@color/colorAccent" />
 
     </LinearLayout>
 </LinearLayout>
