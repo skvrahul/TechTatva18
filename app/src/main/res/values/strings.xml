@@ -13,7 +13,25 @@
     <string name="day_4">Day 4</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="team_id">Team ID :</string>
+    <string name="round">Round:</string>
+    <string name="no_connection">No Connection</string>
+    <string name="no_connection_text">Please connect to the internet and retry</string>
+    <string name="retry">Retry</string>
     <string name="event_logo">Event Logo</string>
     <string name="event_name">Event Name</string>
-    <string name="round">Round:</string>
+    <string name="favourite_icon">Favourite Icon</string>
+    <string name="workshop_logo">workshop Logo</string>
+    <string name="workshop_name">Workshop Name</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="venue">Venue:</string>
+    <string name="contact">Contact:</string>
+    <string name="workshop_description">Workshop Description</string>
+    <string name="cnt_wksp_1">Rishabh</string>
+    <string name="cnt_wksp_2">Srishti</string>
+    <string name="cntno_wksp_1">+919008146634</string>
+    <string name="cntno_wksp_2">+919560702479</string>
+    <string name="no_data">No data available</string>
+    <string name="revels_logo">Revels Logo</string>
+
 </resources>

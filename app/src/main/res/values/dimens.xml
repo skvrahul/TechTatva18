@@ -24,4 +24,8 @@
     <dimen name="recycler_view_extra_padding">88dp</dimen>
     <dimen name="typography_large_title">20sp</dimen>
     <dimen name="typography_medium_title">18sp</dimen>
+    <dimen name="padding_quarter">4dp</dimen>
+    <dimen name="_72dp">72dp</dimen>
+    <dimen name="_26dp">26dp</dimen>
+    <dimen name="_17dp">17dp</dimen>
 </resources>

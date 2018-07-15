@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/padding_quarter"
+    android:layout_marginLeft="@dimen/padding_half"
+    android:layout_marginRight="@dimen/padding_half"
+    android:layout_marginTop="10dp"
+    android:background="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/padding_half">
+
+    <LinearLayout
+        android:id="@+id/event_item_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/padding_half">
+
+        <ImageView
+            android:id="@+id/event_logo_image_view"
+            android:layout_width="@dimen/padding_3x"
+            android:layout_height="@dimen/padding_3x"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/background_circle"
+            android:contentDescription="@string/event_logo"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/event_name_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_half"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:text="@string/event_name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/typography_subheading" />
+
+                <ImageView
+                    android:id="@+id/event_fav_ico"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/padding_quarter"
+                    android:clickable="true"
+                    android:contentDescription="@string/favourite_icon"
+                    android:focusable="true"
+                    android:tag="deselected"
+                    app:srcCompat="@drawable/ic_fav_deselected" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/event_time_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="@dimen/padding_half"
+                android:paddingTop="@dimen/padding_quarter"
+                android:textSize="@dimen/typography_small"
+                tools:text="2:00PM - 5:00PM" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/event_venue_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_quarter"
+                    android:background="@drawable/rounded_corner_grey"
+                    android:gravity="center"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="@dimen/padding_quarter"
+                    android:paddingRight="@dimen/padding_quarter"
+                    android:paddingTop="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/typography_small"
+                    tools:text="NLH 404" />
+
+                <TextView
+                    android:id="@+id/event_round_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner_grey"
+                    android:gravity="center"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="@dimen/padding_quarter"
+                    android:paddingRight="@dimen/padding_quarter"
+                    android:paddingTop="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/typography_small"
+                    tools:text="R1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

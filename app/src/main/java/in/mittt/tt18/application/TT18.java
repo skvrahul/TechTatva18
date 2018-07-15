@@ -8,7 +8,6 @@ import io.realm.RealmConfiguration;
 public class TT18 extends Application {
     public static int searchOpen =0;
 
-
     @Override
     public void onCreate(){
         super.onCreate();
