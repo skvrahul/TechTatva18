@@ -1,8 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splash_root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.SplashActivity">
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        android:id="@+id/splash_no_connection_layout"
+        layout="@layout/layout_no_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/padding_half"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:paddingLeft="@dimen/padding_2x"
+        android:paddingRight="@dimen/padding_2x">
+
+        <ImageView
+            android:id="@+id/splash_left_revels_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/revels_icon_left" />
+
+        <ImageView
+            android:id="@+id/splash_right_revels_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/revels_icon_right"
+            android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/splash_revels_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/revels_icon_text"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</RelativeLayout>

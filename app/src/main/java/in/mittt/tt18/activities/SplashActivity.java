@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import in.mittt.tt18.R;
 import in.mittt.tt18.models.categories.CategoriesListModel;
@@ -22,7 +27,7 @@ import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventsListModel;
 import in.mittt.tt18.models.results.ResultModel;
 import in.mittt.tt18.models.results.ResultsListModel;
-
+import in.mittt.tt18.models.workshops.WorkshopsListModel;
 import in.mittt.tt18.network.APIClient;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -34,82 +39,277 @@ public class SplashActivity extends AppCompatActivity {
     boolean isWiFi;
     boolean isConnected;
     public Runnable test;
+    boolean animationEnded = false;
     private Realm mDatabase;
     boolean dataAvailableLocally;
-    private Context context = this;
-    private boolean categoriesDataAvailableLocally = false;
+    boolean animationStarted = false;
+    int i = 0;
+    private RelativeLayout rootLayout;
+    private int counter = 0;
     private int apiCallsRecieved = 0;
+    private Context context = this;
     private Handler mHandler = new Handler();
+    private boolean eventsDataAvailableLocally = false;
+    private boolean schedulesDataAvailableLocally = true;
+    private boolean categoriesDataAvailableLocally = false;
+    private String TAG = SplashActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         mDatabase = Realm.getDefaultInstance();
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
-        dataAvailableLocally = sharedPreferences.getBoolean("dataAvailableLocally", false);
+        rootLayout = findViewById(R.id.splash_root_layout);
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        dataAvailableLocally = sharedPref.getBoolean("dataAvailableLocally", false);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = null;
-        if (cm != null) {
-            activeNetwork = cm.getActiveNetworkInfo();
-        }
+        NetworkInfo activeNetwork = cm != null ? cm.getActiveNetworkInfo() : null;
         isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         if (isConnected) {
             isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
         }
+        final ImageView iconLeft = findViewById(R.id.splash_left_revels_icon);
+        final ImageView iconRight = findViewById(R.id.splash_right_revels_icon);
+        final ImageView text = findViewById(R.id.splash_revels_text);
+        final FrameLayout container = findViewById(R.id.frameLayout4);
 
+
+        iconLeft.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                iconRight.setVisibility(View.VISIBLE);
+                iconRight.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
+            }
+        }, 500);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                text.setVisibility(View.VISIBLE);
+                text.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
+            }
+        }, 1000);
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_in_first);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Log.d(TAG, "Splash:  onAnimationStart: Splash animation Started");
+                animationStarted = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.d(TAG, "Splash:  onAnimationEnd: Splash animation Ended");
+                animationEnded = true;
+                if (dataAvailableLocally) {
+                    Log.d(TAG, "Data avail local");
+
+                    if (isConnected) {
+                        Log.d(TAG, "Is connected");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Snackbar.make(rootLayout, "Updating data", Snackbar.LENGTH_SHORT).show();
+
+                                //loadAllFromInternet();
+                                moveForward();
+                            }
+                        }, 1500);
+                    } else {
+                        Log.d(TAG, "not connected");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                moveForward();
+                            }
+                        }, 1500);
+                    }
+
+                } else {
+                    Log.d(TAG, "Data not avail local");
+                    if (!isConnected) {
+                        Log.d(TAG, "not connected");
+                        final LinearLayout noConnectionLayout = findViewById(R.id.splash_no_connection_layout);
+                        Button retry = noConnectionLayout.findViewById(R.id.retry);
+                        noConnectionLayout.setVisibility(View.VISIBLE);
+                        iconLeft.setVisibility(View.GONE);
+                        iconRight.setVisibility(View.GONE);
+                        text.setVisibility(View.GONE);
+                        container.setVisibility(View.GONE);
+                        retry.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ConnectivityManager cmTemp = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                                NetworkInfo activeNetworkTemp = cmTemp != null ? cmTemp.getActiveNetworkInfo() : null;
+                                boolean isConnectedTemp = activeNetworkTemp != null && activeNetworkTemp.isConnectedOrConnecting();
+
+                                if (isConnectedTemp) {
+                                    noConnectionLayout.setVisibility(View.GONE);
+                                    iconLeft.setVisibility(View.VISIBLE);
+                                    iconRight.setVisibility(View.VISIBLE);
+                                    text.setVisibility(View.VISIBLE);
+                                    container.setVisibility(View.VISIBLE);
+                                    Snackbar.make(rootLayout, "Loading data... takes a couple of seconds.", Snackbar.LENGTH_SHORT).show();
+                                    try {
+                                        loadAllFromInternet();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Snackbar.make(rootLayout, "Check connection!", Snackbar.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, " connected");
+                        Snackbar.make(rootLayout, "Loading data... takes a couple of seconds.", Snackbar.LENGTH_SHORT).show();
+                        try {
+                            loadAllFromInternet();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        text.startAnimation(animation);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResumeSplash:  Called");
+        if (animationStarted && !animationEnded) {
+            Log.d(TAG, "onResumeSplash: freeze Helper called");
+            freezeSplashHelper();
+        }
+    }
+
+    private void freezeSplashHelper() {
+        final ImageView iconLeft = findViewById(R.id.splash_left_revels_icon);
+        final ImageView iconRight = findViewById(R.id.splash_right_revels_icon);
+        final ImageView text = findViewById(R.id.splash_revels_text);
+        final FrameLayout container = findViewById(R.id.frameLayout4);
         if (dataAvailableLocally) {
-            Log.d("Splash", "Data available locally");
+            Log.d(TAG, "Data avail local");
 
             if (isConnected) {
-                Log.d("Splash", "Is connected");
+                Log.d(TAG, "Is connected");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadAllFromInternet();
+                        //Snackbar.make(rootLayout, "Updating data", Snackbar.LENGTH_SHORT).show();
+
+                        //loadAllFromInternet();
                         moveForward();
                     }
-                }, 1000);
+                }, 1500);
             } else {
-                Log.d("Splash", "Not connected");
+                Log.d(TAG, "not connected");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         moveForward();
                     }
-                }, 1000);
+                }, 1500);
             }
 
         } else {
-            Log.d("Splash", "Data not available locally");
+            Log.d(TAG, "Data not avail local");
             if (!isConnected) {
-                Log.d("Splash", "Not connected");
+                Log.d(TAG, "not connected");
+                final LinearLayout noConnectionLayout = findViewById(R.id.splash_no_connection_layout);
+                Button retry = noConnectionLayout.findViewById(R.id.retry);
+                noConnectionLayout.setVisibility(View.VISIBLE);
+                iconLeft.setVisibility(View.GONE);
+                iconRight.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
+                container.setVisibility(View.GONE);
+                retry.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ConnectivityManager cmTemp = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo activeNetworkTemp = cmTemp != null ? cmTemp.getActiveNetworkInfo() : null;
+                        boolean isConnectedTemp = activeNetworkTemp != null && activeNetworkTemp.isConnectedOrConnecting();
 
+                        if (isConnectedTemp) {
+                            noConnectionLayout.setVisibility(View.GONE);
+                            iconLeft.setVisibility(View.VISIBLE);
+                            iconRight.setVisibility(View.VISIBLE);
+                            text.setVisibility(View.VISIBLE);
+                            container.setVisibility(View.VISIBLE);
+                            Snackbar.make(rootLayout, "Loading data... takes a couple of seconds.", Snackbar.LENGTH_SHORT).show();
+                            try {
+                                loadAllFromInternet();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Snackbar.make(rootLayout, "Check connection!", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             } else {
-                Log.d("Splash", " connected");
-                loadAllFromInternet();
+                Log.d(TAG, " connected");
+                Snackbar.make(rootLayout, "Loading data... takes a couple of seconds.", Snackbar.LENGTH_SHORT).show();
+                try {
+                    loadAllFromInternet();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     private void loadAllFromInternet() {
+        loadEventsFromInternet();
+        //loadSchedulesFromInternet();
         loadCategoriesFromInternet();
         loadResultsFromInternet();
-        loadEventsFromInternet();
+        loadWorkshopsFromInternet();
 
         test = new Runnable() {
             @Override
             public void run() {
-
-                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("dataAvailableLocally", true);
-                editor.apply();
-                moveForward();
+                if (eventsDataAvailableLocally && schedulesDataAvailableLocally && categoriesDataAvailableLocally) {
+                    SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("dataAvailableLocally", true);
+                    editor.apply();
+                    if (!dataAvailableLocally) {
+                        moveForward();
+                    }
+                }
+                if (!(eventsDataAvailableLocally && schedulesDataAvailableLocally && categoriesDataAvailableLocally)) {
+                    counter++;
+                    if (apiCallsRecieved == 3) {
+                        if (i == 0) {
+                            i = counter;
+                        }
+                        Snackbar.make(rootLayout, "Error in retrieving data. Some data may be outdated", Snackbar.LENGTH_SHORT).show();
+                        if (counter - i == 1) {
+                            moveForward();
+                        }
+                    }
+                    if (counter == 10 && !dataAvailableLocally) {
+                        if (eventsDataAvailableLocally || schedulesDataAvailableLocally || categoriesDataAvailableLocally) {
+                            Snackbar.make(rootLayout, "Possible slow internet connection", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            Snackbar.make(rootLayout, "Server may be down. Please try again later", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                    mHandler.postDelayed(test, 1500);
+                }
             }
         };
-        mHandler.postDelayed(test, 1000);
+        mHandler.postDelayed(test, 1500);
     }
 
     private void moveForward() {
@@ -128,11 +328,12 @@ public class SplashActivity extends AppCompatActivity {
                     mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
                     mDatabase.copyToRealm(response.body().getData());
                     mDatabase.commitTransaction();
-                    Log.d("TAG","Results");
+                    Log.d("TAG", "Results");
                 }
             }
+
             @Override
-            public void onFailure(Call<ResultsListModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResultsListModel> call, @NonNull Throwable t) {
             }
         });
     }
@@ -173,13 +374,35 @@ public class SplashActivity extends AppCompatActivity {
                     mDatabase.where(EventDetailsModel.class).findAll().deleteAllFromRealm();
                     mDatabase.copyToRealm(response.body().getEvents());
                     mDatabase.commitTransaction();
-                    //eventsDataAvailableLocally=true;
-                    Log.d("TAG","Events");
+                    eventsDataAvailableLocally = true;
+                    Log.d("TAG", "Events");
                 }
             }
+
             @Override
-            public void onFailure(Call<EventsListModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<EventsListModel> call, @NonNull Throwable t) {
                 apiCallsRecieved++;
+            }
+        });
+    }
+
+    private void loadWorkshopsFromInternet() {
+        Call<WorkshopsListModel> workshopsCall = APIClient.getAPIInterface().getWorkshopsList();
+        workshopsCall.enqueue(new Callback<WorkshopsListModel>() {
+            @Override
+            public void onResponse(@NonNull Call<WorkshopsListModel> call,
+                                   @NonNull Response<WorkshopsListModel> response) {
+                if (response.isSuccessful() && response.body() != null && mDatabase != null) {
+                    mDatabase.beginTransaction();
+                    mDatabase.copyToRealmOrUpdate(response.body().getWorkshopsList());
+                    mDatabase.commitTransaction();
+                    Log.d(TAG, response.body().getWorkshopsList().size() + "Workshops updated in background");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WorkshopsListModel> call, @NonNull Throwable t) {
+                Log.d(TAG, "onFailure: Workshops not updated");
             }
         });
     }

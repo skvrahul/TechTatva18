@@ -7,23 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class WorkshopsListModel {
 
 
-        @SerializedName("data")
-        @Expose
-        private List<WorkshopsModel> workshopsList = new ArrayList<>();
+    @SerializedName("data")
+    @Expose
+    private List<WorkshopsModel> workshopsList = new ArrayList<>();
 
-        public WorkshopsListModel() {
-        }
-
-        public List<WorkshopsModel> getWorkshopsList() {
-            return workshopsList;
-        }
-
-        public void setWorkshopsList(List<WorkshopsModel> workshopsList) {
-            this.workshopsList = workshopsList;
-        }
+    public WorkshopsListModel() {
     }
+
+    public List<WorkshopsModel> getWorkshopsList() {
+        return workshopsList;
+    }
+
+    public void setWorkshopsList(List<WorkshopsModel> workshopsList) {
+        this.workshopsList = workshopsList;
+    }
+}
 

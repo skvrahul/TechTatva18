@@ -1,128 +1,135 @@
 package in.mittt.tt18.models.workshops;
 
-import android.app.Activity;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 
 public class WorkshopsModel extends RealmObject {
-    @SerializedName("wid")
-    @Expose
-    private String wid;
-    @SerializedName("wname")
-    @Expose
-    private String wname;
-    @SerializedName("wcost")
-    @Expose
-    private String wcost;
-    @SerializedName("wdate")
-    @Expose
-    private String wdate;
-    @SerializedName("wshuru")
-    @Expose
-    private String wshuru;
-    @SerializedName("wkhatam")
-    @Expose
-    private String wkhatam;
-    @SerializedName("wdesc")
-    @Expose
-    private String wdesc;
-    @SerializedName("wvenue")
-    @Expose
-    private String wvenue;
-    @SerializedName("cname")
-    @Expose
-    private String cname;
     @SerializedName("cnumb")
     @Expose
-    private String cnumb;
+    private String catNo;
+
+    @SerializedName("wname")
+    @Expose
+    private String name;
+
+    @PrimaryKey
+    @SerializedName("wid")
+    @Expose
+    private String ID;
+
+    @SerializedName("wdesc")
+    @Expose
+    private String desc;
+
+    @SerializedName("wshuru")
+    @Expose
+    private String startTime;
+
+    @SerializedName("wcost")
+    @Expose
+    private String cost;
+
+    @SerializedName("wdate")
+    @Expose
+    private String date;
+
+    @SerializedName("wvenue")
+    @Expose
+    private String venue;
+
+    @SerializedName("cname")
+    @Expose
+    private String catName;
+
+    @SerializedName("wkhatam")
+    @Expose
+    private String endTime;
 
     public WorkshopsModel(){
 
     }
 
-    public String getWid() {
-        return wid;
+    public String getCatNo() {
+        return catNo;
     }
 
-    public void setWid(String wid) {
-        this.wid = wid;
+    public void setCatNo(String catNo) {
+        this.catNo = catNo;
     }
 
-    public String getWname() {
-        return wname;
+    public String getName() {
+        return name;
     }
 
-    public void setWname(String wname) {
-        this.wname = wname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getWcost() {
-        return wcost;
+    public String getID() {
+        return ID;
     }
 
-    public void setWcost(String wcost) {
-        this.wcost = wcost;
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
-    public String getWdate() {
-        return wdate;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setWdate(String wdate) {
-        this.wdate = wdate;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getWshuru() {
-        return wshuru;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setWshuru(String wshuru) {
-        this.wshuru = wshuru;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public String getWkhatam() {
-        return wkhatam;
+    public String getCost() {
+        return cost;
     }
 
-    public void setWkhatam(String wkhatam) {
-        this.wkhatam = wkhatam;
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
-    public String getWdesc() {
-        return wdesc;
+    public String getDate() {
+        return date;
     }
 
-    public void setWdesc(String wdesc) {
-        this.wdesc = wdesc;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getWvenue() {
-        return wvenue;
+    public String getVenue() {
+        return venue;
     }
 
-    public void setWvenue(String wvenue) {
-        this.wvenue = wvenue;
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCatName() {
+        return catName;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setCatName(String catName) {
+        this.catName = catName;
     }
 
-    public String getCnumb() {
-        return cnumb;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setCnumb(String cnumb) {
-        this.cnumb = cnumb;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
-
-
-
 }
