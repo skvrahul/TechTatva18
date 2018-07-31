@@ -9,14 +9,14 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
-
-import in.mittt.tt18.activities.MainActivity;
 import in.mittt.tt18.R;
+import in.mittt.tt18.activities.MainActivity;
 
 public class NotificationReceiver extends BroadcastReceiver {
     private final String NOTIFICATION_TITLE="Upcoming Event";
     private String notificationText="";
     private final String LAUNCH_APPLICATION="Launch TechTatva'18";
+    private final String NOTIFICATION_CHANNEL = "tech_tatva_2018";
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -30,7 +30,7 @@ public class NotificationReceiver extends BroadcastReceiver {
             String catName = intent.getStringExtra("catName");
             //IconCollection i = new IconCollection();
             //int catIcon  = i.getIconResource(context, catName);
-            Notification notify = new NotificationCompat.Builder(context)
+            Notification notify = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
                     .setContentTitle(NOTIFICATION_TITLE)
                     .setContentText(notificationText)
                     .setContentIntent(pendingIntent)
@@ -40,7 +40,9 @@ public class NotificationReceiver extends BroadcastReceiver {
                     .addAction(new android.support.v4.app.NotificationCompat.Action(0, LAUNCH_APPLICATION, pendingIntent))
                     .build();
 
-            notificationManager.notify(Integer.parseInt(intent.getStringExtra("eventID")), notify);
+            if (notificationManager != null) {
+                notificationManager.notify(Integer.parseInt(intent.getStringExtra("eventID")), notify);
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram;
 
 import java.util.List;
+
 import in.mittt.tt18.models.instagram.Caption.Caption;
 import in.mittt.tt18.models.instagram.Image.Image;
 public class InstaFeedModel {

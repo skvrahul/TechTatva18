@@ -5,7 +5,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,7 +28,7 @@ import in.mittt.tt18.models.events.EventModel;
 import in.mittt.tt18.models.events.ScheduleModel;
 import in.mittt.tt18.models.favourites.FavouritesModel;
 import in.mittt.tt18.receivers.NotificationReceiver;
-import in.mittt.tt18.resources.IconCollection;
+import in.mittt.tt18.utilities.IconCollection;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -65,12 +64,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
         public RelativeLayout eventItem;
         public EventViewHolder(View view){
             super(view);
-            eventIcon = (ImageView)view.findViewById(R.id.event_logo_image_view);
-            favIcon = (ImageView)view.findViewById(R.id.event_fav_ico);
-            eventName = (TextView)view.findViewById(R.id.event_name_text_view);
-            eventVenue = (TextView)view.findViewById(R.id.event_venue_text_view);
-            eventTime = (TextView)view.findViewById(R.id.event_time_text_view);
-            eventItem = (RelativeLayout)view.findViewById(R.id.event_item_relative_layout);
+            eventIcon = view.findViewById(R.id.event_logo_image_view);
+            favIcon = view.findViewById(R.id.event_fav_ico);
+            eventName = view.findViewById(R.id.event_name_text_view);
+            eventVenue = view.findViewById(R.id.event_venue_text_view);
+            eventTime = view.findViewById(R.id.event_time_text_view);
+            eventItem = view.findViewById(R.id.event_item_relative_layout);
         }
         public void onBind(final EventModel events, final EventClickListener eventListener,final EventLongPressListener eventLongPressListener, final FavouriteClickListener favouriteListener){
             //Individual OnClickListeners for the Favourite Icon and the entire Item

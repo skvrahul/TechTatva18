@@ -17,8 +17,17 @@ public class FavouritesModel extends RealmObject {
     private String contactNumber;
     private String catName;
     private String description;
+    private String isTechTatva;
 
     public FavouritesModel() {
+    }
+
+    public String getIsTechTatva() {
+        return isTechTatva;
+    }
+
+    public void setIsTechTatva(String isTechTatva) {
+        this.isTechTatva = isTechTatva;
     }
 
     public String getId() {
@@ -132,4 +141,6 @@ public class FavouritesModel extends RealmObject {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

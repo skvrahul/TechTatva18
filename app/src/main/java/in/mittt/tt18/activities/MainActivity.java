@@ -1,11 +1,13 @@
 package in.mittt.tt18.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
@@ -13,9 +15,9 @@ import java.util.List;
 
 import in.mittt.tt18.R;
 import in.mittt.tt18.fragments.CategoriesFragment;
+import in.mittt.tt18.fragments.EventsFragment;
 import in.mittt.tt18.fragments.HomeFragment;
 import in.mittt.tt18.fragments.ResultsFragment;
-import in.mittt.tt18.fragments.ScheduleFragment;
 import in.mittt.tt18.fragments.WorkshopsFragment;
 import in.mittt.tt18.models.categories.CategoriesListModel;
 import in.mittt.tt18.models.categories.CategoryModel;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     return loadFragment(new HomeFragment());
                 case R.id.navigation_schedule:
                     setTitle(R.string.title_schedule);
-                    return loadFragment(new ScheduleFragment());
+                    return loadFragment(new EventsFragment());
                 case R.id.navigation_categories:
                     setTitle(R.string.title_categories);
                     return loadFragment(new CategoriesFragment());
@@ -85,6 +87,28 @@ public class MainActivity extends AppCompatActivity {
             loadAllFromInternet();
             Log.i(TAG, "onCreate: Connected and background updated");
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_about_us: {
+                startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+                return true;
+            }
+            case R.id.menu_developers: {
+                startActivity(new Intent(MainActivity.this, DevelopersActivity.class));
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadAllFromInternet() {

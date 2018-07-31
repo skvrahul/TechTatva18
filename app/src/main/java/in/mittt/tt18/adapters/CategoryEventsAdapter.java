@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 import in.mittt.tt18.R;
 import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventModel;
@@ -93,10 +92,10 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
         public CategoryEventsViewHolder(View itemView) {
             super(itemView);
 
-            eventName = (TextView) itemView.findViewById(R.id.cat_event_name_text_view);
-            eventTime = (TextView) itemView.findViewById(R.id.cat_event_time_text_view);
-            logoFrame = (FrameLayout) itemView.findViewById(R.id.fav_event_logo_frame);
-            eventRound = (TextView) itemView.findViewById(R.id.cat_event_round_text_view);
+            eventName = itemView.findViewById(R.id.cat_event_name_text_view);
+            eventTime = itemView.findViewById(R.id.cat_event_time_text_view);
+            logoFrame = itemView.findViewById(R.id.fav_event_logo_frame);
+            eventRound = itemView.findViewById(R.id.cat_event_round_text_view);
 
             itemView.setOnClickListener(this);
         }
@@ -112,31 +111,31 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
             final BottomSheetDialog dialog = new BottomSheetDialog(context);
 
 
-            TextView eventName = (TextView) view.findViewById(R.id.event_name);
+            TextView eventName = view.findViewById(R.id.event_name);
             eventName.setText(event.getEventName());
 
-            TextView eventRound = (TextView) view.findViewById(R.id.event_round);
+            TextView eventRound = view.findViewById(R.id.event_round);
             eventRound.setText(event.getRound());
 
-            TextView eventDate = (TextView) view.findViewById(R.id.event_date);
+            TextView eventDate = view.findViewById(R.id.event_date);
             eventDate.setText(event.getDate());
 
-            TextView eventTime = (TextView) view.findViewById(R.id.event_time);
+            TextView eventTime = view.findViewById(R.id.event_time);
             eventTime.setText(event.getStartTime() + " - " + event.getEndTime());
 
-            TextView eventVenue = (TextView) view.findViewById(R.id.event_venue);
+            TextView eventVenue = view.findViewById(R.id.event_venue);
             eventVenue.setText(event.getVenue());
 
-            TextView eventTeamSize = (TextView) view.findViewById(R.id.event_team_size);
+            TextView eventTeamSize = view.findViewById(R.id.event_team_size);
             eventTeamSize.setText(event.getEventMaxTeamNumber());
 
-            TextView eventCategory = (TextView) view.findViewById(R.id.event_category);
+            TextView eventCategory = view.findViewById(R.id.event_category);
             eventCategory.setText(event.getCatName());
 
-            TextView eventContactName = (TextView) view.findViewById(R.id.event_contact_name);
+            TextView eventContactName = view.findViewById(R.id.event_contact_name);
             eventContactName.setText(event.getContactName() + " : ");
 
-            TextView eventContact = (TextView) view.findViewById(R.id.event_contact);
+            TextView eventContact = view.findViewById(R.id.event_contact);
             eventContact.setText(event.getContactNumber());
             eventContact.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 
@@ -147,13 +146,13 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
                     activity.startActivity(intent);
                 }
             });
-            TextView eventDescription = (TextView) view.findViewById(R.id.event_description);
+            TextView eventDescription = view.findViewById(R.id.event_description);
             eventDescription.setText(event.getDescription());
 
-            ImageView deleteIcon = (ImageView) view.findViewById(R.id.event_delete_icon);
+            ImageView deleteIcon = view.findViewById(R.id.event_delete_icon);
             deleteIcon.setVisibility(View.GONE);
 
-            final ImageView favIcon = (ImageView)view.findViewById(R.id.event_fav_icon);
+            final ImageView favIcon = view.findViewById(R.id.event_fav_icon);
             favIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

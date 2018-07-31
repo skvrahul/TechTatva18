@@ -51,8 +51,8 @@ class QualifiedTeamsAdapter extends RecyclerView.Adapter<QualifiedTeamsAdapter.Q
         public QualifiedTeamViewHolder(View itemView)
         {
             super(itemView);
-            teamID=(TextView)itemView.findViewById(R.id.qualified_teams_id);
-            teamPosition=(TextView)itemView.findViewById(R.id.qualified_team_position);
+            teamID = itemView.findViewById(R.id.qualified_teams_id);
+            teamPosition = itemView.findViewById(R.id.qualified_team_position);
         }
     }
 }

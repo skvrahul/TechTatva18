@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Tech Tatva 18</string>
+    <string name="IOS">iOS</string>
+    <string name="drawer_about_us">About us</string>
+    <string name="drawer_developers">Developers</string>
+    <string name="bottom_nav_events">Events</string>
+    <string name="Android">Android</string>
+    <string name="head">Head</string>
+    <string name="developer">Developer</string>
     <string name="title_home">Home</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_categories">Categories</string>
@@ -13,6 +20,7 @@
     <string name="day_4">Day 4</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="team_id">Team ID :</string>
+    <string name="about_us">About Us</string>
     <string name="round">Round:</string>
     <string name="no_connection">No Connection</string>
     <string name="no_connection_text">Please connect to the internet and retry</string>
@@ -33,5 +41,14 @@
     <string name="cntno_wksp_2">+919560702479</string>
     <string name="no_data">No data available</string>
     <string name="revels_logo">Revels Logo</string>
+    <string name="about_us_text">Nautilus, in \"20,000 Leagues Under the Sea\" , was imagined by Jules Verne a full twenty-four years before Simon Lake used it as a reference to realise his dream of building a working submarine. Technology has a rich history of first appearing in fiction, before pioneers of the age bring such ideas into reality. Gadgets resembling Google Glass, Skype\'s realtime language translator, and iPads have appeared in Star Trek more than three decades before the world got their hands on working versions of them. TechTatva \'17 pays its tribute to this nexus between artists and scientists with its theme \"Realising Fiction\". With projects and events that bring out the innovative genius in you, here\'s to hoping somewhere in this fest you bring your day-dreams to reality too!</string>
+    <string name="favourites">Favourites</string>
+    <string name="drawer_favourites">Favourites</string>
+    <string name="action_delete_all">Delete All</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="pre_tech_tatva">Pre Tech Tatva</string>
+    <string name="clear">Clear</string>
+    <string name="no_favourites">No favourites</string>
 
 </resources>
