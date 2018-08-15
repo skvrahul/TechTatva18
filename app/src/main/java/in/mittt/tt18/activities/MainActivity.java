@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +40,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private BottomNavigationView navigation;
     // Listener for the selected bottom navigation items
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDatabase = Realm.getDefaultInstance();
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         BottomNavigationViewHelper.removeShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -251,5 +253,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.close();
+    }
+
+
+    public void changeFragment(Fragment fragment) {
+//        if(fragment.getClass() == ResultsTabsFragment.class){
+//            navigation.setSelectedItemId(R.id.navigation_results);
+//        }else
+        if (fragment.getClass() == CategoriesFragment.class) {
+            navigation.setSelectedItemId(R.id.navigation_categories);
+        } else if (fragment.getClass() == EventsFragment.class) {
+            navigation.setSelectedItemId(R.id.navigation_schedule);
+        } else {
+            Log.i(TAG, "changeFragment: Unexpected fragment passed!!");
+        }
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.main_frame_layout, fragment);
+        transaction.commit();
     }
 }

@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="@dimen/padding_default"
-    android:paddingLeft="@dimen/padding_default"
-    android:paddingRight="@dimen/padding_default"
-    android:paddingBottom="@dimen/padding_default"
-    android:gravity="center_vertical"
-    android:focusable="true">
-
-    <ImageView
-        android:id="@+id/cat_logo_image_view"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@drawable/background_circle"
-        android:src="@mipmap/ic_launcher"/>
+    android:layout_width="80dp"
+    android:layout_height="112dp"
+    android:layout_margin="@dimen/padding_quarter"
+    android:background="@drawable/rounded_corner_grey">
 
 
-    <TextView
-        android:layout_weight="1"
-        android:id="@+id/cat_name_text_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/typography_subheading"
-        tools:text="Category Name"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginStart="@dimen/padding_default" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:srcCompat="@drawable/ic_right" />
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/cat_event_logo_image_view"
+            android:layout_width="@dimen/padding_4x"
+            android:layout_height="@dimen/padding_4x"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_quarter"
+            android:background="@drawable/background_circle"
+            android:foregroundGravity="center"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/cat_event_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cat_event_logo_image_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_quarter"
+            android:layout_marginTop="@dimen/padding_quarter"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:paddingLeft="@dimen/padding_quarter"
+            android:paddingRight="@dimen/padding_quarter"
+            android:textColor="@color/black"
+            android:textSize="@dimen/typography_body"
+            tools:text="Event Name" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
+

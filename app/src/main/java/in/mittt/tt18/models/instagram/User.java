@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram;
 
 public class User {
+
     private String username;
     private String profile_picture;
     private String id;

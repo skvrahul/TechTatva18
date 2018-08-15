@@ -50,5 +50,18 @@
     <string name="pre_tech_tatva">Pre Tech Tatva</string>
     <string name="clear">Clear</string>
     <string name="no_favourites">No favourites</string>
+    <string name="action_search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="refresh">Refresh</string>
+    <string name="pre_revels">Pre-Revels</string>
+    <string name="no_events2">No Events Available</string>
+    <string name="no_results_2">The Results are not out yet.</string>
+    <string name="no_results">Whoa Amigo!</string>
+    <string name="fest_name">Tech Tatva \'18</string>
+    <string name="event_fragment">Events</string>
+    <string name="more">MORE</string>
+    <string name="no_categories">No categories available</string>
+    <string name="home_insta_title">#TT18 on Instagram</string>
+    <string name="unable_to_load_insta">Unable to load Instagram feed. Swipe down to retry!</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram.Caption;
 
 public class From {
+
     private String username;
     private String profile_picture;
     private String id;

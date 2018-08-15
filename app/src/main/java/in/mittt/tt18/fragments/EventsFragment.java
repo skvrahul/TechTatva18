@@ -2,373 +2,725 @@ package in.mittt.tt18.fragments;
 
 import android.app.Dialog;
 import android.app.SearchManager;
+import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Rect;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.NumberPicker;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
-import com.appyvet.rangebar.IRangeBarFormatter;
-import com.appyvet.rangebar.RangeBar;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import in.mittt.tt18.R;
-import in.mittt.tt18.adapters.EventsTabsPagerAdapter;
-import in.mittt.tt18.adapters.FilterVenueAdapter;
+import in.mittt.tt18.activities.FavouritesActivity;
+import in.mittt.tt18.activities.LoginActivity;
+import in.mittt.tt18.activities.ProfileActivity;
+import in.mittt.tt18.adapters.EventsAdapter;
 import in.mittt.tt18.application.TT18;
-import in.mittt.tt18.models.categories.CategoryModel;
 import in.mittt.tt18.models.events.ScheduleModel;
+import in.mittt.tt18.views.SwipeScrollView;
 import io.realm.Realm;
 import io.realm.RealmResults;
-
+import io.realm.Sort;
 
 public class EventsFragment extends Fragment {
-    Realm mDatabase = Realm.getDefaultInstance();
-    View result;
-    ViewPager viewPager;
-    boolean recyclerDisplayed = false;
-
-    RealmResults<ScheduleModel> scheduleResult;
-    String categoryFilterTerm = "All";
-    String venueFilterTerm = "All";
-    String startTimeFilterTerm = "12:00";
-    String endTimeFilterTerm = "9:00";
-    int startTimeFilterPin = 0;
-    int endTimeFilterPin = 9;
-
-    String remCategoryFilterTerm;
-    String remVenueFilterTerm;
-    String remStartTimeFilterTerm;
-    String remEndTimeFilterTerm;
-    int remStartTimeFilterPin;
-    int remEndTimeFilterPin;
-
-    boolean filterMode = false;
-
+    private final int NUM_DAYS = 5;
+    TabLayout tabs;
+    View eventsLayout;
+    View view;
+    LinearLayout noData;
+    RecyclerView eventsRV;
+    List<ScheduleModel> events;
+    List<ScheduleModel> currentDayEvents = new ArrayList<>();
+    List<ScheduleModel> filteredEvents = new ArrayList<>();
+    EventsAdapter adapter;
+    SwipeScrollView swipeSV;
+    GestureDetector swipeDetector;
     private MenuItem searchItem;
     private MenuItem filterItem;
-    private ArrayList<String> categoryNames = new ArrayList<>();
+    int tabNumber;
+    String[] sortCriteria = {"startTime", "eventName", "catName"};
+    Sort[] sortOrder = {Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING};
+    private Realm realm;
+    private String TAG = "EventsFragment";
+    private int filterStartHour = 12;
+    private int filterStartMinute = 30;
+    private int filterEndHour = 23;
+    private int filterEndMinute = 59;
+    private String filterCategory = "All";
+    private String filterVenue = "All";
+    private String filterEventType = "All";
     private List<String> venueList = new ArrayList<>();
-
-
-    public EventsFragment() {
-    }
-
+    private View rootView;
+    private List<String> categoriesList = new ArrayList<>();
+    private List<String> eventTypeList = new ArrayList<>();
+    private int PREREVELS_DAY = -1;
     public static EventsFragment newInstance() {
         EventsFragment fragment = new EventsFragment();
         return fragment;
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mDatabase.close();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        categoriesList.add("All");
+        venueList.add("All");
+        eventTypeList.add("All");
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Events");
-        setHasOptionsMenu(true);
+        getActivity().setTitle(R.string.bottom_nav_events);
+        realm = Realm.getDefaultInstance();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getActivity().findViewById(R.id.toolbar).setElevation(0);
                 AppBarLayout appBarLayout = getActivity().findViewById(R.id.app_bar);
                 appBarLayout.setElevation(0);
+                appBarLayout.setExpanded(true, true);
                 appBarLayout.setTargetElevation(0);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        scheduleResult = mDatabase.where(ScheduleModel.class).distinct("venue").findAll().sort("venue");
-        venueList.add("All");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        result = inflater.inflate(R.layout.fragment_events, container, false);
-        viewPager = result.findViewById(R.id.events_view_pager);
-        TabLayout tabLayout = result.findViewById(R.id.events_tab_layout);
-        viewPager.setAdapter(new EventsTabsPagerAdapter(getChildFragmentManager(), "", "All", "All", "12:00 pm", "9:00 pm", false));
-        tabLayout.setupWithViewPager(viewPager);
-        //Set the Tab to the current day-
+        setHasOptionsMenu(true);
+        final View view = inflater.inflate(R.layout.fragment_events, container, false);
+        rootView = view;
+        initViews(view);
+        events = realm.copyFromRealm(realm.where(ScheduleModel.class).findAll().sort(sortCriteria, sortOrder));
+
+        if (events.size() == 0) {
+
+        } else {
+            EventsAdapter.FavouriteClickListener favClickListener = new EventsAdapter.FavouriteClickListener() {
+                @Override
+                public void onItemClick(ScheduleModel event, boolean add) {
+                    //Favourite Clicked
+                    if (add) {
+                        Snackbar.make(view, event.getEventName() + " added to Favourites!", Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        Snackbar.make(view, event.getEventName() + " removed from Favourites!", Snackbar.LENGTH_SHORT).show();
+                    }
+                    if (adapter != null)
+                        adapter.notifyDataSetChanged();
+                }
+            };
+            //Fetching list of Venues, Categories and Event names for the filter
+            getAllCategories();
+            getAllEvents();
+            getAllVenues();
+
+            //Binding the Events RecyclerView to the EventsAdapter
+            adapter = new EventsAdapter(getActivity(), filteredEvents, null, null, favClickListener);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+            eventsRV.setLayoutManager(layoutManager);
+            eventsRV.setItemAnimator(new DefaultItemAnimator());
+            eventsRV.setAdapter(adapter);
+            //Setting current day
+            setCurrentDay();
+        }
+        return view;
+    }
+
+    private void setCurrentDay() {
         Calendar cal = Calendar.getInstance();
-        Calendar day2 = new GregorianCalendar(2017, 9, 5);
-        Calendar day3 = new GregorianCalendar(2017, 9, 6);
-        Calendar day4 = new GregorianCalendar(2017, 9, 7);
+        Calendar day1 = new GregorianCalendar(2018, 2, 7);
+        Calendar day2 = new GregorianCalendar(2018, 2, 8);
+        Calendar day3 = new GregorianCalendar(2018, 2, 9);
+        Calendar day4 = new GregorianCalendar(2018, 2, 10);
         Calendar curDay = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
-        int day;
-
+        /*if(curDay.getTimeInMillis() < day1.getTimeInMillis()){
+            tabNumber =0;
+        }else */
         if (curDay.getTimeInMillis() < day2.getTimeInMillis()) {
-            day = 0;
+            tabNumber = 1;
         } else if (curDay.getTimeInMillis() < day3.getTimeInMillis()) {
-            day = 1;
+            tabNumber = 2;
         } else if (curDay.getTimeInMillis() < day4.getTimeInMillis()) {
-            day = 2;
+            tabNumber = 3;
         } else {
-            day = 3;
+            tabNumber = 4;
+        }
+        try {
+            TabLayout.Tab tabz = tabs.getTabAt(tabNumber);
+            if (tabNumber == 0) {
+                dayFilter(PREREVELS_DAY);
+                applyFilters();
+            } else {
+                dayFilter(tabNumber + 1);
+                applyFilters();
+            }
+            tabz.select();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getAllCategories() {
+        RealmResults<ScheduleModel> scheduleResult = realm.where(ScheduleModel.class).findAll()
+                .sort(sortCriteria, sortOrder);
+        List<ScheduleModel> scheduleResultList = realm.copyFromRealm(scheduleResult);
+        for (int i = 0; i < scheduleResultList.size(); i++) {
+            String cat = scheduleResultList.get(i).getCatName();
+            if (!categoriesList.contains(cat)) {
+                categoriesList.add(cat);
+            }
+        }
+    }
+
+    private void getAllEvents() {
+        RealmResults<ScheduleModel> scheduleResult = realm.where(ScheduleModel.class).findAll()
+                .sort(sortCriteria, sortOrder);
+        List<ScheduleModel> scheduleResultList = realm.copyFromRealm(scheduleResult);
+        for (int i = 0; i < scheduleResultList.size(); i++) {
+            String event = scheduleResultList.get(i).getEventName();
+            if (!eventTypeList.contains(event)) {
+                eventTypeList.add(event);
+            }
+        }
+    }
+
+    private void getAllVenues() {
+        RealmResults<ScheduleModel> scheduleResult = realm.where(ScheduleModel.class).findAll()
+                .sort(sortCriteria, sortOrder);
+        List<ScheduleModel> scheduleResultList = realm.copyFromRealm(scheduleResult);
+        for (int i = 0; i < scheduleResultList.size(); i++) {
+            String venue = scheduleResultList.get(i).getVenue();
+            if (!venueList.contains(venue)) {
+                venueList.add(venue);
+            }
+        }
+    }
+
+    private void applyFilters() {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+        Date startDate;
+        Date endDate;
+        //Adding all the events of the current day to the currentDayEvents List and filtering those
+        //If this step is not done then the filtering is done on the list that has already been filtered
+        if (tabs.getSelectedTabPosition() == 0) {
+            dayFilter(-1);//PreRevels
+        } else {
+            dayFilter(tabs.getSelectedTabPosition() + 1);
+        }
+        List<ScheduleModel> tempList = new ArrayList<>();
+        tempList.addAll(currentDayEvents);
+
+
+        for (ScheduleModel event : currentDayEvents) {
+            try {
+                if (!filterCategory.equals("All") && !filterCategory.toLowerCase().equals(event.getCatName().toLowerCase())) {
+                    //Filtering the category
+                    if (tempList.contains(event)) {
+                        tempList.remove(event);
+                        continue;
+                    }
+                }
+
+                if (!filterVenue.equals("All") && !event.getVenue().toLowerCase().contains(filterVenue.toLowerCase())) {
+                    //Filtering based on venue
+                    if (tempList.contains(event)) {
+                        tempList.remove(event);
+                        continue;
+                    }
+                }
+
+                if (!filterEventType.equals("All") && !filterEventType.toLowerCase().equals(event.getEventName().toLowerCase())) {
+                    //Filtering based on Event Type
+                    if (tempList.contains(event)) {
+                        tempList.remove(event);
+                        continue;
+                    }
+                }
+
+                startDate = sdf.parse(event.getStartTime());
+                endDate = sdf.parse(event.getEndTime());
+
+                Calendar c1 = Calendar.getInstance();
+                Calendar c2 = Calendar.getInstance();
+                Calendar c3 = Calendar.getInstance();
+                Calendar c4 = Calendar.getInstance();
+
+                c1.setTime(startDate);
+                c2.setTime(endDate);
+
+                c3.set(c1.get(Calendar.YEAR), c1.get(Calendar.MONTH), c1.get(Calendar.DATE), filterStartHour, filterStartMinute, c1.get(Calendar.SECOND));
+                c3.set(Calendar.MILLISECOND, c1.get(Calendar.MILLISECOND));
+                c4.set(c2.get(Calendar.YEAR), c2.get(Calendar.MONTH), c2.get(Calendar.DATE), filterEndHour, filterEndMinute, c2.get(Calendar.SECOND));
+                c4.set(Calendar.MILLISECOND, c2.get(Calendar.MILLISECOND));
+
+                if (!((c1.getTimeInMillis() >= c3.getTimeInMillis()) && (c2.getTimeInMillis() <= c4.getTimeInMillis()))) {
+                    if (tempList.contains(event)) {
+                        tempList.remove(event);
+                        continue;
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        viewPager.setCurrentItem(day);
-        return result;
+        if (tempList.isEmpty()) {
+            if (view != null)
+                Snackbar.make(view, "No events found!", Snackbar.LENGTH_SHORT).show();
+        } else {
+            if (view != null)
+                Snackbar.make(view, "Filters applied for Day " + getArguments().getInt("day", 1) + "!", Snackbar.LENGTH_SHORT).show();
+        }
+
+        if (adapter != null)
+            adapter.updateList(tempList);
+
+    }
+
+    private void clearFilters() {
+        filterStartHour = 12;
+        filterStartMinute = 30;
+        filterEndHour = 23;
+        filterEndMinute = 59;
+        filterCategory = "All";
+        filterVenue = "All";
+        filterEventType = "All";
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_hardware, menu);
+        inflater.inflate(R.menu.menu_schedule, menu);
+        Log.d(TAG, "onCreateOptionsMenu: ");
         searchItem = menu.findItem(R.id.action_search);
-        filterItem = menu.findItem(R.id.menu_filter);
-
-        filterItem = menu.findItem(R.id.menu_filter);
-
+        filterItem = menu.findItem(R.id.action_filter);
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
-                final View view = View.inflate(getActivity(), R.layout.dialog_filter, null);
-                final Button applyFilter = view.findViewById(R.id.apply_filter);
-                final Button clearFilter = view.findViewById(R.id.clear_filter);
-                final TextView filterCategories = view.findViewById(R.id.filter_categories);
-                final TextView filterTimeRange = view.findViewById(R.id.filter_time_range);
-                final RangeBar rangeBar = view.findViewById(R.id.filter_range_bar);
-                final TextView filterVenue = view.findViewById(R.id.filter_venue);
+                //Initializing Components
 
-                for (ScheduleModel schedule : scheduleResult) {
-                    String venue = "";
-                    String temp = schedule.getVenue();
-                    for (int i = 0; i < temp.length(); i++) {
-                        if (temp.charAt(i) == '-') continue;
+                View view = View.inflate(getActivity(), R.layout.dialog_filter, null);
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-                        if (!Character.isDigit(temp.charAt(i))) {
-                            venue += temp.charAt(i);
-                        } else if (i > 0 && temp.charAt(i - 1) != ' ' && temp.charAt(i - 1) != '-') {
-                            venue += temp.charAt(i);
-                        } else break;
+                dialog.setContentView(view);
+
+                LinearLayout clearFiltersLayout = view.findViewById(R.id.clear_filters_layout);
+                LinearLayout startTimeLayout = view.findViewById(R.id.filter_start_time_layout);
+                final TextView startTimeTextView = view.findViewById(R.id.start_time_text_view);
+
+                LinearLayout endTimeLayout = view.findViewById(R.id.filter_end_time_layout);
+                final TextView endTimeTextView = view.findViewById(R.id.end_time_text_view);
+
+                TextView cancelTextView = view.findViewById(R.id.filter_cancel_text_view);
+                TextView applyTextView = view.findViewById(R.id.filter_apply_text_view);
+
+                final Spinner categorySpinner = view.findViewById(R.id.category_spinner);
+                final Spinner venueSpinner = view.findViewById(R.id.event_venue_spinner);
+                final Spinner eventTypeSpinner = view.findViewById(R.id.event_type_spinner);
+
+                ArrayAdapter<String> categorySpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_custom_spinner, categoriesList);
+                categorySpinner.setAdapter(categorySpinnerAdapter);
+
+                categorySpinner.setSelection(categoriesList.indexOf(filterCategory));
+
+                ArrayAdapter<String> venueSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_custom_spinner, venueList);
+                venueSpinner.setAdapter(venueSpinnerAdapter);
+
+                venueSpinner.setSelection(venueList.indexOf(filterVenue));
+
+                ArrayAdapter<String> eventTypeSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_custom_spinner, eventTypeList);
+                eventTypeSpinner.setAdapter(eventTypeSpinnerAdapter);
+
+                eventTypeSpinner.setSelection(eventTypeList.indexOf(filterEventType));
+
+                String sTime = "";
+                String eTime = "";
+
+                if (filterStartHour < 12)
+                    sTime = filterStartHour + ":" + (filterStartMinute < 10 ? "0" + filterStartMinute : filterStartMinute) + " AM";
+                else if (filterStartHour == 12)
+                    sTime = filterStartHour + ":" + (filterStartMinute < 10 ? "0" + filterStartMinute : filterStartMinute) + " PM";
+                else if (filterStartHour > 12)
+                    sTime = (filterStartHour - 12) + ":" + (filterStartMinute < 10 ? "0" + filterStartMinute : filterStartMinute) + " PM";
+
+                if (filterEndHour < 12)
+                    eTime = filterEndHour + ":" + (filterEndMinute < 10 ? "0" + filterEndMinute : filterEndMinute) + " AM";
+                else if (filterEndHour == 12)
+                    eTime = filterEndHour + ":" + (filterEndMinute < 10 ? "0" + filterEndMinute : filterEndMinute) + " PM";
+                else if (filterEndHour > 12)
+                    eTime = (filterEndHour - 12) + ":" + (filterEndMinute < 10 ? "0" + filterEndMinute : filterEndMinute) + " PM";
+
+                startTimeTextView.setText(sTime);
+                endTimeTextView.setText(eTime);
+
+                cancelTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.hide();
                     }
-                    if (!venue.isEmpty() && !venueList.contains(venue))
-                        venueList.add(venue);
-                }
-                if (!filterMode) {
-                    filterCategories.setText("All");
-                    filterTimeRange.setText("12:00PM to 9:00PM");
-                    filterVenue.setText("All");
-                    rangeBar.setRangePinsByIndices(0, 9);
-                } else {
-                    filterCategories.setText(categoryFilterTerm);
-                    filterTimeRange.setText(startTimeFilterTerm + "PM to " + endTimeFilterTerm + "PM");
-                    filterVenue.setText(venueFilterTerm);
-                    rangeBar.setRangePinsByIndices(startTimeFilterPin, endTimeFilterPin);
-                }
+                });
 
-                bottomSheetDialog.setContentView(view);
+                applyTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        applyFilters();
+                        dialog.hide();
+                    }
+                });
 
-                clearFilter.setOnClickListener(new View.OnClickListener() {
+                categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        filterCategory = categorySpinner.getSelectedItem().toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+                venueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        filterVenue = venueSpinner.getSelectedItem().toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                    }
+                });
+
+                eventTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        filterEventType = eventTypeSpinner.getSelectedItem().toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                startTimeLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TimePickerDialog tpDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                String startTime = "";
+                                filterStartHour = hourOfDay;
+                                filterStartMinute = minute;
+                                if (hourOfDay < 12)
+                                    startTime = hourOfDay + ":" + (minute < 10 ? "0" + minute : minute) + " AM";
+                                else if (hourOfDay == 12)
+                                    startTime = hourOfDay + ":" + (minute < 10 ? "0" + minute : minute) + " PM";
+                                else if (hourOfDay > 12)
+                                    startTime = (hourOfDay - 12) + ":" + (minute < 10 ? "0" + minute : minute) + " PM";
+
+                                startTimeTextView.setText(startTime);
+                            }
+                        }, filterStartHour, filterStartMinute, false);
+
+                        tpDialog.show();
+                    }
+                });
+
+                endTimeLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TimePickerDialog tpDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                String endTime = "";
+                                filterEndHour = hourOfDay;
+                                filterEndMinute = minute;
+                                if (hourOfDay < 12)
+                                    endTime = hourOfDay + ":" + (minute < 10 ? "0" + minute : minute) + " AM";
+                                else if (hourOfDay == 12)
+                                    endTime = hourOfDay + ":" + (minute < 10 ? "0" + minute : minute) + " PM";
+                                else if (hourOfDay > 12)
+                                    endTime = (hourOfDay - 12) + ":" + (minute < 10 ? "0" + minute : minute) + " PM";
+
+                                endTimeTextView.setText(endTime);
+                            }
+                        }, filterEndHour, filterEndMinute, false);
+
+                        tpDialog.show();
+                    }
+                });
+
+                clearFiltersLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        filterCategories.setText("All");
-                        filterTimeRange.setText("12:00PM to 9:00PM");
-                        filterVenue.setText("All");
-                        rangeBar.setRangePinsByIndices(0, 9);
-                        bottomSheetDialog.dismiss();
-                        int item = viewPager.getCurrentItem();
-                        viewPager.getAdapter().notifyDataSetChanged();
-                        viewPager.setAdapter(new EventsTabsPagerAdapter(getChildFragmentManager(), "", "All", "All", "12:00 pm", "9:00 pm", false));
-                        viewPager.getAdapter().notifyDataSetChanged();
-                        viewPager.setCurrentItem(item, false);
-                        filterMode = false;
+                        dialog.hide();
+                        clearFilters();
+                        applyFilters();
+                        if (eventsLayout != null)
+                            Snackbar.make(rootView, "Filters cleared!", Snackbar.LENGTH_SHORT).show();
                     }
                 });
 
-                applyFilter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                dialog.show();
 
-                        categoryFilterTerm = filterCategories.getText().toString();
-                        venueFilterTerm = filterVenue.getText().toString();
-                        int item = viewPager.getCurrentItem();
-                        viewPager.getAdapter().notifyDataSetChanged();
-                        viewPager.setAdapter(new EventsTabsPagerAdapter(getChildFragmentManager(), "", categoryFilterTerm, venueFilterTerm, startTimeFilterTerm + " pm", endTimeFilterTerm + " pm", true));
-                        viewPager.getAdapter().notifyDataSetChanged();
-                        viewPager.setCurrentItem(item, false);
-                        bottomSheetDialog.dismiss();
-                        filterMode = true;
-                    }
-                });
-                RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class).findAll().sort("categoryName");
-                categoryNames.add("All");
-                for (CategoryModel category : categoryResults) {
-                    categoryNames.add(category.getCategoryName());
-                }
-                RecyclerView recyclerView = view.findViewById(R.id.filter_recycler);
-                recyclerView.removeAllViews();
-                recyclerView.removeAllViewsInLayout();
-                FilterVenueAdapter adapter = new FilterVenueAdapter(venueList, getContext(), filterVenue);
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-                recyclerView.setAdapter(adapter);
-                recyclerDisplayed = true;
-                adapter.notifyDataSetChanged();
-                CardView filterCategoriesCard = view.findViewById(R.id.filter_categories_card);
-                filterCategoriesCard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        View view1 = View.inflate(getActivity(), R.layout.dialog_filter_category_select, null);
-                        final Dialog d = new Dialog(getContext());
-                        Rect displayRectangle = new Rect();
-                        Window window = getActivity().getWindow();
-                        window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
-                        view1.setMinimumWidth((int) (displayRectangle.width() * 0.5f));
-                        d.setContentView(view1);
-
-                        final NumberPicker numberPicker = view1.findViewById(R.id.numberPicker);
-                        Button button = view1.findViewById(R.id.button);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                filterCategories.setText(categoryNames.get(numberPicker.getValue()));
-                                d.dismiss();
-                            }
-                        });
-                        numberPicker.setMinValue(0);
-                        numberPicker.setMaxValue(categoryNames.size() - 1);
-                        numberPicker.setWrapSelectorWheel(false);
-                        numberPicker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                filterCategories.setText(categoryNames.get(numberPicker.getValue()));
-                                d.dismiss();
-                            }
-                        });
-                        numberPicker.setFormatter(new NumberPicker.Formatter() {
-                            @Override
-                            public String format(int value) {
-                                return categoryNames.get(value);
-                            }
-                        });
-                        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                            @Override
-                            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                                filterCategories.setText(categoryNames.get(newVal));
-                            }
-                        });
-                        d.show();
-                    }
-                });
-
-                rangeBar.setFormatter(new IRangeBarFormatter() {
-                    @Override
-                    public String format(String value) {
-                        String time;
-                        if (Integer.parseInt(value) == 0) {
-                            time = "12:00";
-                        } else {
-                            time = value + ":00";
-                        }
-                        return time;
-                    }
-                });
-
-                rangeBar.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
-                    @Override
-                    public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
-                        String startTime;
-                        String endTime;
-
-                        if (leftPinIndex == 0) {
-                            startTime = "12:00";
-                        } else {
-                            startTime = leftPinValue + ":00";
-                        }
-                        if (rightPinIndex == 0) {
-                            endTime = "12:00";
-                        } else {
-                            endTime = rightPinValue + ":00";
-                        }
-
-                        startTimeFilterTerm = startTime;
-                        endTimeFilterTerm = endTime;
-                        startTimeFilterPin = leftPinIndex;
-                        endTimeFilterPin = rightPinIndex;
-                        filterTimeRange.setText(startTime + "PM to " + endTime + "PM");
-                    }
-                });
-                bottomSheetDialog.show();
                 return false;
+
             }
         });
-
-
         final SearchView searchView = (SearchView) searchItem.getActionView();
-
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(false);
-        View v = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
-        v.setBackgroundColor(Color.parseColor("#00000000"));
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String text) {
-                text = text.toUpperCase();
-                viewPager.getAdapter().notifyDataSetChanged();
-                int item = viewPager.getCurrentItem();
-                viewPager.setAdapter(new EventsTabsPagerAdapter(getChildFragmentManager(), text, "All", "All", "12:00 pm", "9:00 pm", false));
-                viewPager.getAdapter().notifyDataSetChanged();
-                viewPager.setCurrentItem(item, false);
+                queryFilter(text);
                 TT18.searchOpen = 2;
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String text) {
-                text = text.toUpperCase();
-                viewPager.getAdapter().notifyDataSetChanged();
-                int item = viewPager.getCurrentItem();
-                viewPager.setAdapter(new EventsTabsPagerAdapter(getChildFragmentManager(), text, "All", "All", "12:00 pm", "9:00 pm", false));
-                viewPager.getAdapter().notifyDataSetChanged();
-                viewPager.setCurrentItem(item, false);
+                queryFilter(text);
                 TT18.searchOpen = 2;
                 return false;
             }
         });
-        searchView.setQueryHint("Search Events");
+        searchView.setQueryHint("Search..");
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                int item = viewPager.getCurrentItem();
-                viewPager.setAdapter(new EventsTabsPagerAdapter(getChildFragmentManager(), "", "All", "All", "12:00", "9:00", false));
                 searchView.clearFocus();
-                viewPager.setCurrentItem(item, false);
-
                 TT18.searchOpen = 2;
                 return false;
             }
 
 
         });
+
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_profile: {
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                if (sp.getBoolean("loggedIn", false))
+                    startActivity(new Intent(getActivity(), ProfileActivity.class));
+                else {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                return true;
+            }
+            case R.id.menu_favourites: {
+                startActivity(new Intent(getActivity(), FavouritesActivity.class));
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
+    private void initViews(View view) {
+        swipeDetector = new GestureDetector(view.getContext(), new SwipeListener());
+        swipeSV = view.findViewById(R.id.events_swipe_scroll_view);
+        swipeSV.setGestureDetector(swipeDetector);
+        tabs = view.findViewById(R.id.tabs);
+        eventsLayout = view.findViewById(R.id.events_linear_layout);
+        eventsRV = view.findViewById(R.id.events_recycler_view);
+        noData = view.findViewById(R.id.no_events_data_layout);
+        tabs.addTab(tabs.newTab().setText("Pre Revels"));
+        for (int i = 0; i < NUM_DAYS - 1; i++) {
+            tabs.addTab(tabs.newTab().setText("Day " + (i + 1)));
+        }
+        DayTabListener tabListener = new DayTabListener();
+        tabs.addOnTabSelectedListener(tabListener);
+        eventsRV.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                swipeDetector.onTouchEvent(motionEvent);
+                return true;
+            }
+        });
+    }
+
+    public void dayFilter(int day) {
+        currentDayEvents.clear();
+        //Filtering PreRevels events
+        Log.d(TAG, "dayFilter 1: " + day);
+        if (day == -1) {
+            for (int i = 0; i < events.size(); i++) {
+                Log.d(TAG, "dayFilter Value: " + events.get(i).getIsRevels());
+                if (events.get(i).getIsRevels().contains("0")) {
+                    currentDayEvents.add(events.get(i));
+                }
+            }
+            if (adapter != null) {
+                if (currentDayEvents.isEmpty()) {
+                    eventsRV.setVisibility(View.GONE);
+                    noData.setVisibility(View.VISIBLE);
+                } else {
+                    eventsRV.setVisibility(View.VISIBLE);
+                    noData.setVisibility(View.GONE);
+                }
+                adapter.updateList(currentDayEvents);
+            }
+            return;
+        }
+        //Filtering the remaining events
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getDay().contains((day - 1) + "") && events.get(i).getIsRevels().contains("1")) {
+                currentDayEvents.add(events.get(i));
+            }
+        }
+        if (adapter != null) {
+            if (currentDayEvents.isEmpty()) {
+                eventsRV.setVisibility(View.GONE);
+                noData.setVisibility(View.VISIBLE);
+            } else {
+                eventsRV.setVisibility(View.VISIBLE);
+                noData.setVisibility(View.GONE);
+            }
+            adapter.updateList(currentDayEvents);
+        }
+    }
+
+    public void queryFilter(String query) {
+        query = query.toLowerCase();
+        List<ScheduleModel> temp = new ArrayList<>();
+        for (int i = 0; i < currentDayEvents.size(); i++) {
+            if ((currentDayEvents.get(i).getEventName().toLowerCase().contains(query) || currentDayEvents.get(i).getCatName().toLowerCase().contains(query))) {
+                temp.add(currentDayEvents.get(i));
+                Log.d(TAG, "queryFilter: " + currentDayEvents.get(i).getEventName());
+            }
+        }
+        adapter.updateList(temp);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
+    }
+
+    class DayTabListener implements TabLayout.OnTabSelectedListener {
+
+
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            Log.d(TAG, "onTabSelected TabPos: " + tab.getPosition());
+            int day = tab.getPosition() + 1;
+            if (tab.getPosition() == 0) {
+                day = PREREVELS_DAY;
+            }
+            Log.d(TAG, "onTabSelected: day = " + day);
+            dayFilter(day);
+            applyFilters();
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+            int day = tab.getPosition() + 1;
+            Log.d(TAG, "onTabUnselected: day =  " + day);
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+            int day = tab.getPosition() + 1;
+            if (tab.getPosition() == 0) {
+                day = PREREVELS_DAY;
+            }
+            Log.d(TAG, "onTabReselected: day = " + day);
+            dayFilter(day);
+            applyFilters();
+
+
+        }
+    }
+
+    class SwipeListener extends GestureDetector.SimpleOnGestureListener {
+
+        private static final int SWIPE_MIN_DISTANCE = 100;
+        private static final int SWIPE_MAX_VERTICAL = 300;
+        private static final int SWIPE_THRESHOLD_VELOCITY = 300;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.d(TAG, "onFling: " + (Math.abs(e1.getY() - e2.getY())));
+
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && Math.abs(e1.getY() - e2.getY()) < SWIPE_MAX_VERTICAL) {
+                // Right to left Swipe
+                Log.d(TAG, "onFling: RtoL Fling");
+                int tabIndex = tabs.getSelectedTabPosition();
+                if (!(tabIndex == NUM_DAYS - 1)) {
+                    //Selecting the next tab
+                    TabLayout.Tab t = tabs.getTabAt(tabIndex + 1);
+                    if (t != null)
+                        t.select();
+                }
+                return false;
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && Math.abs(e1.getY() - e2.getY()) < SWIPE_MAX_VERTICAL) {
+                // Left to right Swipe
+                Log.d(TAG, "onFling: LtoR Fling");
+                int tabIndex = tabs.getSelectedTabPosition();
+                if (!(tabIndex == 0)) {
+                    //Selecting the previous tab
+                    TabLayout.Tab t = tabs.getTabAt(tabIndex - 1);
+                    if (t != null)
+                        t.select();
+                }
+                return false;
+            }
+
+            if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                return false; // Bottom to top
+            } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                return false; // Top to bottom
+            }
+            return false;
+        }
+    }
+
 }
+

@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram.Image;
 
 public class Image {
+
     private LowResolution low_resolution;
     private Thumbnail thumbnail;
     private StandardResolution standard_resolution;

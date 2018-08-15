@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import in.mittt.tt18.activities.CategoryActivity;
 import in.mittt.tt18.R;
+import in.mittt.tt18.activities.CategoryActivity;
 import in.mittt.tt18.models.categories.CategoryModel;
+import in.mittt.tt18.utilities.IconCollection;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
@@ -25,20 +26,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         this.categoriesList = categoriesList;
         this.activity = activity;
     }
-
-    @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CategoryViewHolder(LayoutInflater.from(activity).inflate(R.layout.item_category, parent, false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         CategoryModel category = categoriesList.get(position);
         holder.catName.setText(category.getCategoryName());
-
+        IconCollection icons = new IconCollection();
+        holder.catLogo.setImageResource(icons.getIconResource(activity, category.getCategoryName()));
     }
-
     @Override
     public int getItemCount() {
         return categoriesList.size();
@@ -50,8 +48,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            catName = itemView.findViewById(R.id.cat_name_text_view);
-            catLogo = itemView.findViewById(R.id.cat_logo_image_view);
+            catLogo = itemView.findViewById(R.id.cat_event_logo_image_view);
+            catName = itemView.findViewById(R.id.cat_event_name_text_view);
             itemView.setOnClickListener(this);
         }
         @Override

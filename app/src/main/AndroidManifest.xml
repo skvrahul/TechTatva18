@@ -16,21 +16,17 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
-
-        </activity>
-
+            android:launchMode="singleTop" />
         <activity
-            android:name="in.mittt.tt18.activities.AboutUsActivity"
+            android:name=".activities.AboutUsActivity"
             android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="in.mittt.tt18.activities.DevelopersActivity"
+            android:name=".activities.DevelopersActivity"
             android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,9 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CategoryActivity"
-            android:theme="@style/AppTheme.NoActionBarActivityTheme"/>
+        <activity
+            android:name=".activities.CategoryActivity"
+            android:theme="@style/AppTheme.NoActionBarActivityTheme" />
         <activity android:name=".activities.FavouritesActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.LoginActivity"></activity>
     </application>
 
 </manifest>

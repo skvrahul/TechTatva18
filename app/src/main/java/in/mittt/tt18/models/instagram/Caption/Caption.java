@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram.Caption;
 
 public class Caption {
+
     private String created_time;
     private String text;
     private From from;

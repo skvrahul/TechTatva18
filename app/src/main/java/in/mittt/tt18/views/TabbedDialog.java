@@ -1,6 +1,7 @@
 package in.mittt.tt18.views;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,7 +31,7 @@ public class TabbedDialog extends DialogFragment {
     private PagerAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_event_details, container);
         mTabHost = view.findViewById(R.id.tabs);
 
@@ -141,8 +142,8 @@ public class TabbedDialog extends DialogFragment {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = null;
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view;
             view = inflater.inflate(R.layout.event_dialog_info, container, false);
             if (event == null) {
                 return view;
@@ -207,8 +208,8 @@ public class TabbedDialog extends DialogFragment {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = null;
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view;
             view = inflater.inflate(R.layout.event_dialog_description, container, false);
             TextView eventDescription = view.findViewById(R.id.event_description);
             eventDescription.setText(description);
@@ -241,7 +242,7 @@ public class TabbedDialog extends DialogFragment {
 
         @Override
         public Fragment getItem(int num) {
-            Fragment fragment = null;
+            Fragment fragment;
             if (num == 0) {
                 EventFragment tf = new EventFragment();
                 tf.setExtras(event, favClickListener, favorite, schedule);

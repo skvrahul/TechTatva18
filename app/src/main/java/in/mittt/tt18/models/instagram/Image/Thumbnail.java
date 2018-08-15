@@ -1,6 +1,8 @@
 package in.mittt.tt18.models.instagram.Image;
 
-class Thumbnail {
+
+public class Thumbnail {
+
     private String url;
     private int width;
     private int height;

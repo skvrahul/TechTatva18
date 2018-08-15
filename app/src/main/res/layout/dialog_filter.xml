@@ -1,128 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingBottom="24dp"
-
-            android:paddingLeft="16dp"
-            android:paddingTop="24dp"
-            app:srcCompat="@drawable/ic_filter_list__24dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/imageView10"
-            android:layout_toRightOf="@+id/imageView10"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:paddingBottom="24dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="28dp"
-            android:text="Filter Events"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/apply_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-
-            android:background="@color/colorPrimary"
-            android:text="Apply"
-            android:textColor="#ffffff" />
-
-        <Button
-            android:id="@+id/clear_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/apply_filter"
-            android:layout_toStartOf="@+id/apply_filter"
-            android:background="@color/colorPrimary"
-            android:text="CLEAR"
-            android:textColor="#ffffff" />
-
-
-    </RelativeLayout>
-
-
-    <View
-        android:id="@+id/filter_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:layout_marginBottom="8dp"
-        android:background="@android:drawable/divider_horizontal_bright" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/filter_categories_card"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:clickable="true"
-        app:contentPadding="16dp">
+        android:background="?android:attr/colorBackground"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/padding_half"
+        android:paddingTop="@dimen/padding_default">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/padding_default"
+            android:paddingRight="@dimen/padding_default">
 
-            <ImageView
-                android:id="@+id/imageView11"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_categories" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
+                android:paddingBottom="@dimen/padding_half"
+                android:paddingTop="@dimen/padding_half"
+                android:text="Filter Events"
+                android:textColor="@color/black"
+                android:textSize="@dimen/typography_title" />
 
-                android:gravity="center|left"
-                android:text="   Category:  "
-                android:textColor="@color/white" />
+            <LinearLayout
+                android:id="@+id/clear_filters_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/rounded_grey_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="1dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="1dp">
 
-            <TextView
-                android:id="@+id/filter_categories"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="2dp"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/ic_cross" />
 
-                android:gravity="center|left"
-                android:text="All" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Clear Filters"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
-    </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/padding_default"
+            android:layout_marginRight="@dimen/padding_default"
+            android:layout_marginTop="@dimen/padding_default"
+            android:background="@android:drawable/divider_horizontal_bright" />
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        app:contentPadding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,113 +80,274 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_default">
 
                 <ImageView
-                    android:id="@+id/imageView12"
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/padding_2x"
+                    android:alpha="0.54"
+                    app:srcCompat="@drawable/ic_categories" />
+
+                <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Category"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/typography_body" />
 
-                    android:layout_gravity="center"
+                <Spinner
+                    android:id="@+id/category_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|right" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_default">
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/padding_2x"
+                    app:srcCompat="@drawable/ic_event_type" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Event type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/typography_body" />
+
+                <Spinner
+
+                    android:id="@+id/event_type_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|right" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filter_start_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_default">
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/padding_2x"
+                    android:alpha="0.54"
                     app:srcCompat="@drawable/ic_time" />
 
                 <TextView
 
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_half"
                     android:fontFamily="sans-serif-medium"
-                    android:gravity="center|left"
-                    android:text="   Time Range:  "
-                    android:textColor="@color/white" />
+                    android:text="Start Time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/typography_body" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/start_time_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="9:00 AM"
+                        android:textSize="@dimen/typography_body" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:alpha="0.54"
+                        app:srcCompat="@drawable/ic_drop_down" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/filter_end_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_default">
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/padding_2x"
+                    android:alpha="0.54"
+                    android:scaleX="-1"
+                    app:srcCompat="@drawable/ic_time" />
 
                 <TextView
-                    android:id="@+id/filter_time_range"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|left"
-                    android:text="12:00PM to 9:00PM"
 
-                    />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="End Time"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/typography_body" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/end_time_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="8:00 PM"
+                        android:textSize="@dimen/typography_body" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:alpha="0.54"
+                        app:srcCompat="@drawable/ic_drop_down" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_default">
+
+                <ImageView
+
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/padding_2x"
+                    android:alpha="0.54"
+                    app:srcCompat="@drawable/ic_venue" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/padding_half"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Event Venue"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/typography_body" />
+
+                <Spinner
+                    android:id="@+id/event_venue_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|right" />
 
 
             </LinearLayout>
 
-
-            <com.appyvet.rangebar.RangeBar
-                android:id="@+id/filter_range_bar"
-                android:layout_width="match_parent"
-                android:layout_height="81dp"
-                app:connectingLineColor="@color/colorPrimary"
-                app:pinColor="@color/colorPrimary"
-                app:pinMaxFont="10sp"
-                app:pinRadius="16dp"
-                app:selectorColor="@color/colorPrimary"
-                app:temporaryPins="false"
-                app:tickEnd="9"
-                app:tickInterval="1"
-                app:tickStart="0">
-
-
-            </com.appyvet.rangebar.RangeBar>
-
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        app:contentPadding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="@dimen/padding_half"
+            android:gravity="end|right|center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/imageView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_venue" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center|left"
-                    android:text="   Venue:  "
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/filter_venue"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|left"
-                    android:text="All" />
-            </LinearLayout>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/filter_recycler"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/filter_cancel_text_view"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fadeScrollbars="false"
-                android:isScrollContainer="false"
-                android:scrollbarAlwaysDrawHorizontalTrack="true"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarSize="3dp"
-                android:scrollbarThumbVertical="@color/colorPrimaryDark"
-                android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+                android:layout_marginEnd="@dimen/padding_default"
+                android:fontFamily="sans-serif-medium"
+                android:paddingBottom="@dimen/padding_half"
+                android:paddingLeft="@dimen/padding_default"
+                android:paddingRight="@dimen/padding_default"
+                android:paddingTop="@dimen/padding_half"
+                android:text="@android:string/no"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/typography_body" />
+
+            <TextView
+                android:id="@+id/filter_apply_text_view"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="@dimen/padding_default"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_primary_bg"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_half"
+                android:paddingEnd="@dimen/padding_default"
+                android:paddingLeft="@dimen/padding_default"
+                android:paddingRight="@dimen/padding_default"
+                android:paddingStart="@dimen/padding_default"
+                android:paddingTop="@dimen/padding_half"
+                android:text="Apply filter"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/typography_body" />
 
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

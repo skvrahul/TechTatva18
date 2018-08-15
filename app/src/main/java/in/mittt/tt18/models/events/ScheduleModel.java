@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 
-
 public class ScheduleModel extends RealmObject {
 
     @SerializedName("eid")
@@ -26,6 +25,9 @@ public class ScheduleModel extends RealmObject {
     @SerializedName("venue")
     @Expose
     private String venue;
+    @SerializedName("isRevels")
+    @Expose
+    private String isRevels;
     @SerializedName("stime")
     @Expose
     private String startTime;
@@ -38,6 +40,15 @@ public class ScheduleModel extends RealmObject {
     @SerializedName("date")
     @Expose
     private String date;
+
+    public String getIsRevels() {
+
+        return isRevels;
+    }
+
+    public void setIsRevels(String revels) {
+        isRevels = revels;
+    }
 
     public String getEventID() {
         return eventID;

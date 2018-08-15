@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram.Image;
 
-class LowResolution {
+public class LowResolution {
+
     private String url;
     private int width;
     private int height;

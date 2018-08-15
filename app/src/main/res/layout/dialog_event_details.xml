@@ -15,7 +15,6 @@
             android:id="@+id/event_constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:gravity="start|center_vertical"
@@ -23,14 +22,11 @@
             android:padding="@dimen/padding_half">
 
             <ImageView
+                android:layout_marginEnd="@dimen/padding_half"
                 android:id="@+id/event_logo_image_view"
                 android:layout_width="@dimen/padding_3x"
                 android:layout_height="@dimen/padding_3x"
-                android:layout_marginEnd="@dimen/padding_half"
-                android:layout_marginRight="@dimen/padding_half"
-                android:layout_weight="0"
                 android:background="@drawable/background_circle"
-                android:contentDescription="Event Logo"
                 android:padding="@dimen/padding_half"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -38,14 +34,14 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/event_name"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_weight="0"
+                android:contentDescription="Event Logo"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_half"
-                android:layout_marginRight="@dimen/padding_half"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@color/colorPrimary"
@@ -53,27 +49,28 @@
                 app:layout_constraintLeft_toRightOf="@+id/event_logo_image_view"
                 app:layout_constraintRight_toLeftOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="@dimen/padding_half"
                 tools:text="Event Name" />
 
             <ImageView
+                android:clickable="true"
                 android:id="@+id/event_delete_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_weight="0"
-                android:clickable="true"
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_fav_selected" />
 
             <ImageView
                 android:id="@+id/event_fav_icon"
+                android:clickable="true"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_weight="0"
-                android:clickable="true"
-                android:tag="deselected"
                 android:visibility="visible"
+                android:tag="deselected"
                 app:srcCompat="@drawable/ic_fav_deselected" />
         </LinearLayout>
 
@@ -85,14 +82,13 @@
             android:background="@android:drawable/divider_horizontal_bright" />
 
     </RelativeLayout>
-
     <android.support.v4.app.FragmentTabHost
-        android:id="@+id/tabs"
         android:layout_width="match_parent"
+        android:id="@+id/tabs"
         android:layout_height="wrap_content"></android.support.v4.app.FragmentTabHost>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</LinearLayout> 
+</LinearLayout>

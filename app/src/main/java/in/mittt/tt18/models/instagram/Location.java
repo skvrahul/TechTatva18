@@ -1,6 +1,7 @@
 package in.mittt.tt18.models.instagram;
 
 public class Location {
+
     private double latitude;
     private String name;
     private double longitude;

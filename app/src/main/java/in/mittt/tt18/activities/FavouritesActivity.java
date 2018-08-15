@@ -34,33 +34,36 @@ import io.realm.Realm;
 
 public class FavouritesActivity extends AppCompatActivity {
     String TAG = "FavouritesActivity";
+    private Realm realm;
     RecyclerView recyclerViewDay1;
     RecyclerView recyclerViewDay2;
     RecyclerView recyclerViewDay3;
     RecyclerView recyclerViewDay4;
     RecyclerView recyclerViewPreRevels;
     Context context;
-    private Realm realm;
     private List<FavouritesModel> favouritesDay1 = new ArrayList<>();
     private List<FavouritesModel> favouritesDay2 = new ArrayList<>();
     private List<FavouritesModel> favouritesDay3 = new ArrayList<>();
     private List<FavouritesModel> favouritesDay4 = new ArrayList<>();
-    private List<FavouritesModel> favouritesPreRevels = new ArrayList<>();
+
     private TextView noEventsDay1;
     private TextView noEventsDay2;
     private TextView noEventsDay3;
     private TextView noEventsDay4;
     private TextView noEventsPreRevels;
+
     private TextView eventsClearDay1;
     private TextView eventsClearDay2;
     private TextView eventsClearDay3;
     private TextView eventsClearDay4;
     private TextView eventsClearPreRevels;
+
     private FavouritesEventsAdapter adapterDay1;
     private FavouritesEventsAdapter adapterDay2;
     private FavouritesEventsAdapter adapterDay3;
     private FavouritesEventsAdapter adapterDay4;
     private FavouritesEventsAdapter adapterPreRevels;
+    private List<FavouritesModel> favouritesPreRevels = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +74,7 @@ public class FavouritesActivity extends AppCompatActivity {
         context = this;
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (getSupportActionBar() != null)
-                    getSupportActionBar().setTitle(R.string.drawer_favourites);
+                getSupportActionBar().setTitle(R.string.drawer_favourites);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 AppBarLayout appBarLayout = findViewById(R.id.app_bar);
                 appBarLayout.setElevation(0);
@@ -80,11 +82,16 @@ public class FavouritesActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        favouritesDay1 = realm.copyFromRealm(realm.where(FavouritesModel.class).equalTo("day", "1").equalTo("isRevels", "1").findAll());
-        favouritesDay2 = realm.copyFromRealm(realm.where(FavouritesModel.class).equalTo("day", "2").equalTo("isRevels", "1").findAll());
-        favouritesDay3 = realm.copyFromRealm(realm.where(FavouritesModel.class).equalTo("day", "3").equalTo("isRevels", "1").findAll());
-        favouritesDay4 = realm.copyFromRealm(realm.where(FavouritesModel.class).equalTo("day", "4").equalTo("isRevels", "1").findAll());
-        favouritesPreRevels = realm.copyFromRealm(realm.where(FavouritesModel.class).equalTo("isRevels", "0").findAll());
+        favouritesDay1 = realm.copyFromRealm(realm.where(FavouritesModel.class)
+                .equalTo("day", "1").equalTo("isRevels", "1").findAll());
+        favouritesDay2 = realm.copyFromRealm(realm.where(FavouritesModel.class)
+                .equalTo("day", "2").equalTo("isRevels", "1").findAll());
+        favouritesDay3 = realm.copyFromRealm(realm.where(FavouritesModel.class)
+                .equalTo("day", "3").equalTo("isRevels", "1").findAll());
+        favouritesDay4 = realm.copyFromRealm(realm.where(FavouritesModel.class)
+                .equalTo("day", "4").equalTo("isRevels", "1").findAll());
+        favouritesPreRevels = realm.copyFromRealm(realm.where(FavouritesModel.class)
+                .equalTo("isRevels", "0").findAll());
         displayEvents();
         eventsClearDay1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +132,6 @@ public class FavouritesActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_favourites_fragment, menu);
         return true;
     }
-
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
@@ -326,7 +332,7 @@ public class FavouritesActivity extends AppCompatActivity {
         favourite.setDay(eventSchedule.getDay());
         favourite.setStartTime(eventSchedule.getStartTime());
         favourite.setEndTime(eventSchedule.getEndTime());
-        favourite.setIsTechTatva(eventSchedule.getIsTechTatva());
+        favourite.setIsRevels(eventSchedule.getIsRevels());
         if (eventDetails != null) {
             favourite.setParticipants(eventDetails.getMaxTeamSize());
             favourite.setContactName(eventDetails.getContactName());
@@ -347,7 +353,7 @@ public class FavouritesActivity extends AppCompatActivity {
         realm.where(FavouritesModel.class).equalTo("id", event.getId()).equalTo("day", event.getDay()).equalTo("round", event.getRound()).findAll().deleteAllFromRealm();
         realm.commitTransaction();
         removeNotification(event);
-        if (event.getIsTechTatva().contains("0")) {
+        if (event.getIsRevels().contains("0")) {
             favouritesPreRevels.remove(event);
             if (adapterPreRevels != null) {
                 adapterPreRevels.notifyDataSetChanged();
@@ -432,10 +438,8 @@ public class FavouritesActivity extends AppCompatActivity {
         int RC2 = Integer.parseInt(event.getCatID() + event.getId() + "1");
         PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, RC1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent pendingIntent2 = PendingIntent.getBroadcast(this, RC2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (alarmManager != null) {
-            alarmManager.cancel(pendingIntent1);
-            alarmManager.cancel(pendingIntent2);
-        }
+        alarmManager.cancel(pendingIntent1);
+        alarmManager.cancel(pendingIntent2);
     }
 
     private void removeNotifications(List<FavouritesModel> events) {

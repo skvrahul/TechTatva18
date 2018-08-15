@@ -3,6 +3,7 @@ package in.mittt.tt18.models.favourites;
 import io.realm.RealmObject;
 
 public class FavouritesModel extends RealmObject {
+
     private String id;
     private String catID;
     private String eventName;
@@ -17,17 +18,17 @@ public class FavouritesModel extends RealmObject {
     private String contactNumber;
     private String catName;
     private String description;
-    private String isTechTatva;
+    private String isRevels;
+
+    public String getIsRevels() {
+        return isRevels;
+    }
+
+    public void setIsRevels(String isRevels) {
+        this.isRevels = isRevels;
+    }
 
     public FavouritesModel() {
-    }
-
-    public String getIsTechTatva() {
-        return isTechTatva;
-    }
-
-    public void setIsTechTatva(String isTechTatva) {
-        this.isTechTatva = isTechTatva;
     }
 
     public String getId() {
@@ -141,6 +142,4 @@ public class FavouritesModel extends RealmObject {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 }

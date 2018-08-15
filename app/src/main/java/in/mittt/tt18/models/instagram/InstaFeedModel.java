@@ -4,6 +4,8 @@ import java.util.List;
 
 import in.mittt.tt18.models.instagram.Caption.Caption;
 import in.mittt.tt18.models.instagram.Image.Image;
+
+
 public class InstaFeedModel {
 
     private String attribution;
@@ -21,7 +23,6 @@ public class InstaFeedModel {
     private boolean user_has_liked;
     private String id;
     private User user;
-
 
     public InstaFeedModel() {
     }
@@ -145,5 +146,47 @@ public class InstaFeedModel {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

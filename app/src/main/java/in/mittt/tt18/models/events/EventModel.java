@@ -20,6 +20,7 @@ public class EventModel extends RealmObject{
     private String contactNumber;
     private String eventType;
     private String hashtag;
+    private String isTechTatva;
 
     public EventModel() {
         // Required empty public constructor
@@ -59,6 +60,14 @@ public class EventModel extends RealmObject{
             date = schedule.getDate();
             round = schedule.getRound();
         }
+    }
+
+    public String getIsTechTatva() {
+        return isTechTatva;
+    }
+
+    public void setIsTechTatva(String isTechTatva) {
+        this.isTechTatva = isTechTatva;
     }
 
     public String getEventType() {

@@ -1,36 +1,62 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<in.mittt.tt18.views.SwipeScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/events_swipe_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="in.mittt.tt18.fragments.EventsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/events_tab_layout"
-
+    <LinearLayout
+        android:id="@+id/events_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/themeBackground"
-        android:elevation="5dp"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="@color/cardview_light_background" />
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/events_tab_layout"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/events_view_pager"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/events_tab_layout" />
-    </android.support.v7.widget.CardView>
-</RelativeLayout>
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/white"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/white">
+
+        </android.support.design.widget.TabLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/no_events_data_layout"
+                layout="@layout/layout_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/events_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</in.mittt.tt18.views.SwipeScrollView>
+
+

@@ -25,6 +25,8 @@ import in.mittt.tt18.models.categories.CategoriesListModel;
 import in.mittt.tt18.models.categories.CategoryModel;
 import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventsListModel;
+import in.mittt.tt18.models.events.ScheduleListModel;
+import in.mittt.tt18.models.events.ScheduleModel;
 import in.mittt.tt18.models.results.ResultModel;
 import in.mittt.tt18.models.results.ResultsListModel;
 import in.mittt.tt18.models.workshops.WorkshopsListModel;
@@ -58,6 +60,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Log.d(TAG, "What is this?");
         mDatabase = Realm.getDefaultInstance();
         rootLayout = findViewById(R.id.splash_root_layout);
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -72,7 +75,6 @@ public class SplashActivity extends AppCompatActivity {
         final ImageView iconRight = findViewById(R.id.splash_right_revels_icon);
         final ImageView text = findViewById(R.id.splash_revels_text);
         final FrameLayout container = findViewById(R.id.frameLayout4);
-
 
         iconLeft.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
         new Handler().postDelayed(new Runnable() {
@@ -270,7 +272,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadAllFromInternet() {
         loadEventsFromInternet();
-        //loadSchedulesFromInternet();
+        loadSchedulesFromInternet();
         loadCategoriesFromInternet();
         loadResultsFromInternet();
         loadWorkshopsFromInternet();
@@ -358,6 +360,29 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<CategoriesListModel> call, @NonNull Throwable t) {
 
+            }
+        });
+    }
+
+    private void loadSchedulesFromInternet() {
+        Call<ScheduleListModel> schedulesCall = APIClient.getAPIInterface().getScheduleList();
+        schedulesCall.enqueue(new Callback<ScheduleListModel>() {
+            @Override
+            public void onResponse(@NonNull Call<ScheduleListModel> call, @NonNull Response<ScheduleListModel> response) {
+                if (response.isSuccessful() && response.body() != null && mDatabase != null) {
+                    apiCallsRecieved++;
+                    mDatabase.beginTransaction();
+                    mDatabase.where(ScheduleModel.class).findAll().deleteAllFromRealm();
+                    mDatabase.copyToRealm(response.body().getData());
+                    mDatabase.commitTransaction();
+                    schedulesDataAvailableLocally = true;
+                    Log.d(TAG, "Schedules");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ScheduleListModel> call, @NonNull Throwable t) {
+                apiCallsRecieved++;
             }
         });
     }

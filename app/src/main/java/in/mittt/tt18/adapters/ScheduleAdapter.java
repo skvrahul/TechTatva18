@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -123,14 +124,16 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
         this.eventLongPressListener=eventLongPressListener;
         this.activity = activity;
     }
+
+    @NonNull
     @Override
-    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event, parent, false);
         return new EventViewHolder(itemView);
     }
     @Override
-    public void onBindViewHolder(EventViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         EventModel event = eventList.get(position);
         if(event.getEventName().contains("V")){
             Log.d("T",event.getEventName());
