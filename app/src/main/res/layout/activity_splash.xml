@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/splash_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <include
         android:id="@+id/splash_no_connection_layout"
         layout="@layout/layout_no_connection"
@@ -21,28 +21,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:background="@color/white"
         android:paddingLeft="@dimen/padding_2x"
         android:paddingRight="@dimen/padding_2x">
 
         <ImageView
-            android:id="@+id/splash_left_revels_icon"
+            android:id="@+id/left_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/revels_icon_left" />
+            android:src="@drawable/left_icon" />
 
         <ImageView
-            android:id="@+id/splash_right_revels_icon"
+            android:id="@+id/right_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/revels_icon_right"
+            android:src="@drawable/right_icon"
             android:visibility="gone" />
 
 
         <ImageView
-            android:id="@+id/splash_revels_text"
+            android:id="@+id/tt_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/revels_icon_text"
+            android:src="@drawable/text"
             android:visibility="gone" />
 
     </FrameLayout>
