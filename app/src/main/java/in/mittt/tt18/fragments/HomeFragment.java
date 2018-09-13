@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,10 +33,6 @@ import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
@@ -389,67 +384,67 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void getImageURLSfromFirebase() {
-        long cacheExpiration = 3600;
-        firebaseRemoteConfig.fetch(cacheExpiration)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        List<String> imgURLs = new ArrayList<>();
-                        final List<String> linkURLs = new ArrayList<>();
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: Successful");
-                            firebaseRemoteConfig.activateFetched();
-                            int n_banners;
-                            try {
-                                n_banners = Integer.parseInt(firebaseRemoteConfig.getString("num_banners"));
-                            } catch (Exception e) {
-                                n_banners = 1;
-                            }
-                            Log.d(TAG, "n banners: " + n_banners);
-                            for (int i = 1; i <= n_banners; i++) {
-                                String imgURL = firebaseRemoteConfig.getString("banner_img_" + i);
-                                String linkURL = firebaseRemoteConfig.getString("banner_link_" + i);
-
-                                imgURLs.add(imgURL);
-                                linkURLs.add(linkURL);
-                                Log.d(TAG, "onComplete: img:" + imgURL + " \nLink:" + linkURL);
-                            }
-
-                        } else {
-                            //Unable to fetch Config Values from Firebase.
-                            //TODO: Add default values here
-                            Log.d(TAG, "onComplete: Default" + task.getException().toString());
-                        }
-                        BaseSliderView.ScaleType imgScaleType = BaseSliderView.ScaleType.CenterCrop;
-                        if (imgURLs.size() != linkURLs.size() || imgURLs.size() == 0 || linkURLs.size() == 0) {
-                            return;
-                        }
-                        for (int i = 0; i < imgURLs.size(); i++) {
-                            TextSliderView tsv = new TextSliderView(getContext());
-                            final String hyperlink = linkURLs.get(i);
-                            tsv.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-                                @Override
-                                public void onSliderClick(BaseSliderView slider) {
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setData(Uri.parse(hyperlink));
-                                    startActivity(intent);
-                                }
-                            });
-                            tsv.image(imgURLs.get(i));
-                            tsv.setScaleType(imgScaleType);
-                            if (imageSlider == null) {
-                                Log.d(TAG, "onComplete: NullCheck Called");
-                                imageSlider = v.findViewById(R.id.home_image_slider);
-                                sliderInit();
-                            }
-                            imageSlider.addSlider(tsv);
-                        }
-                        imageSlider.setVisibility(View.VISIBLE);
-                    }
-                });
-
-    }
+//    private void getImageURLSfromFirebase() {
+//        long cacheExpiration = 3600;
+//        firebaseRemoteConfig.fetch(cacheExpiration)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        List<String> imgURLs = new ArrayList<>();
+//                        final List<String> linkURLs = new ArrayList<>();
+//                        if (task.isSuccessful()) {
+//                            Log.d(TAG, "onComplete: Successful");
+//                            firebaseRemoteConfig.activateFetched();
+//                            int n_banners;
+//                            try {
+//                                n_banners = Integer.parseInt(firebaseRemoteConfig.getString("num_banners"));
+//                            } catch (Exception e) {
+//                                n_banners = 1;
+//                            }
+//                            Log.d(TAG, "n banners: " + n_banners);
+//                            for (int i = 1; i <= n_banners; i++) {
+//                                String imgURL = firebaseRemoteConfig.getString("banner_img_" + i);
+//                                String linkURL = firebaseRemoteConfig.getString("banner_link_" + i);
+//
+//                                imgURLs.add(imgURL);
+//                                linkURLs.add(linkURL);
+//                                Log.d(TAG, "onComplete: img:" + imgURL + " \nLink:" + linkURL);
+//                            }
+//
+//                        } else {
+//                            //Unable to fetch Config Values from Firebase.
+//
+//                            Log.d(TAG, "onComplete: Default" + task.getException().toString());
+//                        }
+//                        BaseSliderView.ScaleType imgScaleType = BaseSliderView.ScaleType.CenterCrop;
+//                        if (imgURLs.size() != linkURLs.size() || imgURLs.size() == 0 || linkURLs.size() == 0) {
+//                            return;
+//                        }
+//                        for (int i = 0; i < imgURLs.size(); i++) {
+//                            TextSliderView tsv = new TextSliderView(getContext());
+//                            final String hyperlink = linkURLs.get(i);
+//                            tsv.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+//                                @Override
+//                                public void onSliderClick(BaseSliderView slider) {
+//                                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                                    intent.setData(Uri.parse(hyperlink));
+//                                    startActivity(intent);
+//                                }
+//                            });
+//                            tsv.image(imgURLs.get(i));
+//                            tsv.setScaleType(imgScaleType);
+//                            if (imageSlider == null) {
+//                                Log.d(TAG, "onComplete: NullCheck Called");
+//                                imageSlider = v.findViewById(R.id.home_image_slider);
+//                                sliderInit();
+//                            }
+//                            imageSlider.addSlider(tsv);
+//                        }
+//                        imageSlider.setVisibility(View.VISIBLE);
+//                    }
+//                });
+//
+//    }
 
     public void fetchResults() {
         processes++;
@@ -546,12 +541,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (imageSlider == null) {
-            Log.d(TAG, "onResume: called");
-            imageSlider = v.findViewById(R.id.home_image_slider);
-            getImageURLSfromFirebase();
-            sliderInit();
-        }
+//        if (imageSlider == null) {
+//            Log.d(TAG, "onResume: called");
+//            imageSlider = v.findViewById(R.id.home_image_slider);
+//            getImageURLSfromFirebase();
+//            sliderInit();
+//        }
     }
 
     @Override

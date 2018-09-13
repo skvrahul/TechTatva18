@@ -25,11 +25,6 @@ import in.mittt.tt18.models.categories.CategoriesListModel;
 import in.mittt.tt18.models.categories.CategoryModel;
 import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventsListModel;
-import in.mittt.tt18.models.events.ScheduleListModel;
-import in.mittt.tt18.models.events.ScheduleModel;
-import in.mittt.tt18.models.results.ResultModel;
-import in.mittt.tt18.models.results.ResultsListModel;
-import in.mittt.tt18.models.workshops.WorkshopsListModel;
 import in.mittt.tt18.network.APIClient;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -317,6 +312,7 @@ public class SplashActivity extends AppCompatActivity {
     private void moveForward() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
 //    private void loadResultsFromInternet() {
@@ -350,7 +346,7 @@ public class SplashActivity extends AppCompatActivity {
                     apiCallsRecieved++;
                     mDatabase.beginTransaction();
                     mDatabase.where(CategoryModel.class).findAll().deleteAllFromRealm();
-                    mDatabase.copyToRealm(response.body().getCategoriesList());
+                    mDatabase.copyToRealmOrUpdate(response.body().getCategoriesList());
                     mDatabase.commitTransaction();
                     categoriesDataAvailableLocally = true;
                     Log.d("TAG", "Categories");
@@ -397,7 +393,7 @@ public class SplashActivity extends AppCompatActivity {
                     apiCallsRecieved++;
                     mDatabase.beginTransaction();
                     mDatabase.where(EventDetailsModel.class).findAll().deleteAllFromRealm();
-                    mDatabase.copyToRealm(response.body().getEvents());
+                    mDatabase.copyToRealmOrUpdate(response.body().getEvents());
                     mDatabase.commitTransaction();
                     eventsDataAvailableLocally = true;
                     Log.d("TAG", "Events");
