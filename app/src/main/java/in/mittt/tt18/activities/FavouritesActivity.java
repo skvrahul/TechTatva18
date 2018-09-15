@@ -39,7 +39,7 @@ public class FavouritesActivity extends AppCompatActivity {
     RecyclerView recyclerViewDay2;
     RecyclerView recyclerViewDay3;
     RecyclerView recyclerViewDay4;
-    RecyclerView recyclerViewPreRevels;
+    //    RecyclerView recyclerViewPreRevels;
     Context context;
     private List<FavouritesModel> favouritesDay1 = new ArrayList<>();
     private List<FavouritesModel> favouritesDay2 = new ArrayList<>();
@@ -50,20 +50,20 @@ public class FavouritesActivity extends AppCompatActivity {
     private TextView noEventsDay2;
     private TextView noEventsDay3;
     private TextView noEventsDay4;
-    private TextView noEventsPreRevels;
+//    private TextView noEventsPreRevels;
 
     private TextView eventsClearDay1;
     private TextView eventsClearDay2;
     private TextView eventsClearDay3;
     private TextView eventsClearDay4;
-    private TextView eventsClearPreRevels;
+//    private TextView eventsClearPreRevels;
 
     private FavouritesEventsAdapter adapterDay1;
     private FavouritesEventsAdapter adapterDay2;
     private FavouritesEventsAdapter adapterDay3;
     private FavouritesEventsAdapter adapterDay4;
-    private FavouritesEventsAdapter adapterPreRevels;
-    private List<FavouritesModel> favouritesPreRevels = new ArrayList<>();
+//    private FavouritesEventsAdapter adapterPreRevels;
+//    private List<FavouritesModel> favouritesPreRevels = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,15 +83,23 @@ public class FavouritesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         favouritesDay1 = realm.copyFromRealm(realm.where(FavouritesModel.class)
-                .equalTo("day", "1").equalTo("isRevels", "1").findAll());
+                .equalTo("day", "1")
+//                .equalTo("isRevels", "1")
+                .findAll());
         favouritesDay2 = realm.copyFromRealm(realm.where(FavouritesModel.class)
-                .equalTo("day", "2").equalTo("isRevels", "1").findAll());
+                .equalTo("day", "2")
+//                .equalTo("isRevels", "1")
+                .findAll());
         favouritesDay3 = realm.copyFromRealm(realm.where(FavouritesModel.class)
-                .equalTo("day", "3").equalTo("isRevels", "1").findAll());
+                .equalTo("day", "3")
+//                .equalTo("isRevels", "1")
+                .findAll());
         favouritesDay4 = realm.copyFromRealm(realm.where(FavouritesModel.class)
-                .equalTo("day", "4").equalTo("isRevels", "1").findAll());
-        favouritesPreRevels = realm.copyFromRealm(realm.where(FavouritesModel.class)
-                .equalTo("isRevels", "0").findAll());
+                .equalTo("day", "4")
+//                .equalTo("isRevels", "1")
+                .findAll());
+//        favouritesPreRevels = realm.copyFromRealm(realm.where(FavouritesModel.class)
+//                .equalTo("isRevels", "0").findAll());
         displayEvents();
         eventsClearDay1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,12 +125,12 @@ public class FavouritesActivity extends AppCompatActivity {
                 clearFavouriteCard(4);
             }
         });
-        eventsClearPreRevels.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearFavouriteCard(0);
-            }
-        });
+//        eventsClearPreRevels.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clearFavouriteCard(0);
+//            }
+//        });
 
     }
 
@@ -147,17 +155,17 @@ public class FavouritesActivity extends AppCompatActivity {
                                 int favSize2 = favouritesDay2.size();
                                 int favSize3 = favouritesDay3.size();
                                 int favSize4 = favouritesDay4.size();
-                                int favSizePreRevels = favouritesPreRevels.size();
+//                                int favSizePreRevels = favouritesPreRevels.size();
                                 removeNotifications(favouritesDay1);
                                 removeNotifications(favouritesDay2);
                                 removeNotifications(favouritesDay3);
                                 removeNotifications(favouritesDay4);
-                                removeNotifications(favouritesPreRevels);
+//                                removeNotifications(favouritesPreRevels);
                                 favouritesDay1.clear();
                                 favouritesDay2.clear();
                                 favouritesDay3.clear();
                                 favouritesDay4.clear();
-                                favouritesPreRevels.clear();
+//                                favouritesPreRevels.clear();
                                 if (adapterDay1 != null) {
                                     adapterDay1.notifyItemRangeRemoved(0, favSize1);
                                 }
@@ -170,9 +178,9 @@ public class FavouritesActivity extends AppCompatActivity {
                                 if (adapterDay4 != null) {
                                     adapterDay4.notifyItemRangeRemoved(0, favSize4);
                                 }
-                                if (adapterPreRevels != null) {
-                                    adapterPreRevels.notifyItemRangeRemoved(0, favSizePreRevels);
-                                }
+//                                if (adapterPreRevels != null) {
+//                                    adapterPreRevels.notifyItemRangeRemoved(0, favSizePreRevels);
+//                                }
                                 displayEvents();
                                 updateRealm();
                             }
@@ -207,20 +215,20 @@ public class FavouritesActivity extends AppCompatActivity {
         recyclerViewDay2 = findViewById(R.id.favourites_day_2_recycler_view);
         recyclerViewDay3 = findViewById(R.id.favourites_day_3_recycler_view);
         recyclerViewDay4 = findViewById(R.id.favourites_day_4_recycler_view);
-        recyclerViewPreRevels = findViewById(R.id.favourites_pre_revels_recycler_view);
+//        recyclerViewPreRevels = findViewById(R.id.favourites_pre_revels_recycler_view);
 
         noEventsDay1 = findViewById(R.id.fav_day_1_no_events);
         noEventsDay2 = findViewById(R.id.fav_day_2_no_events);
         noEventsDay3 = findViewById(R.id.fav_day_3_no_events);
         noEventsDay4 = findViewById(R.id.fav_day_4_no_events);
-        noEventsPreRevels = findViewById(R.id.fav_pre_revels_no_events);
+//        noEventsPreRevels = findViewById(R.id.fav_pre_revels_no_events);
 
 
         eventsClearDay1 = findViewById(R.id.favourites_events_clear_1);
         eventsClearDay2 = findViewById(R.id.favourites_events_clear_2);
         eventsClearDay3 = findViewById(R.id.favourites_events_clear_3);
         eventsClearDay4 = findViewById(R.id.favourites_events_clear_4);
-        eventsClearPreRevels = findViewById(R.id.favourites_events_clear_pre_revels);
+//        eventsClearPreRevels = findViewById(R.id.favourites_events_clear_pre_revels);
 
         FavouritesEventsAdapter.EventClickListener eventListener = new FavouritesEventsAdapter.EventClickListener() {
             @Override
@@ -277,18 +285,18 @@ public class FavouritesActivity extends AppCompatActivity {
             recyclerViewDay4.setNestedScrollingEnabled(false);
             recyclerViewDay4.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
         }
-        if (favouritesPreRevels.isEmpty()) {
-            recyclerViewPreRevels.setVisibility(View.GONE);
-            ((View) recyclerViewPreRevels.getParent()).setVisibility(View.GONE);
-            noEventsPreRevels.setVisibility(View.VISIBLE);
-            ((View) noEventsPreRevels.getParent()).setVisibility(View.VISIBLE);
-        } else {
-            adapterPreRevels = new FavouritesEventsAdapter(favouritesPreRevels, eventListener, this);
-            recyclerViewPreRevels.setAdapter(adapterPreRevels);
-            recyclerViewPreRevels.setItemAnimator(new DefaultItemAnimator());
-            recyclerViewPreRevels.setNestedScrollingEnabled(false);
-            recyclerViewPreRevels.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-        }
+//        if (favouritesPreRevels.isEmpty()) {
+//            recyclerViewPreRevels.setVisibility(View.GONE);
+//            ((View) recyclerViewPreRevels.getParent()).setVisibility(View.GONE);
+//            noEventsPreRevels.setVisibility(View.VISIBLE);
+//            ((View) noEventsPreRevels.getParent()).setVisibility(View.VISIBLE);
+//        } else {
+//            adapterPreRevels = new FavouritesEventsAdapter(favouritesPreRevels, eventListener, this);
+//            recyclerViewPreRevels.setAdapter(adapterPreRevels);
+//            recyclerViewPreRevels.setItemAnimator(new DefaultItemAnimator());
+//            recyclerViewPreRevels.setNestedScrollingEnabled(false);
+//            recyclerViewPreRevels.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+//        }
     }
 
     private void displayBottomSheet(final FavouritesModel event) {
@@ -332,13 +340,13 @@ public class FavouritesActivity extends AppCompatActivity {
         favourite.setDay(eventSchedule.getDay());
         favourite.setStartTime(eventSchedule.getStartTime());
         favourite.setEndTime(eventSchedule.getEndTime());
-        favourite.setIsRevels(eventSchedule.getIsRevels());
+//        favourite.setIsRevels(eventSchedule.getIsRevels());
         if (eventDetails != null) {
             favourite.setParticipants(eventDetails.getMaxTeamSize());
             favourite.setContactName(eventDetails.getContactName());
             favourite.setContactNumber(eventDetails.getContactNo());
             favourite.setCatName(eventDetails.getCatName());
-            favourite.setDescription(eventDetails.getDescription());
+            favourite.setDescription(eventDetails.getShortDesc());
         }
         //Commit to Realm
         if (realm != null) {
@@ -353,13 +361,13 @@ public class FavouritesActivity extends AppCompatActivity {
         realm.where(FavouritesModel.class).equalTo("id", event.getId()).equalTo("day", event.getDay()).equalTo("round", event.getRound()).findAll().deleteAllFromRealm();
         realm.commitTransaction();
         removeNotification(event);
-        if (event.getIsRevels().contains("0")) {
-            favouritesPreRevels.remove(event);
-            if (adapterPreRevels != null) {
-                adapterPreRevels.notifyDataSetChanged();
-            }
-            return;
-        }
+//        if (event.getIsRevels().contains("0")) {
+//            favouritesPreRevels.remove(event);
+//            if (adapterPreRevels != null) {
+//                adapterPreRevels.notifyDataSetChanged();
+//            }
+//            return;
+//        }
         int day = getDay(event);
         switch (day) {
             case 1:
@@ -421,7 +429,7 @@ public class FavouritesActivity extends AppCompatActivity {
         realm.copyToRealm(favouritesDay2);
         realm.copyToRealm(favouritesDay3);
         realm.copyToRealm(favouritesDay4);
-        realm.copyToRealm(favouritesPreRevels);
+//        realm.copyToRealm(favouritesPreRevels);
         realm.commitTransaction();
     }
 
@@ -450,11 +458,13 @@ public class FavouritesActivity extends AppCompatActivity {
 
     private void clearFavouriteCard(final int id) {
         String day = "";
-        if (id == 0) {
-            day = "Pre Revels";
-        } else {
+//        if (id == 0) {
+//            day = "Pre Revels";
+//        } else {
+
             day = "Day " + id;
-        }
+
+//        }
         new AlertDialog.Builder(context)
                 .setTitle("Delete Favourites")
                 .setMessage("Are you sure you want to delete all favourites from " + day + "?")
@@ -463,18 +473,18 @@ public class FavouritesActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (id) {
-                            case 0:
-                                int favSize = favouritesPreRevels.size();
-                                removeNotifications(favouritesPreRevels);
-                                favouritesPreRevels.clear();
-                                if (adapterPreRevels != null) {
-                                    adapterPreRevels.notifyItemRangeRemoved(0, favSize);
-                                }
-                                displayEvents();
-                                updateRealm();
-                                break;
+//                            case 0:
+//                                int favSize = favouritesPreRevels.size();
+//                                removeNotifications(favouritesPreRevels);
+//                                favouritesPreRevels.clear();
+//                                if (adapterPreRevels != null) {
+//                                    adapterPreRevels.notifyItemRangeRemoved(0, favSize);
+//                                }
+//                                displayEvents();
+//                                updateRealm();
+//                                break;
                             case 1:
-                                favSize = favouritesDay1.size();
+                                int favSize = favouritesDay1.size();
                                 removeNotifications(favouritesDay1);
                                 favouritesDay1.clear();
                                 if (adapterDay1 != null) {

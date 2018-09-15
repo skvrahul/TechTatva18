@@ -19,8 +19,8 @@ public class EventModel extends RealmObject{
     private String contactName;
     private String contactNumber;
     private String eventType;
-    private String hashtag;
-    private String isTechTatva;
+//    private String hashtag;
+//    private String isTechTatva;
 
     public EventModel() {
         // Required empty public constructor
@@ -31,14 +31,14 @@ public class EventModel extends RealmObject{
         if (eventDetails != null) {
             eventName = eventDetails.getEventName();
             eventId = eventDetails.getEventID();
-            description = eventDetails.getDescription();
+            description = eventDetails.getShortDesc();
             eventMaxTeamNumber = eventDetails.getMaxTeamSize();
             catName = eventDetails.getCatName();
             catId = eventDetails.getCatID();
             contactName = eventDetails.getContactName();
             contactNumber = eventDetails.getContactNo();
             eventType = eventDetails.getType();
-            hashtag = eventDetails.getHash();
+//            hashtag = eventDetails.getHash();
         }
 
         if (schedule != null) {
@@ -62,13 +62,13 @@ public class EventModel extends RealmObject{
         }
     }
 
-    public String getIsTechTatva() {
-        return isTechTatva;
-    }
+//    public String getIsTechTatva() {
+//        return isTechTatva;
+//    }
 
-    public void setIsTechTatva(String isTechTatva) {
-        this.isTechTatva = isTechTatva;
-    }
+//    public void setIsTechTatva(String isTechTatva) {
+//        this.isTechTatva = isTechTatva;
+//    }
 
     public String getEventType() {
         return eventType;
@@ -78,13 +78,13 @@ public class EventModel extends RealmObject{
         this.eventType = eventType;
     }
 
-    public String getHashtag() {
-        return hashtag;
-    }
+//    public String getHashtag() {
+//        return hashtag;
+//    }
 
-    public void setHashtag(String hashtag) {
-        this.hashtag = hashtag;
-    }
+//    public void setHashtag(String hashtag) {
+//        this.hashtag = hashtag;
+//    }
 
     public String getContactNumber() {
         return contactNumber;

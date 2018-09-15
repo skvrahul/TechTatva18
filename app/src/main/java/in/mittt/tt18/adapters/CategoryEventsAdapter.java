@@ -116,12 +116,12 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
         favourite.setContactNumber(event.getContactNumber());
         favourite.setCatName(event.getCatName());
         favourite.setDescription(event.getDescription());
-        favourite.setIsRevels(sm.getIsRevels());
+//        favourite.setIsRevels(sm.getIsRevels());
         //Commit to Realm
         realm.beginTransaction();
         realm.copyToRealm(favourite);
         realm.commitTransaction();
-        addNotification(event, sm.getIsRevels());
+        addNotification(event /*, sm.getIsRevels() */);
         favourites.add(favourite);
     }
 
@@ -138,7 +138,7 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
 
     }
 
-    private void addNotification(EventModel event, String isRevelsSTR) {
+    private void addNotification(EventModel event) {
         Intent intent = new Intent(activity, NotificationReceiver.class);
         intent.putExtra("eventName", event.getEventName());
         intent.putExtra("startTime", event.getStartTime());
@@ -160,7 +160,7 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
             e.printStackTrace();
             return;
         }
-        if (isRevelsSTR.contains("1")) {
+//        if (isRevelsSTR.contains("1")) {
             int eventDate = EVENT_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 07th March
             Calendar calendar1 = Calendar.getInstance();
             calendar1.setTime(d);
@@ -192,40 +192,41 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
 
                 Log.d("Alarm", "set for " + calendar3.toString());
             }
-        } else {
-            Log.d(TAG, "addNotification: pre Revels");
-            int eventDate = PRE_REVELS_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 19th February
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.setTime(d);
-            calendar1.set(Calendar.MONTH, PRE_REVELS_EVENT_MONTH);
-            calendar1.set(Calendar.YEAR, 2018);
-            calendar1.set(Calendar.DATE, eventDate);
-            calendar1.set(Calendar.SECOND, 0);
-            long eventTimeInMillis = calendar1.getTimeInMillis();
-            calendar1.set(Calendar.HOUR_OF_DAY, calendar1.get(Calendar.HOUR_OF_DAY) - 1);
-
-            Calendar calendar2 = Calendar.getInstance();
-            Log.d("Calendar 1", calendar1.getTimeInMillis() + "");
-            Log.d("Calendar 2", calendar2.getTimeInMillis() + "");
-
-            if (calendar2.getTimeInMillis() <= eventTimeInMillis)
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pendingIntent1);
-
-            Calendar calendar3 = Calendar.getInstance();
-            calendar3.set(Calendar.SECOND, 0);
-            calendar3.set(Calendar.MINUTE, 30);
-            calendar3.set(Calendar.HOUR, 8);
-            calendar3.set(Calendar.AM_PM, Calendar.AM);
-            calendar3.set(Calendar.MONTH, Calendar.FEBRUARY);
-            calendar3.set(Calendar.YEAR, 2018);
-            calendar3.set(Calendar.DATE, eventDate);
-            Log.d("Calendar 3", calendar3.getTimeInMillis() + "");
-            if (calendar2.getTimeInMillis() < calendar3.getTimeInMillis()) {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar3.getTimeInMillis(), pendingIntent2);
-
-                Log.d("Alarm", "set for " + calendar3.toString());
-            }
-        }
+//        }
+//        else {
+//            Log.d(TAG, "addNotification: pre Revels");
+//            int eventDate = PRE_REVELS_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 19th February
+//            Calendar calendar1 = Calendar.getInstance();
+//            calendar1.setTime(d);
+//            calendar1.set(Calendar.MONTH, PRE_REVELS_EVENT_MONTH);
+//            calendar1.set(Calendar.YEAR, 2018);
+//            calendar1.set(Calendar.DATE, eventDate);
+//            calendar1.set(Calendar.SECOND, 0);
+//            long eventTimeInMillis = calendar1.getTimeInMillis();
+//            calendar1.set(Calendar.HOUR_OF_DAY, calendar1.get(Calendar.HOUR_OF_DAY) - 1);
+//
+//            Calendar calendar2 = Calendar.getInstance();
+//            Log.d("Calendar 1", calendar1.getTimeInMillis() + "");
+//            Log.d("Calendar 2", calendar2.getTimeInMillis() + "");
+//
+//            if (calendar2.getTimeInMillis() <= eventTimeInMillis)
+//                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pendingIntent1);
+//
+//            Calendar calendar3 = Calendar.getInstance();
+//            calendar3.set(Calendar.SECOND, 0);
+//            calendar3.set(Calendar.MINUTE, 30);
+//            calendar3.set(Calendar.HOUR, 8);
+//            calendar3.set(Calendar.AM_PM, Calendar.AM);
+//            calendar3.set(Calendar.MONTH, Calendar.FEBRUARY);
+//            calendar3.set(Calendar.YEAR, 2018);
+//            calendar3.set(Calendar.DATE, eventDate);
+//            Log.d("Calendar 3", calendar3.getTimeInMillis() + "");
+//            if (calendar2.getTimeInMillis() < calendar3.getTimeInMillis()) {
+//                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar3.getTimeInMillis(), pendingIntent2);
+//
+//                Log.d("Alarm", "set for " + calendar3.toString());
+//            }
+//        }
     }
 
     private void removeNotification(EventModel event) {
@@ -284,7 +285,7 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
             final String eventID = event.getEventId();
             final String dayOfEvent = event.getDay();
             final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventID", eventID).findFirst();
-            Log.d(TAG, "onClick: Using schedule" + schedule.getDay());
+//            Log.d(TAG, "onClick: Using schedule" + schedule.getDay());
             ScheduleModel eventSchedule = realm.where(ScheduleModel.class).equalTo("eventID", eventID).equalTo("day", dayOfEvent).findFirst();
             TabbedDialog.EventFragment.DialogFavouriteClickListener fcl = new TabbedDialog.EventFragment.DialogFavouriteClickListener() {
                 @Override

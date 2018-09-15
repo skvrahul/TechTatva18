@@ -78,11 +78,13 @@ public class CategoryActivity extends AppCompatActivity {
         mDatabase = Realm.getDefaultInstance();
         displayEvents();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_category_activity, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -109,13 +111,13 @@ public class CategoryActivity extends AppCompatActivity {
 
     public void displayEvents() {
 
-        List<EventModel> preRevelsList = new ArrayList<>();
+//        List<EventModel> preRevelsList = new ArrayList<>();
         List<EventModel> day1List=new ArrayList<>();
         List<EventModel> day2List=new ArrayList<>();
         List<EventModel> day3List=new ArrayList<>();
         List<EventModel> day4List=new ArrayList<>();
 
-        noEventsPreRevels = findViewById(R.id.cat_pre_revels_no_events);
+//        noEventsPreRevels = findViewById(R.id.cat_pre_revels_no_events);
         noEventsDay1 = findViewById(R.id.cat_day_1_no_events);
         noEventsDay2 = findViewById(R.id.cat_day_2_no_events);
         noEventsDay3 = findViewById(R.id.cat_day_3_no_events);
@@ -129,14 +131,14 @@ public class CategoryActivity extends AppCompatActivity {
         scheduleResults = mDatabase.copyFromRealm(scheduleResultsRealm);
 
         for (ScheduleModel schedule : scheduleResults) {
-            if (schedule.getIsRevels().contains("0")) {
-                Log.d(TAG, "displayEvents: PreRevels");
-                EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", schedule.getEventID()).findFirst();
-                EventModel event = new EventModel(eventDetails, schedule);
-                preRevelsList.add(event);
-            } else {
+//            if (schedule.getIsRevels().contains("0")) {
+//                Log.d(TAG, "displayEvents: PreRevels");
+//                EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", schedule.getEventID()).findFirst();
+//                EventModel event = new EventModel(eventDetails, schedule);
+//                preRevelsList.add(event);
+//            } else {
                 Log.d(TAG, "displayEvents: Revels");
-                EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", schedule.getEventID()).findFirst();
+            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", schedule.getEventId()).findFirst();
                 EventModel event = new EventModel(eventDetails, schedule);
                 switch (event.getDay()) {
                     case "1":
@@ -152,23 +154,23 @@ public class CategoryActivity extends AppCompatActivity {
                         day4List.add(event);
                         break;
                 }
-            }
+//            }
         }
-        preRevelsEventSort(preRevelsList);
+//        preRevelsEventSort(preRevelsList);
         eventSort(day1List);
         eventSort(day2List);
         eventSort(day3List);
         eventSort(day4List);
 
-        RecyclerView recyclerViewDayPreRevels = findViewById(R.id.category_pre_revels_recycler_view);
-        if (preRevelsList.isEmpty()) {
-            noEventsPreRevels.setVisibility(View.VISIBLE);
-            recyclerViewDayPreRevels.setVisibility(View.GONE);
-        } else {
-            recyclerViewDayPreRevels.setAdapter(new CategoryEventsAdapter(preRevelsList, this, getBaseContext(), false));
-            recyclerViewDayPreRevels.setNestedScrollingEnabled(false);
-            recyclerViewDayPreRevels.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        }
+//        RecyclerView recyclerViewDayPreRevels = findViewById(R.id.category_pre_revels_recycler_view);
+//        if (preRevelsList.isEmpty()) {
+//            noEventsPreRevels.setVisibility(View.VISIBLE);
+//            recyclerViewDayPreRevels.setVisibility(View.GONE);
+//        } else {
+//            recyclerViewDayPreRevels.setAdapter(new CategoryEventsAdapter(preRevelsList, this, getBaseContext(), false));
+//            recyclerViewDayPreRevels.setNestedScrollingEnabled(false);
+//            recyclerViewDayPreRevels.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        }
 
         RecyclerView recyclerViewDay1 = findViewById(R.id.category_day_1_recycler_view);
         if(day1List.isEmpty()){
@@ -215,62 +217,62 @@ public class CategoryActivity extends AppCompatActivity {
         }
     }
 
-    private void preRevelsEventSort(List<EventModel> eventsList) {
-
-        Collections.sort(eventsList, new Comparator<EventModel>() {
-            @Override
-            public int compare(EventModel o1, EventModel o2) {
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
-
-                try {
-
-                    Date d1 = sdf.parse(o1.getDay());
-                    Date d2 = sdf.parse(o2.getDay());
-
-                    Calendar c1 = Calendar.getInstance();
-                    c1.setTime(d1);
-                    Calendar c2 = Calendar.getInstance();
-                    c2.setTime(d2);
-
-                    long diff = c1.getTimeInMillis() - c2.getTimeInMillis();
-                    if (diff > 0) return 1;
-                    else if (diff < 0) return -1;
-                    else {
-
-                        Date d3 = sdf.parse(o1.getStartTime());
-                        Date d4 = sdf.parse(o2.getStartTime());
-
-                        Calendar c3 = Calendar.getInstance();
-                        c1.setTime(d3);
-                        Calendar c4 = Calendar.getInstance();
-                        c2.setTime(d4);
-
-                        long diff2 = c3.getTimeInMillis() - c4.getTimeInMillis();
-
-                        if (diff2 > 0) return 1;
-                        else if (diff2 < 0) return -1;
-                        else {
-                            int catDiff = o1.getCatName().compareTo(o2.getCatName());
-
-                            if (catDiff > 0) return 1;
-                            else if (catDiff < 0) return -1;
-                            else {
-                                int eventDiff = o1.getEventName().compareTo(o2.getEventName());
-
-                                if (eventDiff > 0) return 1;
-                                else if (eventDiff < 0) return -1;
-                                else return 0;
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return 0;
-            }
-        });
-
-    }
+//    private void preRevelsEventSort(List<EventModel> eventsList) {
+//
+//        Collections.sort(eventsList, new Comparator<EventModel>() {
+//            @Override
+//            public int compare(EventModel o1, EventModel o2) {
+//                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
+//
+//                try {
+//
+//                    Date d1 = sdf.parse(o1.getDay());
+//                    Date d2 = sdf.parse(o2.getDay());
+//
+//                    Calendar c1 = Calendar.getInstance();
+//                    c1.setTime(d1);
+//                    Calendar c2 = Calendar.getInstance();
+//                    c2.setTime(d2);
+//
+//                    long diff = c1.getTimeInMillis() - c2.getTimeInMillis();
+//                    if (diff > 0) return 1;
+//                    else if (diff < 0) return -1;
+//                    else {
+//
+//                        Date d3 = sdf.parse(o1.getStartTime());
+//                        Date d4 = sdf.parse(o2.getStartTime());
+//
+//                        Calendar c3 = Calendar.getInstance();
+//                        c1.setTime(d3);
+//                        Calendar c4 = Calendar.getInstance();
+//                        c2.setTime(d4);
+//
+//                        long diff2 = c3.getTimeInMillis() - c4.getTimeInMillis();
+//
+//                        if (diff2 > 0) return 1;
+//                        else if (diff2 < 0) return -1;
+//                        else {
+//                            int catDiff = o1.getCatName().compareTo(o2.getCatName());
+//
+//                            if (catDiff > 0) return 1;
+//                            else if (catDiff < 0) return -1;
+//                            else {
+//                                int eventDiff = o1.getEventName().compareTo(o2.getEventName());
+//
+//                                if (eventDiff > 0) return 1;
+//                                else if (eventDiff < 0) return -1;
+//                                else return 0;
+//                            }
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                return 0;
+//            }
+//        });
+//
+//    }
 
     private void eventSort(List<EventModel> eventsList){
         Collections.sort(eventsList, new Comparator<EventModel>() {
@@ -312,6 +314,7 @@ public class CategoryActivity extends AppCompatActivity {
         });
 
     }
+
     @Override
     public void onDestroy(){
         super.onDestroy();

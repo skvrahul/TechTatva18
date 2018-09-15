@@ -85,7 +85,8 @@ public class EventsFragment extends Fragment {
     private View rootView;
     private List<String> categoriesList = new ArrayList<>();
     private List<String> eventTypeList = new ArrayList<>();
-    private int PREREVELS_DAY = -1;
+
+    //    private int PREREVELS_DAY = -1;
     public static EventsFragment newInstance() {
         EventsFragment fragment = new EventsFragment();
         return fragment;
@@ -165,23 +166,18 @@ public class EventsFragment extends Fragment {
             tabNumber =0;
         }else */
         if (curDay.getTimeInMillis() < day2.getTimeInMillis()) {
-            tabNumber = 1;
+            tabNumber = 0;
         } else if (curDay.getTimeInMillis() < day3.getTimeInMillis()) {
-            tabNumber = 2;
+            tabNumber = 1;
         } else if (curDay.getTimeInMillis() < day4.getTimeInMillis()) {
-            tabNumber = 3;
+            tabNumber = 2;
         } else {
-            tabNumber = 4;
+            tabNumber = 3;
         }
         try {
             TabLayout.Tab tabz = tabs.getTabAt(tabNumber);
-            if (tabNumber == 0) {
-                dayFilter(PREREVELS_DAY);
-                applyFilters();
-            } else {
-                dayFilter(tabNumber + 1);
-                applyFilters();
-            }
+            dayFilter(tabNumber + 1);
+            applyFilters();
             tabz.select();
         } catch (Exception e) {
             e.printStackTrace();
@@ -566,8 +562,8 @@ public class EventsFragment extends Fragment {
         eventsLayout = view.findViewById(R.id.events_linear_layout);
         eventsRV = view.findViewById(R.id.events_recycler_view);
         noData = view.findViewById(R.id.no_events_data_layout);
-        tabs.addTab(tabs.newTab().setText("Pre Revels"));
-        for (int i = 0; i < NUM_DAYS - 1; i++) {
+//        tabs.addTab(tabs.newTab().setText("Pre Revels"));
+        for (int i = 0; i < NUM_DAYS; i++) {
             tabs.addTab(tabs.newTab().setText("Day " + (i + 1)));
         }
         DayTabListener tabListener = new DayTabListener();
@@ -583,30 +579,30 @@ public class EventsFragment extends Fragment {
 
     public void dayFilter(int day) {
         currentDayEvents.clear();
-        //Filtering PreRevels events
-        Log.d(TAG, "dayFilter 1: " + day);
-        if (day == -1) {
-            for (int i = 0; i < events.size(); i++) {
-                Log.d(TAG, "dayFilter Value: " + events.get(i).getIsRevels());
-                if (events.get(i).getIsRevels().contains("0")) {
-                    currentDayEvents.add(events.get(i));
-                }
-            }
-            if (adapter != null) {
-                if (currentDayEvents.isEmpty()) {
-                    eventsRV.setVisibility(View.GONE);
-                    noData.setVisibility(View.VISIBLE);
-                } else {
-                    eventsRV.setVisibility(View.VISIBLE);
-                    noData.setVisibility(View.GONE);
-                }
-                adapter.updateList(currentDayEvents);
-            }
-            return;
-        }
+//        //Filtering PreRevels events
+//        Log.d(TAG, "dayFilter 1: " + day);
+//        if (day == -1) {
+//            for (int i = 0; i < events.size(); i++) {
+//                Log.d(TAG, "dayFilter Value: " + events.get(i).getIsRevels());
+//                if (events.get(i).getIsRevels().contains("0")) {
+//                    currentDayEvents.add(events.get(i));
+//                }
+//            }
+//            if (adapter != null) {
+//                if (currentDayEvents.isEmpty()) {
+//                    eventsRV.setVisibility(View.GONE);
+//                    noData.setVisibility(View.VISIBLE);
+//                } else {
+//                    eventsRV.setVisibility(View.VISIBLE);
+//                    noData.setVisibility(View.GONE);
+//                }
+//                adapter.updateList(currentDayEvents);
+//            }
+//            return;
+//        }
         //Filtering the remaining events
         for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getDay().contains((day - 1) + "") && events.get(i).getIsRevels().contains("1")) {
+            if (events.get(i).getDay().contains(day + "")) {
                 currentDayEvents.add(events.get(i));
             }
         }
@@ -650,9 +646,9 @@ public class EventsFragment extends Fragment {
         public void onTabSelected(TabLayout.Tab tab) {
             Log.d(TAG, "onTabSelected TabPos: " + tab.getPosition());
             int day = tab.getPosition() + 1;
-            if (tab.getPosition() == 0) {
-                day = PREREVELS_DAY;
-            }
+//            if (tab.getPosition() == 0) {
+//                day = PREREVELS_DAY;
+//            }
             Log.d(TAG, "onTabSelected: day = " + day);
             dayFilter(day);
             applyFilters();
@@ -668,9 +664,9 @@ public class EventsFragment extends Fragment {
         @Override
         public void onTabReselected(TabLayout.Tab tab) {
             int day = tab.getPosition() + 1;
-            if (tab.getPosition() == 0) {
-                day = PREREVELS_DAY;
-            }
+//            if (tab.getPosition() == 0) {
+//                day = PREREVELS_DAY;
+//            }
             Log.d(TAG, "onTabReselected: day = " + day);
             dayFilter(day);
             applyFilters();

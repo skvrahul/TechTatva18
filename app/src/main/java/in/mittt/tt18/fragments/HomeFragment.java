@@ -221,29 +221,29 @@ public class HomeFragment extends Fragment {
         String sortCriteria[] = {"day", "startTime", "eventName"};
         Sort sortOrder[] = {Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING};
 
-        //PreRevels events
-        if (dayOfEvent == 0) {
-            try {
-                List<ScheduleModel> eventsRealmResults = mDatabase.copyFromRealm((mDatabase.where(ScheduleModel.class).findAll()));
-                for (int i = 0; i < eventsRealmResults.size(); i++) {
-                    Log.d(TAG, "dayFilter Value: " + eventsRealmResults.get(i).getIsRevels());
-                    if (eventsRealmResults.get(i).getIsRevels().contains("0")) {
-                        eventsList.add(eventsRealmResults.get(i));
-                        if (isFavourite(eventsRealmResults.get(i))) {
-                            eventsList.remove(eventsRealmResults.get(i));
-                            eventsList.add(0, eventsRealmResults.get(i));
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        //Main Revels Events
-        else {
+//        //PreRevels events
+//        if (dayOfEvent == 0) {
+//            try {
+//                List<ScheduleModel> eventsRealmResults = mDatabase.copyFromRealm((mDatabase.where(ScheduleModel.class).findAll()));
+//                for (int i = 0; i < eventsRealmResults.size(); i++) {
+//                    Log.d(TAG, "dayFilter Value: " + eventsRealmResults.get(i).getIsRevels());
+//                    if (eventsRealmResults.get(i).getIsRevels().contains("0")) {
+//                        eventsList.add(eventsRealmResults.get(i));
+//                        if (isFavourite(eventsRealmResults.get(i))) {
+//                            eventsList.remove(eventsRealmResults.get(i));
+//                            eventsList.add(0, eventsRealmResults.get(i));
+//                        }
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+        //Main Tech Tatva Events
+//        else {
             eventsList.clear();
             eventsList = mDatabase.copyFromRealm(mDatabase.where(ScheduleModel.class)
-                    .equalTo("isRevels", "1").equalTo("day", dayOfEvent + "")
+                    /*.equalTo("isRevels", "1")*/.equalTo("day", dayOfEvent + "")
                     .findAll().sort(sortCriteria, sortOrder));
             for (int i = 0; i < eventsList.size(); i++) {
                 ScheduleModel event = eventsList.get(i);
@@ -253,7 +253,7 @@ public class HomeFragment extends Fragment {
                     eventsList.add(0, event);
                 }
             }
-        }
+//        }
         if (eventsList.size() > 10) {
             eventsList.subList(10, eventsList.size()).clear();
         }
@@ -477,7 +477,7 @@ public class HomeFragment extends Fragment {
     }
 
     public boolean isFavourite(ScheduleModel event) {
-        RealmResults<FavouritesModel> favouritesRealmList = mDatabase.where(FavouritesModel.class).equalTo("id", event.getEventID()).contains("day", event.getDay()).equalTo("round", event.getRound()).findAll();
+        RealmResults<FavouritesModel> favouritesRealmList = mDatabase.where(FavouritesModel.class).equalTo("id", event.getEventId()).contains("day", event.getDay()).equalTo("round", event.getRound()).findAll();
         return (favouritesRealmList.size() != 0);
     }
 
