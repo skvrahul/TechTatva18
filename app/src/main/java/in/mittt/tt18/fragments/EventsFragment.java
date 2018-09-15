@@ -55,7 +55,7 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class EventsFragment extends Fragment {
-    private final int NUM_DAYS = 5;
+    private final int NUM_DAYS = 4;
     TabLayout tabs;
     View eventsLayout;
     View view;
@@ -88,8 +88,7 @@ public class EventsFragment extends Fragment {
 
     //    private int PREREVELS_DAY = -1;
     public static EventsFragment newInstance() {
-        EventsFragment fragment = new EventsFragment();
-        return fragment;
+        return new EventsFragment();
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -226,11 +225,13 @@ public class EventsFragment extends Fragment {
         Date endDate;
         //Adding all the events of the current day to the currentDayEvents List and filtering those
         //If this step is not done then the filtering is done on the list that has already been filtered
-        if (tabs.getSelectedTabPosition() == 0) {
-            dayFilter(-1);//PreRevels
-        } else {
+//        if (tabs.getSelectedTabPosition() == 0) {
+//            dayFilter(-1);//PreRevels
+//        } else {
+
             dayFilter(tabs.getSelectedTabPosition() + 1);
-        }
+
+//        }
         List<ScheduleModel> tempList = new ArrayList<>();
         tempList.addAll(currentDayEvents);
 
@@ -343,17 +344,17 @@ public class EventsFragment extends Fragment {
                 final Spinner venueSpinner = view.findViewById(R.id.event_venue_spinner);
                 final Spinner eventTypeSpinner = view.findViewById(R.id.event_type_spinner);
 
-                ArrayAdapter<String> categorySpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_custom_spinner, categoriesList);
+                ArrayAdapter<String> categorySpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_custom_spinner, categoriesList);
                 categorySpinner.setAdapter(categorySpinnerAdapter);
 
                 categorySpinner.setSelection(categoriesList.indexOf(filterCategory));
 
-                ArrayAdapter<String> venueSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_custom_spinner, venueList);
+                ArrayAdapter<String> venueSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_custom_spinner, venueList);
                 venueSpinner.setAdapter(venueSpinnerAdapter);
 
                 venueSpinner.setSelection(venueList.indexOf(filterVenue));
 
-                ArrayAdapter<String> eventTypeSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_custom_spinner, eventTypeList);
+                ArrayAdapter<String> eventTypeSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_custom_spinner, eventTypeList);
                 eventTypeSpinner.setAdapter(eventTypeSpinnerAdapter);
 
                 eventTypeSpinner.setSelection(eventTypeList.indexOf(filterEventType));
