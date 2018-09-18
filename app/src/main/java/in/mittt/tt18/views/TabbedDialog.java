@@ -250,7 +250,7 @@ public class TabbedDialog extends DialogFragment {
             } else {
                 DescriptionFragment df = new DescriptionFragment();
                 try {
-                    df.setDescription(schedule.getDescription());
+                    df.setDescription(schedule.getShortDesc());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

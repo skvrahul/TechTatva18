@@ -62,10 +62,12 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/more"
                                 android:textColor="@color/colorPrimary"
+                                android:focusable="true"
                                 android:textSize="@dimen/typography_small" />
                         </LinearLayout>
 
                         <android.support.v7.widget.CardView
+                            app:cardCornerRadius="@dimen/padding_half"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/padding_half"
@@ -132,6 +134,7 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/more"
                                 android:textColor="@color/colorPrimary"
+                                android:focusable="true"
                                 android:textSize="@dimen/typography_small" />
                         </LinearLayout>
 
@@ -143,6 +146,7 @@
                             android:layout_marginRight="@dimen/padding_half"
                             android:layout_marginTop="@dimen/padding_half"
                             android:paddingBottom="@dimen/padding_half"
+                            app:cardCornerRadius="@dimen/padding_half"
                             android:paddingTop="@dimen/padding_half">
 
                             <TextView
@@ -203,6 +207,7 @@
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/more"
                                 android:textColor="@color/colorPrimary"
+                                android:focusable="true"
                                 android:textSize="@dimen/typography_small" />
                         </LinearLayout>
 
@@ -216,6 +221,7 @@
                             android:layout_marginTop="@dimen/padding_half"
                             android:paddingBottom="@dimen/padding_default"
                             android:paddingTop="@dimen/padding_half"
+                            app:cardCornerRadius="@dimen/padding_half"
                             android:visibility="visible">
 
                             <TextView

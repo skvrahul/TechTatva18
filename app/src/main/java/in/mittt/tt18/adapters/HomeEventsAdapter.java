@@ -121,7 +121,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         }
 
         public boolean isFavourite(ScheduleModel event) {
-            FavouritesModel favourite = mDatabase.where(FavouritesModel.class).equalTo("id", event.getEventID()).equalTo("day", event.getDay()).equalTo("round", event.getRound()).findFirst();
+            FavouritesModel favourite = mDatabase.where(FavouritesModel.class).equalTo("id", event.getEventId()).equalTo("day", event.getDay()).equalTo("round", event.getRound()).findFirst();
             return favourite != null;
 
         }
@@ -130,7 +130,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             final View view = View.inflate(context, R.layout.event_dialog_info, null);
             final Dialog dialog = new Dialog(context);
             TabbedDialog td = new TabbedDialog();
-            final String eventID = event.getEventID();
+            final String eventID = event.getEventId();
             final EventDetailsModel schedule = mDatabase.where(EventDetailsModel.class).equalTo("eventID", eventID).findFirst();
             TabbedDialog.EventFragment.DialogFavouriteClickListener fcl = new TabbedDialog.EventFragment.DialogFavouriteClickListener() {
                 @Override
@@ -154,10 +154,10 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         private void addFavourite(ScheduleModel eventSchedule) {
             FavouritesModel favourite = new FavouritesModel();
             //Get Corresponding EventDetailsModel from Realm
-            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", eventSchedule.getEventID()).findFirst();
+            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", eventSchedule.getEventId()).findFirst();
             //Create and Set Values for FavouritesModel
-            favourite.setId(eventSchedule.getEventID());
-            favourite.setCatID(eventSchedule.getCatID());
+            favourite.setId(eventSchedule.getEventId());
+            favourite.setCatID(eventSchedule.getCatId());
             favourite.setEventName(eventSchedule.getEventName());
             favourite.setRound(eventSchedule.getRound());
             favourite.setVenue(eventSchedule.getVenue());
@@ -169,25 +169,25 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             favourite.setContactName(eventDetails.getContactName());
             favourite.setContactNumber(eventDetails.getContactNo());
             favourite.setCatName(eventDetails.getCatName());
-            favourite.setDescription(eventDetails.getDescription());
-            favourite.setIsRevels(eventSchedule.getIsRevels());
+            favourite.setDescription(eventDetails.getShortDesc());
+//            favourite.setIsRevels(eventSchedule.getIsRevels());
             //Commit to Realm
             mDatabase.beginTransaction();
             mDatabase.copyToRealm(favourite);
             mDatabase.commitTransaction();
-            addNotification(eventSchedule, eventSchedule.getIsRevels());
+            addNotification(eventSchedule);
             favourites.add(favourite);
         }
 
         private void removeFavourite(ScheduleModel eventSchedule) {
             mDatabase.beginTransaction();
-            mDatabase.where(FavouritesModel.class).equalTo("id", eventSchedule.getEventID()).equalTo("day", eventSchedule.getDay()).findAll().deleteAllFromRealm();
+            mDatabase.where(FavouritesModel.class).equalTo("id", eventSchedule.getEventId()).equalTo("day", eventSchedule.getDay()).findAll().deleteAllFromRealm();
             mDatabase.commitTransaction();
 
             for (int i = 0; i < favourites.size(); i++) {
                 //Removing corresponding FavouritesModel from favourites
                 FavouritesModel favourite = favourites.get(i);
-                if ((favourite.getId().equals(eventSchedule.getEventID())) && (favourite.getDay().equals(eventSchedule.getDay()))) {
+                if ((favourite.getId().equals(eventSchedule.getEventId())) && (favourite.getDay().equals(eventSchedule.getDay()))) {
                     favourites.remove(favourite);
                 }
             }
@@ -197,25 +197,25 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         private boolean favouritesContainsEvent(ScheduleModel eventSchedule) {
             for (FavouritesModel favourite : favourites) {
                 //Checking if Corresponding Event exists
-                if ((favourite.getId().equals(eventSchedule.getEventID())) && (favourite.getDay().equals(eventSchedule.getDay()))) {
+                if ((favourite.getId().equals(eventSchedule.getEventId())) && (favourite.getDay().equals(eventSchedule.getDay()))) {
                     return true;
                 }
             }
             return false;
         }
 
-        private void addNotification(ScheduleModel event, String isRevelsSTR) {
+        private void addNotification(ScheduleModel event /*, String isRevelsSTR */) {
             Intent intent = new Intent(activity, NotificationReceiver.class);
             intent.putExtra("eventName", event.getEventName());
             intent.putExtra("startTime", event.getStartTime());
             intent.putExtra("eventVenue", event.getVenue());
-            intent.putExtra("eventID", event.getEventID());
+            intent.putExtra("eventID", event.getEventId());
             intent.putExtra("catName", event.getCatName());
             Log.i("CategoryEventsAdapter", "addNotification: " + event.getStartTime());
             AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
             //Request Codes
-            int RC1 = Integer.parseInt(event.getCatID() + event.getEventID() + "0");
-            int RC2 = Integer.parseInt(event.getCatID() + event.getEventID() + "1");
+            int RC1 = Integer.parseInt(event.getCatId() + event.getEventId() + "0");
+            int RC2 = Integer.parseInt(event.getCatId() + event.getEventId() + "1");
             pendingIntent1 = PendingIntent.getBroadcast(activity, RC1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pendingIntent2 = PendingIntent.getBroadcast(activity, RC2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
@@ -226,7 +226,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
                 e.printStackTrace();
                 return;
             }
-            if (isRevelsSTR.contains("1")) {
+//            if (isRevelsSTR.contains("1")) {
                 int eventDate = EVENT_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 07th March
                 Calendar calendar1 = Calendar.getInstance();
                 calendar1.setTime(d);
@@ -258,40 +258,41 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
                     Log.d("Alarm", "set for " + calendar3.toString());
                 }
-            } else {
-                Log.d(TAG, "addNotification: pre Revels");
-                int eventDate = PRE_REVELS_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 19th February
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.setTime(d);
-                calendar1.set(Calendar.MONTH, PRE_REVELS_EVENT_MONTH);
-                calendar1.set(Calendar.YEAR, 2018);
-                calendar1.set(Calendar.DATE, eventDate);
-                calendar1.set(Calendar.SECOND, 0);
-                long eventTimeInMillis = calendar1.getTimeInMillis();
-                calendar1.set(Calendar.HOUR_OF_DAY, calendar1.get(Calendar.HOUR_OF_DAY) - 1);
-
-                Calendar calendar2 = Calendar.getInstance();
-                Log.d("Calendar 1", calendar1.getTimeInMillis() + "");
-                Log.d("Calendar 2", calendar2.getTimeInMillis() + "");
-
-                if (calendar2.getTimeInMillis() <= eventTimeInMillis)
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pendingIntent1);
-
-                Calendar calendar3 = Calendar.getInstance();
-                calendar3.set(Calendar.SECOND, 0);
-                calendar3.set(Calendar.MINUTE, 30);
-                calendar3.set(Calendar.HOUR, 8);
-                calendar3.set(Calendar.AM_PM, Calendar.AM);
-                calendar3.set(Calendar.MONTH, Calendar.FEBRUARY);
-                calendar3.set(Calendar.YEAR, 2018);
-                calendar3.set(Calendar.DATE, eventDate);
-                Log.d("Calendar 3", calendar3.getTimeInMillis() + "");
-                if (calendar2.getTimeInMillis() < calendar3.getTimeInMillis()) {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar3.getTimeInMillis(), pendingIntent2);
-
-                    Log.d("Alarm", "set for " + calendar3.toString());
-                }
-            }
+//            }
+//            else {
+//                Log.d(TAG, "addNotification: pre Revels");
+//                int eventDate = PRE_REVELS_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 19th February
+//                Calendar calendar1 = Calendar.getInstance();
+//                calendar1.setTime(d);
+//                calendar1.set(Calendar.MONTH, PRE_REVELS_EVENT_MONTH);
+//                calendar1.set(Calendar.YEAR, 2018);
+//                calendar1.set(Calendar.DATE, eventDate);
+//                calendar1.set(Calendar.SECOND, 0);
+//                long eventTimeInMillis = calendar1.getTimeInMillis();
+//                calendar1.set(Calendar.HOUR_OF_DAY, calendar1.get(Calendar.HOUR_OF_DAY) - 1);
+//
+//                Calendar calendar2 = Calendar.getInstance();
+//                Log.d("Calendar 1", calendar1.getTimeInMillis() + "");
+//                Log.d("Calendar 2", calendar2.getTimeInMillis() + "");
+//
+//                if (calendar2.getTimeInMillis() <= eventTimeInMillis)
+//                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pendingIntent1);
+//
+//                Calendar calendar3 = Calendar.getInstance();
+//                calendar3.set(Calendar.SECOND, 0);
+//                calendar3.set(Calendar.MINUTE, 30);
+//                calendar3.set(Calendar.HOUR, 8);
+//                calendar3.set(Calendar.AM_PM, Calendar.AM);
+//                calendar3.set(Calendar.MONTH, Calendar.FEBRUARY);
+//                calendar3.set(Calendar.YEAR, 2018);
+//                calendar3.set(Calendar.DATE, eventDate);
+//                Log.d("Calendar 3", calendar3.getTimeInMillis() + "");
+//                if (calendar2.getTimeInMillis() < calendar3.getTimeInMillis()) {
+//                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar3.getTimeInMillis(), pendingIntent2);
+//
+//                    Log.d("Alarm", "set for " + calendar3.toString());
+//                }
+//            }
         }
 
         private void removeNotification(ScheduleModel event) {
@@ -299,12 +300,12 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             intent.putExtra("eventName", event.getEventName());
             intent.putExtra("startTime", event.getStartTime());
             intent.putExtra("eventVenue", event.getVenue());
-            intent.putExtra("eventID", event.getEventID());
+            intent.putExtra("eventID", event.getEventId());
 
             AlarmManager alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
             //Request Codes
-            int RC1 = Integer.parseInt(event.getCatID() + event.getEventID() + "0");
-            int RC2 = Integer.parseInt(event.getCatID() + event.getEventID() + "1");
+            int RC1 = Integer.parseInt(event.getCatId() + event.getEventId() + "0");
+            int RC2 = Integer.parseInt(event.getCatId() + event.getEventId() + "1");
             pendingIntent1 = PendingIntent.getBroadcast(activity, RC1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pendingIntent2 = PendingIntent.getBroadcast(activity, RC2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pendingIntent1);

@@ -7,80 +7,72 @@ import io.realm.RealmObject;
 
 public class ScheduleModel extends RealmObject {
 
-    @SerializedName("eid")
+    @SerializedName("id")
     @Expose
-    private String eventID;
-    @SerializedName("ename")
+    private String id;
+
+    @SerializedName("cat_id")
     @Expose
-    private String eventName;
-    @SerializedName("catid")
+    private String catId;
+
+    @SerializedName("event_id")
     @Expose
-    private String catID;
-    @SerializedName("catname")
-    @Expose
-    private String catName;
+    private String eventId;
+
     @SerializedName("round")
     @Expose
     private String round;
+
     @SerializedName("venue")
     @Expose
     private String venue;
-    @SerializedName("isRevels")
-    @Expose
-    private String isRevels;
-    @SerializedName("stime")
+
+    @SerializedName("start_time")
     @Expose
     private String startTime;
-    @SerializedName("etime")
+
+    @SerializedName("end_time")
     @Expose
     private String endTime;
+
     @SerializedName("day")
     @Expose
     private String day;
+
     @SerializedName("date")
     @Expose
     private String date;
 
-    public String getIsRevels() {
+    @SerializedName("category")
+    @Expose
+    private String catName;
 
-        return isRevels;
+    @SerializedName("event")
+    @Expose
+    private String eventName;
+
+    public String getId() {
+        return id;
     }
 
-    public void setIsRevels(String revels) {
-        isRevels = revels;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getEventID() {
-        return eventID;
+    public String getCatId() {
+        return catId;
     }
 
-    public void setEventID(String eventID) {
-        this.eventID = eventID;
+    public void setCatId(String catId) {
+        this.catId = catId;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getEventId() {
+        return eventId;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-
-    public String getCatID() {
-        return catID;
-    }
-
-    public void setCatID(String catID) {
-        this.catID = catID;
-    }
-
-    public String getCatName() {
-        return catName;
-    }
-
-    public void setCatName(String catName) {
-        this.catName = catName;
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     public String getRound() {
@@ -92,11 +84,11 @@ public class ScheduleModel extends RealmObject {
     }
 
     public String getVenue() {
-        return venue.toUpperCase();
+        return venue;
     }
 
     public void setVenue(String venue) {
-        this.venue = venue.toUpperCase();
+        this.venue = venue;
     }
 
     public String getStartTime() {
@@ -131,4 +123,19 @@ public class ScheduleModel extends RealmObject {
         this.date = date;
     }
 
+    public String getCatName() {
+        return catName;
+    }
+
+    public void setCatName(String catName) {
+        this.catName = catName;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
 }

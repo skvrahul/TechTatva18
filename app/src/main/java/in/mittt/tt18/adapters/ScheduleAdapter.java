@@ -150,10 +150,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
     private void addFavourite(ScheduleModel eventSchedule){
         FavouritesModel favourite = new FavouritesModel();
         //Get Corresponding EventDetailsModel from Realm
-        EventDetailsModel eventDetails = realm.where(EventDetailsModel.class).equalTo("eventID",eventSchedule.getEventID()).findFirst();
+        EventDetailsModel eventDetails = realm.where(EventDetailsModel.class).equalTo("eventID", eventSchedule.getEventId()).findFirst();
         //Create and Set Values for FavouritesModel
-        favourite.setId(eventSchedule.getEventID());
-        favourite.setCatID(eventSchedule.getCatID());
+        favourite.setId(eventSchedule.getEventId());
+        favourite.setCatID(eventSchedule.getCatId());
         favourite.setEventName(eventSchedule.getEventName());
         favourite.setRound(eventSchedule.getRound());
         favourite.setVenue(eventSchedule.getVenue());
@@ -165,7 +165,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
         favourite.setContactName(eventDetails.getContactName());
         favourite.setContactNumber(eventDetails.getContactNo());
         favourite.setCatName(eventDetails.getCatName());
-        favourite.setDescription(eventDetails.getDescription());
+        favourite.setDescription(eventDetails.getShortDesc());
         //Commit to Realm
         realm.beginTransaction();
         realm.copyToRealm(favourite);
@@ -175,13 +175,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
     }
     private void removeFavourite(ScheduleModel eventSchedule){
         realm.beginTransaction();
-        realm.where(FavouritesModel.class).equalTo("id",eventSchedule.getEventID()).equalTo("day",eventSchedule.getDay()).findAll().deleteAllFromRealm();
+        realm.where(FavouritesModel.class).equalTo("id", eventSchedule.getEventId()).equalTo("day", eventSchedule.getDay()).findAll().deleteAllFromRealm();
         realm.commitTransaction();
 
         for(int i=0;i<favourites.size();i++){
             //Removing corresponding FavouritesModel from favourites
             FavouritesModel favourite = favourites.get(i);
-            if((favourite.getId().equals(eventSchedule.getEventID()))&&(favourite.getDay().equals(eventSchedule.getDay()))){
+            if ((favourite.getId().equals(eventSchedule.getEventId())) && (favourite.getDay().equals(eventSchedule.getDay()))) {
                 favourites.remove(favourite);
             }
         }
@@ -190,7 +190,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
     private boolean favouritesContainsEvent(ScheduleModel eventSchedule){
         for(FavouritesModel favourite : favourites){
             //Checking if Corresponding Event exists
-            if((favourite.getId().equals(eventSchedule.getEventID()))&&(favourite.getDay().equals(eventSchedule.getDay()))){
+            if ((favourite.getId().equals(eventSchedule.getEventId())) && (favourite.getDay().equals(eventSchedule.getDay()))) {
                 return true;
             }
         }
@@ -201,13 +201,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
         intent.putExtra("eventName", event.getEventName());
         intent.putExtra("startTime", event.getStartTime());
         intent.putExtra("eventVenue", event.getVenue());
-        intent.putExtra("eventID", event.getEventID());
+        intent.putExtra("eventID", event.getEventId());
         intent.putExtra("catName", event.getCatName());
         Log.i(TAG, "addNotification: "+event.getStartTime());
         AlarmManager alarmManager = (AlarmManager)activity.getSystemService(Context.ALARM_SERVICE);
         //Request Codes
-        int RC1 = Integer.parseInt(event.getCatID()+event.getEventID()+"0");
-        int RC2 = Integer.parseInt(event.getCatID()+event.getEventID()+"1");
+        int RC1 = Integer.parseInt(event.getCatId() + event.getEventId() + "0");
+        int RC2 = Integer.parseInt(event.getCatId() + event.getEventId() + "1");
         pendingIntent1 = PendingIntent.getBroadcast(activity, RC1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         pendingIntent2 = PendingIntent.getBroadcast(activity, RC2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa", Locale.US);
@@ -255,12 +255,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.EventV
         intent.putExtra("eventName", event.getEventName());
         intent.putExtra("startTime", event.getStartTime());
         intent.putExtra("eventVenue", event.getVenue());
-        intent.putExtra("eventID", event.getEventID());
+        intent.putExtra("eventID", event.getEventId());
 
         AlarmManager alarmManager = (AlarmManager)activity.getSystemService(Context.ALARM_SERVICE);
         //Request Codes
-        int RC1 = Integer.parseInt(event.getCatID()+event.getEventID()+"0");
-        int RC2 = Integer.parseInt(event.getCatID()+event.getEventID()+"1");
+        int RC1 = Integer.parseInt(event.getCatId() + event.getEventId() + "0");
+        int RC2 = Integer.parseInt(event.getCatId() + event.getEventId() + "1");
         pendingIntent1 = PendingIntent.getBroadcast(activity, RC1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         pendingIntent2 = PendingIntent.getBroadcast(activity, RC2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(pendingIntent1);

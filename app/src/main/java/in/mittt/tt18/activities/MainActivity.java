@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: Loading events....");
                     mDatabase.beginTransaction();
                     mDatabase.where(EventDetailsModel.class).findAll().deleteAllFromRealm();
-                    mDatabase.copyToRealm(response.body().getEvents());
+                    mDatabase.copyToRealmOrUpdate(response.body().getEvents());
                     mDatabase.commitTransaction();
                     Log.d(TAG, "Events updated in background");
                 }
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null && mDatabase != null) {
                     mDatabase.beginTransaction();
                     mDatabase.where(ScheduleModel.class).findAll().deleteAllFromRealm();
-                    mDatabase.copyToRealm(response.body().getData());
+                    mDatabase.copyToRealmOrUpdate(response.body().getData());
                     mDatabase.commitTransaction();
                     Log.d(TAG, "Schedule updated in background");
                 }
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     mDatabase.beginTransaction();
                     mDatabase.where(CategoryModel.class).findAll().deleteAllFromRealm();
                     //mDatabase.copyToRealmOrUpdate(response.body().getCategoriesList());
-                    mDatabase.copyToRealm(response.body().getCategoriesList());
+                    mDatabase.copyToRealmOrUpdate(response.body().getCategoriesList());
                     //mDatabase.where(CategoryModel.class).equalTo("categoryName", "minimilitia").or().equalTo("categoryName", "Mini Militia").or().equalTo("categoryName", "Minimilitia").or().equalTo("categoryName", "MiniMilitia").or().equalTo("categoryName", "MINIMILITIA").or().equalTo("categoryName", "MINI MILITIA").findAll().deleteAllFromRealm();
                     mDatabase.commitTransaction();
                     Log.d(TAG, response.body().getCategoriesList().size() + "Categories updated in background");
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                     results = response.body().getData();
                     mDatabase.beginTransaction();
                     mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
-                    mDatabase.copyToRealm(results);
+                    mDatabase.copyToRealmOrUpdate(results);
                     mDatabase.commitTransaction();
                     Log.d(TAG, "Results updated in the background");
                 }
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.container, fragment)
+                    .replace(R.id.fragment_container, fragment)
                     .commit();
             return true;
         }
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.main_frame_layout, fragment);
+        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
 }

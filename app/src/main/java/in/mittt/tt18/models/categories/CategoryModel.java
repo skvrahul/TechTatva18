@@ -7,11 +7,11 @@ import io.realm.RealmObject;
 
 public class CategoryModel extends RealmObject{
 
-    @SerializedName("cid")
+    @SerializedName("id")
     @Expose
     private String categoryID;
 
-    @SerializedName("cname")
+    @SerializedName("name")
     @Expose
     private String categoryName;
 

@@ -8,47 +8,61 @@ import io.realm.annotations.PrimaryKey;
 
 public class EventDetailsModel extends RealmObject {
 
-    @SerializedName("ename")
+    @SerializedName("domain")
     @Expose
-    private String eventName;
-    @SerializedName("eid")
+    private String domain;
+
+    @SerializedName("id")
     @Expose
     @PrimaryKey
     private String eventID;
-    @SerializedName("edesc")
+
+    @SerializedName("name")
     @Expose
-    private String description;
-    @SerializedName("emaxteamsize")
+    private String eventName;
+
+    @SerializedName("short_desc")
+    @Expose
+    private String shortDesc;
+
+    @SerializedName("long_desc")
+    @Expose
+    private String longDesc;
+
+    @SerializedName("min_size")
+    @Expose
+    private String minTeamSize;
+
+    @SerializedName("max_size")
     @Expose
     private String maxTeamSize;
-    @SerializedName("cid")
-    @Expose
-    private String catID;
-    @SerializedName("cname")
-    @Expose
-    private String catName;
-    @SerializedName("cntctname")
+
+    @SerializedName("contact_name")
     @Expose
     private String contactName;
-    @SerializedName("cntctno")
+
+    @SerializedName("contact_num")
     @Expose
     private String contactNo;
+
     @SerializedName("type")
     @Expose
     private String type;
-    @SerializedName("hash")
-    @Expose
-    private String hash;
-    @SerializedName("day")
-    @Expose
-    private String day;
 
-    public String getEventName() {
-        return eventName;
+    @SerializedName("category")
+    @Expose
+    private String catName;
+
+    @SerializedName("cid")
+    @Expose
+    private String catID;
+
+    public String getDomain() {
+        return domain;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public String getEventID() {
@@ -59,12 +73,36 @@ public class EventDetailsModel extends RealmObject {
         this.eventID = eventID;
     }
 
-    public String getDescription() {
-        return description;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getShortDesc() {
+        return shortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
+
+    public String getLongDesc() {
+        return longDesc;
+    }
+
+    public void setLongDesc(String longDesc) {
+        this.longDesc = longDesc;
+    }
+
+    public String getMinTeamSize() {
+        return minTeamSize;
+    }
+
+    public void setMinTeamSize(String minTeamSize) {
+        this.minTeamSize = minTeamSize;
     }
 
     public String getMaxTeamSize() {
@@ -73,22 +111,6 @@ public class EventDetailsModel extends RealmObject {
 
     public void setMaxTeamSize(String maxTeamSize) {
         this.maxTeamSize = maxTeamSize;
-    }
-
-    public String getCatID() {
-        return catID;
-    }
-
-    public void setCatID(String catID) {
-        this.catID = catID;
-    }
-
-    public String getCatName() {
-        return catName;
-    }
-
-    public void setCatName(String catName) {
-        this.catName = catName;
     }
 
     public String getContactName() {
@@ -115,20 +137,19 @@ public class EventDetailsModel extends RealmObject {
         this.type = type;
     }
 
-    public String getHash() {
-        return hash;
+    public String getCatName() {
+        return catName;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setCatName(String catName) {
+        this.catName = catName;
     }
 
-    public String getDay() {
-        return day;
+    public String getCatID() {
+        return catID;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setCatID(String catID) {
+        this.catID = catID;
     }
-
 }

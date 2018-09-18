@@ -41,17 +41,17 @@
                             android:text="@string/pre_tech_tatva"
                             android:textSize="@dimen/typography_title" />
 
-                        <TextView
-                            android:id="@+id/favourites_events_clear_pre_revels"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/clear"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/typography_small" />
+                        <!--<TextView-->
+                        <!--android:id="@+id/favourites_events_clear_pre_revels"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="0"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:clickable="true"-->
+                        <!--android:fontFamily="sans-serif-medium"-->
+                        <!--android:text="@string/clear"-->
+                        <!--android:textColor="@color/colorPrimary"-->
+                        <!--android:textSize="@dimen/typography_small" />-->
                     </LinearLayout>
 
                     <android.support.v7.widget.CardView
@@ -65,20 +65,20 @@
                         android:paddingBottom="@dimen/padding_half"
                         android:paddingTop="@dimen/padding_half">
 
-                        <TextView
-                            android:id="@+id/fav_pre_revels_no_events"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/no_favourites"
-                            android:visibility="gone" />
+                        <!--<TextView-->
+                        <!--android:id="@+id/fav_pre_revels_no_events"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_margin="15dp"-->
+                        <!--android:fontFamily="sans-serif-medium"-->
+                        <!--android:text="@string/no_favourites"-->
+                        <!--android:visibility="gone" />-->
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/favourites_pre_revels_recycler_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" />
+                        <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/favourites_pre_revels_recycler_view"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="horizontal" />-->
 
 
                     </android.support.v7.widget.CardView>
