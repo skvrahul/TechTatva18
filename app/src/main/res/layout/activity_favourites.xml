@@ -25,21 +25,21 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_default"
-                        android:layout_marginRight="@dimen/padding_default"
-                        android:orientation="horizontal"
-                        android:paddingTop="@dimen/padding_half">
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="@dimen/padding_default"-->
+                        <!--android:layout_marginRight="@dimen/padding_default"-->
+                        <!--android:orientation="horizontal"-->
+                        <!--android:paddingTop="@dimen/padding_half">-->
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/pre_tech_tatva"
-                            android:textSize="@dimen/typography_title" />
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="sans-serif-medium"-->
+                            <!--android:text="@string/pre_tech_tatva"-->
+                            <!--android:textSize="@dimen/typography_title" />-->
 
                         <!--<TextView-->
                         <!--android:id="@+id/favourites_events_clear_pre_revels"-->
@@ -52,9 +52,10 @@
                         <!--android:text="@string/clear"-->
                         <!--android:textColor="@color/colorPrimary"-->
                         <!--android:textSize="@dimen/typography_small" />-->
-                    </LinearLayout>
+                    <!--</LinearLayout>-->
 
                     <android.support.v7.widget.CardView
+                        app:cardCornerRadius="@dimen/padding_half"
                         android:id="@+id/favourites_pre_revels_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -125,6 +126,7 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.CardView
+                        app:cardCornerRadius="@dimen/padding_half"
                         android:id="@+id/favourites_day_1_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -193,6 +195,7 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.CardView
+                        app:cardCornerRadius="@dimen/padding_half"
                         android:id="@+id/favourites_day_2_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -262,6 +265,7 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.CardView
+                        app:cardCornerRadius="@dimen/padding_half"
                         android:id="@+id/favourites_day_3_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -331,6 +335,7 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.CardView
+                        app:cardCornerRadius="@dimen/padding_half"
                         android:id="@+id/favourites_day_4_card_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -361,8 +366,6 @@
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

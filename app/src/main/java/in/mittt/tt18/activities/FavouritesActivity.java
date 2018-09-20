@@ -304,8 +304,8 @@ public class FavouritesActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(context);
         TabbedDialog td = new TabbedDialog();
         final String eventID = event.getId();
-        final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventID", eventID).findFirst();
-        final ScheduleModel eventSchedule = realm.where(ScheduleModel.class).equalTo("eventID", eventID).equalTo("day", event.getDay()).findFirst();
+        final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventId", eventID).findFirst();
+        final ScheduleModel eventSchedule = realm.where(ScheduleModel.class).equalTo("eventId", eventID).equalTo("day", event.getDay()).findFirst();
         TabbedDialog.EventFragment.DialogFavouriteClickListener fcl = new TabbedDialog.EventFragment.DialogFavouriteClickListener() {
             @Override
             public void onItemClick(boolean add) {
@@ -329,7 +329,7 @@ public class FavouritesActivity extends AppCompatActivity {
         FavouritesModel favourite = new FavouritesModel();
         Log.i(TAG, "addFavourite: " + eventSchedule.getId());
         //Get Corresponding EventDetailsModel from Realm
-        EventDetailsModel eventDetails = realm.where(EventDetailsModel.class).equalTo("eventID", eventSchedule.getId()).equalTo("day", eventSchedule.getDay()).findFirst();
+        EventDetailsModel eventDetails = realm.where(EventDetailsModel.class).equalTo("eventId", eventSchedule.getId()).equalTo("eventName", eventSchedule.getDay()).findFirst();
         //Create and Set Values for FavouritesModel
         favourite.setId(eventSchedule.getId());
         favourite.setCatID(eventSchedule.getCatID());

@@ -47,24 +47,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/padding_default"
-                        android:layout_marginRight="@dimen/padding_default"
-                        android:orientation="horizontal"
-                        android:paddingTop="@dimen/padding_half">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="@string/pre_revels"
-                            android:textSize="@dimen/typography_title" />
-
-                    </LinearLayout>
-
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

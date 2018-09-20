@@ -3,9 +3,9 @@
     android:layout_width="98dp"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?android:attr/selectableItemBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="?android:attr/selectableItemBackground">
 
     <FrameLayout
         android:id="@+id/fav_event_logo_frame"
@@ -16,10 +16,11 @@
 
         <ImageView
             android:id="@+id/fav_event_logo_image_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/padding_3x"
+            android:layout_height="@dimen/padding_3x"
             android:background="@drawable/background_circle"
-            app:srcCompat="@drawable/background_circle" />
+            android:contentDescription="Event Logo"
+            android:src="@mipmap/ic_launcher" />
 
     </FrameLayout>
     <TextView
@@ -27,15 +28,18 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="end|right|bottom"
-        android:background="#000000"
+        android:background="@drawable/circular_bg_primary_dark"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:padding="4dp"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:visibility="visible"
         tools:text="R"
+        android:layout_marginRight="12dp"
         android:layout_marginEnd="12dp"
         android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <LinearLayout
@@ -47,6 +51,7 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_below="@+id/fav_event_logo_frame"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout2">
 
@@ -67,7 +72,8 @@
             tools:text="Event Time"
             android:gravity="center"
             android:textSize="12sp"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"/>
 
     </LinearLayout>
 </RelativeLayout>

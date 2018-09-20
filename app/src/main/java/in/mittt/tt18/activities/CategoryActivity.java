@@ -35,7 +35,7 @@ import io.realm.RealmResults;
 public class CategoryActivity extends AppCompatActivity {
 
     private String catName;
-    private String catID;
+    private String cat_id;
     private String catDesc;
     private Realm mDatabase;
     private TextView noEventsDay1;
@@ -53,10 +53,10 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         catName = getIntent().getStringExtra("catName");
-        catID = getIntent().getStringExtra("catID");
+        cat_id = getIntent().getStringExtra("catId");
         catDesc = getIntent().getStringExtra("catDesc");
         if (catName == null) catName = "";
-        if (catID == null) catID = "";
+        if (cat_id == null) cat_id = "";
         if (catDesc == null) catDesc = "";
 
         try {
@@ -126,8 +126,7 @@ public class CategoryActivity extends AppCompatActivity {
         if (mDatabase == null)
             return;
 
-        RealmResults<ScheduleModel> scheduleResultsRealm = mDatabase.where(ScheduleModel.class)
-                .equalTo("catID", catID).findAll().sort("startTime");
+        RealmResults<ScheduleModel> scheduleResultsRealm = mDatabase.where(ScheduleModel.class).equalTo("catId", cat_id).findAll().sort("startTime");
         scheduleResults = mDatabase.copyFromRealm(scheduleResultsRealm);
 
         for (ScheduleModel schedule : scheduleResults) {
@@ -138,7 +137,7 @@ public class CategoryActivity extends AppCompatActivity {
 //                preRevelsList.add(event);
 //            } else {
                 Log.d(TAG, "displayEvents: Revels");
-            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", schedule.getEventId()).findFirst();
+            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventId", schedule.getEventId()).findFirst();
                 EventModel event = new EventModel(eventDetails, schedule);
                 switch (event.getDay()) {
                     case "1":

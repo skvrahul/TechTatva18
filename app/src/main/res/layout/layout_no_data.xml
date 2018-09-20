@@ -4,16 +4,15 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_default"
+    android:paddingBottom="@dimen/padding_3x"
     android:paddingLeft="@dimen/padding_default"
-    android:paddingRight="@dimen/padding_default"
-    android:paddingTop="@dimen/padding_3x">
+    android:paddingRight="@dimen/padding_default">
 
     <ImageView
         android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:contentDescription="@string/revels_logo"
-        android:src="@drawable/revels_text" />
+        android:layout_height="344dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tt18_text" />
 
     <TextView
         android:id="@+id/textView3"
