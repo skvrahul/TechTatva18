@@ -33,9 +33,6 @@ import in.mittt.tt18.views.TabbedDialog;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by Saptarshi on 12/24/2017.
- */
 
 public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.EventViewHolder> {
 
@@ -131,7 +128,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
             final Dialog dialog = new Dialog(context);
             TabbedDialog td = new TabbedDialog();
             final String eventID = event.getEventId();
-            final EventDetailsModel schedule = mDatabase.where(EventDetailsModel.class).equalTo("eventID", eventID).findFirst();
+            final EventDetailsModel schedule = mDatabase.where(EventDetailsModel.class).equalTo("eventId", eventID).findFirst();
             TabbedDialog.EventFragment.DialogFavouriteClickListener fcl = new TabbedDialog.EventFragment.DialogFavouriteClickListener() {
                 @Override
                 public void onItemClick(boolean add) {
@@ -154,7 +151,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         private void addFavourite(ScheduleModel eventSchedule) {
             FavouritesModel favourite = new FavouritesModel();
             //Get Corresponding EventDetailsModel from Realm
-            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventID", eventSchedule.getEventId()).findFirst();
+            EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventId", eventSchedule.getEventId()).findFirst();
             //Create and Set Values for FavouritesModel
             favourite.setId(eventSchedule.getEventId());
             favourite.setCatID(eventSchedule.getCatId());

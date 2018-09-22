@@ -94,7 +94,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         Log.i(TAG, "addFavourite: " + eventSchedule.getEventId());
         //Get Corresponding EventDetailsModel from Realm
         EventDetailsModel eventDetails = realm.where(EventDetailsModel.class)
-                .equalTo("eventID", eventSchedule.getEventId()).findFirst();
+                .equalTo("eventId", eventSchedule.getEventId()).findFirst();
         //Create and Set Values for FavouritesModel
         favourite.setId(eventSchedule.getEventId());
         favourite.setCatID(eventSchedule.getCatId());
@@ -246,7 +246,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
         final Dialog dialog = new Dialog(context);
         TabbedDialog td = new TabbedDialog();
         final String eventID = event.getEventId();
-        final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventID", eventID).findFirst();
+        final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventId", eventID).findFirst();
         TabbedDialog.EventFragment.DialogFavouriteClickListener fcl = new TabbedDialog.EventFragment.DialogFavouriteClickListener() {
             @Override
             public void onItemClick(boolean add) {

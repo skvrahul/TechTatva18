@@ -15,7 +15,7 @@ public class EventDetailsModel extends RealmObject {
     @SerializedName("id")
     @Expose
     @PrimaryKey
-    private String eventID;
+    private String eventId;
 
     @SerializedName("name")
     @Expose
@@ -55,7 +55,7 @@ public class EventDetailsModel extends RealmObject {
 
     @SerializedName("cid")
     @Expose
-    private String catID;
+    private String catId;
 
     public String getDomain() {
         return domain;
@@ -66,11 +66,11 @@ public class EventDetailsModel extends RealmObject {
     }
 
     public String getEventID() {
-        return eventID;
+        return eventId;
     }
 
-    public void setEventID(String eventID) {
-        this.eventID = eventID;
+    public void setEventID(String eventId) {
+        this.eventId = eventId;
     }
 
     public String getEventName() {
@@ -146,10 +146,10 @@ public class EventDetailsModel extends RealmObject {
     }
 
     public String getCatID() {
-        return catID;
+        return catId;
     }
 
-    public void setCatID(String catID) {
-        this.catID = catID;
+    public void setCatId(String catId) {
+        this.catId = catId;
     }
 }

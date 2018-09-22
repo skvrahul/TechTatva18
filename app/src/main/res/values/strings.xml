@@ -5,7 +5,7 @@
     <string name="drawer_developers">Developers</string>
     <string name="bottom_nav_events">Events</string>
     <string name="Android">Android</string>
-    <string name="head">Head</string>
+    <string name="head">Core Committee</string>
     <string name="developer">Developer</string>
     <string name="title_home">Home</string>
     <string name="title_schedule">Schedule</string>
@@ -41,7 +41,6 @@
     <string name="cntno_wksp_2">+919560702479</string>
     <string name="no_data">No data available</string>
     <string name="revels_logo">Revels Logo</string>
-    <string name="about_us_text">Nautilus, in \"20,000 Leagues Under the Sea\" , was imagined by Jules Verne a full twenty-four years before Simon Lake used it as a reference to realise his dream of building a working submarine. Technology has a rich history of first appearing in fiction, before pioneers of the age bring such ideas into reality. Gadgets resembling Google Glass, Skype\'s realtime language translator, and iPads have appeared in Star Trek more than three decades before the world got their hands on working versions of them. TechTatva \'17 pays its tribute to this nexus between artists and scientists with its theme \"Realising Fiction\". With projects and events that bring out the innovative genius in you, here\'s to hoping somewhere in this fest you bring your day-dreams to reality too!</string>
     <string name="favourites">Favourites</string>
     <string name="drawer_favourites">Favourites</string>
     <string name="action_delete_all">Delete All</string>
@@ -56,12 +55,13 @@
     <string name="pre_revels">Pre-Revels</string>
     <string name="no_events2">No Events Available</string>
     <string name="no_results_2">The Results are not out yet.</string>
-    <string name="no_results">Whoa Amigo!</string>
+    <string name="no_results">OOPS!!!</string>
     <string name="fest_name">Tech Tatva \'18</string>
     <string name="event_fragment">Events</string>
     <string name="more">MORE</string>
     <string name="no_categories">No categories available</string>
     <string name="home_insta_title">#TT18 on Instagram</string>
     <string name="unable_to_load_insta">Unable to load Instagram feed. Swipe down to retry!</string>
+    <string name="about_us_text">It is said that history is the best teacher.This TechTatva we recall our glorious past, by learning what history taught us - adapting to changing circumstances, creating solutions for yesterday\'s problems, and innovating for the future generations.With projects and events culminating to give our fest a fitting theme: Reminiscing Greatness, along with our logo that boasts of our progress, we transcend into the future- a future that has been reinforced by the work done by great people with the help of technological advancement.With this in mind, we can see that the logo portrays a human and a robotic aspect working together, imagining and building the future.Come together this TechTatva, and bask in the glory of our forefathers as we remember the steps they have carved for us that helped us climb to greater heights.</string>
 
 </resources>

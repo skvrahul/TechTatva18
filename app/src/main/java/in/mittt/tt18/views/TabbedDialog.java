@@ -45,7 +45,6 @@ public class TabbedDialog extends DialogFragment {
 
         viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
