@@ -30,6 +30,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -166,7 +167,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 //MORE Clicked - Take user to Results Fragment
                 Log.i(TAG, "onClick: Results more");
-                ((MainActivity) getActivity()).changeFragment(new ResultsTabsFragment());
+                ((MainActivity) getActivity()).changeFragment(new ResultsFragment());
             }
         });
 
@@ -198,10 +199,10 @@ public class HomeFragment extends Fragment {
 
         //Display Events of current day
         Calendar cal = Calendar.getInstance();
-        Calendar day1 = new GregorianCalendar(2018, 2, 7);
-        Calendar day2 = new GregorianCalendar(2018, 2, 8);
-        Calendar day3 = new GregorianCalendar(2018, 2, 9);
-        Calendar day4 = new GregorianCalendar(2018, 2, 10);
+        Calendar day1 = new GregorianCalendar(2018, 9, 7);
+        Calendar day2 = new GregorianCalendar(2018, 9, 8);
+        Calendar day3 = new GregorianCalendar(2018, 9, 9);
+        Calendar day4 = new GregorianCalendar(2018, 9, 10);
         Calendar curDay = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
         int dayOfEvent;
@@ -243,6 +244,7 @@ public class HomeFragment extends Fragment {
         //Main Tech Tatva Events
 //        else {
             eventsList.clear();
+        Toast.makeText(getContext(), "Day : " + dayOfEvent, Toast.LENGTH_SHORT).show();
             eventsList = mDatabase.copyFromRealm(mDatabase.where(ScheduleModel.class)
                     /*.equalTo("isRevels", "1")*/.equalTo("day", dayOfEvent + "")
                     .findAll().sort(sortCriteria, sortOrder));

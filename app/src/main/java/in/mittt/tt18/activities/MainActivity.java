@@ -264,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
             navigation.setSelectedItemId(R.id.navigation_categories);
         } else if (fragment.getClass() == EventsFragment.class) {
             navigation.setSelectedItemId(R.id.navigation_schedule);
+        } else if (fragment.getClass() == ResultsFragment.class) {
+            navigation.setSelectedItemId(R.id.navigation_results);
         } else {
             Log.i(TAG, "changeFragment: Unexpected fragment passed!!");
         }

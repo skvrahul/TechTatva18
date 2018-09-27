@@ -7,19 +7,19 @@ import io.realm.RealmObject;
 
 public class ResultModel extends RealmObject {
 
-    @SerializedName("tid")
+    @SerializedName("teamid")
     @Expose
     private String teamID;
-    @SerializedName("cat")
+    @SerializedName("category")
     @Expose
     private String catName;
-    @SerializedName("eve")
+    @SerializedName("event")
     @Expose
     private String eventName;
     @SerializedName("round")
     @Expose
     private String round;
-    @SerializedName("pos")
+    @SerializedName("position")
     @Expose
     private String position;
 
