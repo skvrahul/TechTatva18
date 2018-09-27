@@ -525,7 +525,6 @@ public class HomeFragment extends Fragment {
                     startActivity(new Intent(getActivity(), ProfileActivity.class));
                 else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
                 return true;
