@@ -101,7 +101,8 @@ public class CategoriesFragment extends Fragment {
         if (mDatabase != null) {
             categoriesList.clear();
             List<CategoryModel> categoryResults = mDatabase.copyFromRealm(mDatabase
-                    .where(CategoryModel.class).findAll().sort("categoryName"));
+                    .where(CategoryModel.class).notEqualTo("type", "SUPPORTING")
+                    .findAll().sort("categoryName"));
             if (!categoryResults.isEmpty()) {
                 categoriesList.clear();
                 categoriesList.addAll(categoryResults);
@@ -132,7 +133,8 @@ public class CategoriesFragment extends Fragment {
         text = text.toLowerCase();
         if (mDatabase != null) {
             RealmResults<CategoryModel> categoryResults = mDatabase.where(CategoryModel.class)
-                    .findAll().sort("categoryName");
+                    .notEqualTo("type", "SUPPORTING").findAll()
+                    .sort("categoryName");
             List<CategoryModel> temp = mDatabase.copyFromRealm(categoryResults);
             categoriesList.clear();
             for (int i = 0; i < temp.size(); i++) {

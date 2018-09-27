@@ -1,5 +1,7 @@
 package in.mittt.tt18.views;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -39,7 +41,11 @@ public class TabbedDialog extends DialogFragment {
         mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Event"), Fragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Description"), Fragment.class, null);
 
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // Set transparent background and no title
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
 
         adapter = new PagerAdapter(getChildFragmentManager(), getArguments());
 

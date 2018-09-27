@@ -155,10 +155,10 @@ public class EventsFragment extends Fragment {
 
     private void setCurrentDay() {
         Calendar cal = Calendar.getInstance();
-        Calendar day1 = new GregorianCalendar(2018, 2, 7);
-        Calendar day2 = new GregorianCalendar(2018, 2, 8);
-        Calendar day3 = new GregorianCalendar(2018, 2, 9);
-        Calendar day4 = new GregorianCalendar(2018, 2, 10);
+        Calendar day1 = new GregorianCalendar(2018, 9, 3);
+        Calendar day2 = new GregorianCalendar(2018, 9, 4);
+        Calendar day3 = new GregorianCalendar(2018, 9, 5);
+        Calendar day4 = new GregorianCalendar(2018, 9, 6);
         Calendar curDay = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
         /*if(curDay.getTimeInMillis() < day1.getTimeInMillis()){

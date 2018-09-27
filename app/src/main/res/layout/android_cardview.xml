@@ -37,41 +37,42 @@
                 android:layout_marginTop="@dimen/padding_default"
                 android:background="@android:drawable/divider_horizontal_bright" />
         </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="195dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/padding_half">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:src="@drawable/dev_icon_rahulsathanapalli" />
+            <LinearLayout
+                android:layout_width="195dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/padding_half">
+
+                <ImageView
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/dev_icon_rahulsathanapalli" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rahul Sathanapalli"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rahul Sathanapalli"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/head"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/head"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
 
-    </LinearLayout>
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,7 +107,7 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-</LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_marginTop="@dimen/_26dp"
