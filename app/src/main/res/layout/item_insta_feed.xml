@@ -28,10 +28,10 @@
             android:paddingRight="@dimen/padding_half"
             android:paddingTop="@dimen/padding_half">
 
-            <ImageView
-                android:id="@+id/insta_feed_dp_image_view"
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
+            <!--<ImageView-->
+            <!--android:id="@+id/insta_feed_dp_image_view"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp" />-->
 
             <TextView
                 android:id="@+id/insta_feed_name_text_view"

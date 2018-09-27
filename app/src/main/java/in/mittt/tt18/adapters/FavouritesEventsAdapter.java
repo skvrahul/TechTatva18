@@ -13,6 +13,7 @@ import java.util.List;
 
 import in.mittt.tt18.R;
 import in.mittt.tt18.models.favourites.FavouritesModel;
+import in.mittt.tt18.utilities.IconCollection;
 
 public class FavouritesEventsAdapter extends RecyclerView.Adapter<FavouritesEventsAdapter.EventViewHolder> {
     private List<FavouritesModel> favourites;
@@ -55,6 +56,7 @@ public class FavouritesEventsAdapter extends RecyclerView.Adapter<FavouritesEven
             eventName = view.findViewById(R.id.fav_event_name_text_view);
             eventTime = view.findViewById(R.id.fav_event_time_text_view);
             eventItem = view.findViewById(R.id.fav_event_item);
+            eventLogo = view.findViewById(R.id.fav_event_logo_image_view);
         }
         public void onBind(final FavouritesModel event) {
             eventName.setText(event.getEventName());
@@ -68,6 +70,8 @@ public class FavouritesEventsAdapter extends RecyclerView.Adapter<FavouritesEven
                     }
                 }
             });
+            IconCollection collection = new IconCollection();
+            eventLogo.setImageResource(collection.getIconResource(activity, event.getCatName()));
         }
     }
 

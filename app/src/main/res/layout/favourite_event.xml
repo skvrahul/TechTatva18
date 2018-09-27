@@ -3,7 +3,6 @@
     android:layout_width="98dp"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground">
 
@@ -28,18 +27,18 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="end|right|bottom"
-        android:background="@drawable/circular_bg_primary_dark"
+        android:layout_alignParentRight="true"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:padding="4dp"
-        android:textColor="#FFFFFF"
+        android:layout_marginRight="12dp"
         android:textSize="12sp"
         android:visibility="visible"
         tools:text="R"
-        android:layout_marginRight="12dp"
+        android:background="@drawable/circular_bg_primary_dark"
         android:layout_marginEnd="12dp"
         android:layout_above="@+id/linearLayout2"
-        android:layout_alignParentRight="true"
+        android:textColor="#FFFFFF"
         android:layout_alignParentEnd="true" />
 
     <LinearLayout
@@ -73,7 +72,7 @@
             android:gravity="center"
             android:textSize="12sp"
             android:maxLines="1"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 </RelativeLayout>

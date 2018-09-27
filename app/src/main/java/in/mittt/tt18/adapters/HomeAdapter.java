@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import in.mittt.tt18.R;
 import in.mittt.tt18.models.instagram.InstaFeedModel;
 import in.mittt.tt18.models.instagram.InstagramFeed;
@@ -65,7 +67,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     }
 
     public void launchInstagramUser(InstaFeedModel instaItem) {
-        String userURL = "https://instagram.com/_u/" + instaItem.getUser().getUsername().toString();
+        String userURL = "https://instagram.com/_u/" + instaItem.getUser().getUsername();
         try {
             Uri uri = Uri.parse(userURL);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -100,8 +102,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         public void onBind(final InstaFeedModel instaItem) {
             instaName.setText(instaItem.getUser().getUsername());
             instaDescription.setText(instaItem.getCaption().getText());
-//            Picasso.with(context).load(instaItem.getImages().getStandard_resolution().getUrl()).into(instaImage);
-//            Picasso.with(context).load(instaItem.getUser().getProfile_picture()).into(instaDP);
+            Picasso.get().load(instaItem.getImages().getStandard_resolution().getUrl()).into(instaImage);
+//            Picasso.get().load(instaItem.getUser().getProfile_picture()).into(instaDP);
             instaLikes.setText(Integer.toString(instaItem.getLikes().getCount()) + " likes");
             instaComments.setText(Integer.toString(instaItem.getComments().getCount()) + " comments");
 
@@ -123,7 +125,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         public void initializeViews(View view) {
             instaImage = view.findViewById(R.id.insta_feed_img_image_view);
-            instaDP = view.findViewById(R.id.insta_feed_dp_image_view);
+//            instaDP = view.findViewById(R.id.insta_feed_dp_image_view);
             instaName = view.findViewById(R.id.insta_feed_name_text_view);
             instaComments = view.findViewById(R.id.insta_feed_comments_text_view);
             instaDescription = view.findViewById(R.id.insta_feed_description_text_view);

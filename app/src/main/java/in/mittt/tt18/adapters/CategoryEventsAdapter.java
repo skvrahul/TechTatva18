@@ -1,7 +1,6 @@
 package in.mittt.tt18.adapters;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -101,7 +100,7 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
         //Get Corresponding EventDetailsModel from Realm
         //EventDetailsModel eventDetails = realm.where(EventDetailsModel.class).equalTo("eventID",eventSchedule.getEventID()).findFirst();
         //Create and Set Values for FavouritesModel
-        ScheduleModel sm = realm.where(ScheduleModel.class).equalTo("eventID", event.getEventId()).equalTo("day", event.getDay()).equalTo("date", event.getDate()).findFirst();
+        ScheduleModel sm = realm.where(ScheduleModel.class).equalTo("eventId", event.getEventId()).equalTo("day", event.getDay()).equalTo("date", event.getDate()).findFirst();
         favourite.setId(event.getEventId());
         favourite.setCatID(event.getCatId());
         favourite.setEventName(event.getEventName());
@@ -280,13 +279,13 @@ public class CategoryEventsAdapter extends RecyclerView.Adapter<CategoryEventsAd
 
             final EventModel event = eventsList.get(getLayoutPosition());
             final Context context = view.getContext();
-            final Dialog dialog = new Dialog(context);
+//            final Dialog dialog = new Dialog(context);
             TabbedDialog td = new TabbedDialog();
             final String eventID = event.getEventId();
             final String dayOfEvent = event.getDay();
-            final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventID", eventID).findFirst();
+            final EventDetailsModel schedule = realm.where(EventDetailsModel.class).equalTo("eventId", eventID).findFirst();
 //            Log.d(TAG, "onClick: Using schedule" + schedule.getDay());
-            ScheduleModel eventSchedule = realm.where(ScheduleModel.class).equalTo("eventID", eventID).equalTo("day", dayOfEvent).findFirst();
+            ScheduleModel eventSchedule = realm.where(ScheduleModel.class).equalTo("eventId", eventID).equalTo("day", dayOfEvent).findFirst();
             TabbedDialog.EventFragment.DialogFavouriteClickListener fcl = new TabbedDialog.EventFragment.DialogFavouriteClickListener() {
                 @Override
                 public void onItemClick(boolean add) {

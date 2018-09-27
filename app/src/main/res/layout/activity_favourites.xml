@@ -26,20 +26,20 @@
                     android:orientation="vertical">
 
                     <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="@dimen/padding_default"-->
-                        <!--android:layout_marginRight="@dimen/padding_default"-->
-                        <!--android:orientation="horizontal"-->
-                        <!--android:paddingTop="@dimen/padding_half">-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/padding_default"-->
+                    <!--android:layout_marginRight="@dimen/padding_default"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:paddingTop="@dimen/padding_half">-->
 
-                        <!--<TextView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:fontFamily="sans-serif-medium"-->
-                            <!--android:text="@string/pre_tech_tatva"-->
-                            <!--android:textSize="@dimen/typography_title" />-->
+                    <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:fontFamily="sans-serif-medium"-->
+                    <!--android:text="@string/pre_tech_tatva"-->
+                    <!--android:textSize="@dimen/typography_title" />-->
 
                         <!--<TextView-->
                         <!--android:id="@+id/favourites_events_clear_pre_revels"-->

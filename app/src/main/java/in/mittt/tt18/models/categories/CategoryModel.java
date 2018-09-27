@@ -15,13 +15,18 @@ public class CategoryModel extends RealmObject{
     @Expose
     private String categoryName;
 
-    @SerializedName("cdesc")
+    @SerializedName("type")
     @Expose
-    private String categoryDescription;
+    private String type;
 
-    public CategoryModel(){
-
+    public String getCategoryID() {
+        return categoryID;
     }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -30,19 +35,11 @@ public class CategoryModel extends RealmObject{
         this.categoryName = categoryName;
     }
 
-    public String getCategoryDescription() {
-        return categoryDescription;
+    public String getType() {
+        return type;
     }
 
-    public void setCategoryDescription(String categoryDescription) {
-        this.categoryDescription = categoryDescription;
-    }
-
-    public String getCategoryID() {
-        return categoryID;
-    }
-
-    public void setCategoryID(String categoryID) {
-        this.categoryID = categoryID;
+    public void setType(String type) {
+        this.type = type;
     }
 }

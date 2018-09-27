@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment {
         v = view;
         progressBar = view.findViewById(R.id.insta_progress);
         instaTextView = view.findViewById(R.id.insta_text_view);
-//        displayInstaFeed();
+        displayInstaFeed();
 
         //Setting up Firebase
         try {
@@ -172,7 +172,8 @@ public class HomeFragment extends Fragment {
 
         //Display Categories
         RealmResults<CategoryModel> categoriesRealmList = mDatabase.where(CategoryModel.class)
-                .findAll().sort("categoryName");
+                .notEqualTo("type", "SUPPORTING").findAll()
+                .sort("categoryName");
         categoriesList = mDatabase.copyFromRealm(categoriesRealmList);
         if (categoriesList.size() > 10) {
             categoriesList.subList(10, categoriesList.size()).clear();

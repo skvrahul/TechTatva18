@@ -1,6 +1,5 @@
 package in.mittt.tt18.activities;
 
-import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -9,10 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -36,13 +33,13 @@ public class CategoryActivity extends AppCompatActivity {
 
     private String catName;
     private String cat_id;
-    private String catDesc;
+    //    private String catDesc;
     private Realm mDatabase;
     private TextView noEventsDay1;
     private TextView noEventsDay2;
     private TextView noEventsDay3;
     private TextView noEventsDay4;
-    private TextView noEventsPreRevels;
+    //    private TextView noEventsPreRevels;
     private TextView catNameTextView;
     private TextView catDescTextView;
     private List<ScheduleModel> scheduleResults;
@@ -54,10 +51,11 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
         catName = getIntent().getStringExtra("catName");
         cat_id = getIntent().getStringExtra("catId");
-        catDesc = getIntent().getStringExtra("catDesc");
+//        catDesc = getIntent().getStringExtra("catDesc");
+        Log.d(TAG, "catName = " + catName + "\ncat_id = " + cat_id);
         if (catName == null) catName = "";
         if (cat_id == null) cat_id = "";
-        if (catDesc == null) catDesc = "";
+//        if (catDesc == null) catDesc = "";
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -80,30 +78,24 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_category_activity, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
 
-            case R.id.about_category:
-                View view = View.inflate(this, R.layout.dialog_about_category, null);
-                final Dialog dialog = new Dialog(this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(view);
-                catNameTextView = view.findViewById(R.id.category_about_name);
-                catDescTextView = view.findViewById(R.id.category_about_description);
-                catNameTextView.setText(catName);
-                catDescTextView.setText(catDesc);
-
-                dialog.show();
-                break;
+//            case R.id.about_category:
+//                View view = View.inflate(this, R.layout.dialog_about_category, null);
+//                final Dialog dialog = new Dialog(this);
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                dialog.setContentView(view);
+//                catNameTextView = view.findViewById(R.id.category_about_name);
+//                catDescTextView = view.findViewById(R.id.category_about_description);
+//                catNameTextView.setText(catName);
+////                catDescTextView.setText(catDesc);
+//
+//                dialog.show();
+//                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -128,7 +120,6 @@ public class CategoryActivity extends AppCompatActivity {
 
         RealmResults<ScheduleModel> scheduleResultsRealm = mDatabase.where(ScheduleModel.class).equalTo("catId", cat_id).findAll().sort("startTime");
         scheduleResults = mDatabase.copyFromRealm(scheduleResultsRealm);
-
         for (ScheduleModel schedule : scheduleResults) {
 //            if (schedule.getIsRevels().contains("0")) {
 //                Log.d(TAG, "displayEvents: PreRevels");
@@ -136,7 +127,8 @@ public class CategoryActivity extends AppCompatActivity {
 //                EventModel event = new EventModel(eventDetails, schedule);
 //                preRevelsList.add(event);
 //            } else {
-                Log.d(TAG, "displayEvents: Revels");
+
+            Log.d(TAG, schedule.toString());
             EventDetailsModel eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventId", schedule.getEventId()).findFirst();
                 EventModel event = new EventModel(eventDetails, schedule);
                 switch (event.getDay()) {
