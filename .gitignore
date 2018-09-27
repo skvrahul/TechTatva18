@@ -19,6 +19,7 @@ local.properties
 .idea/tasks.xml
 .idea/.name
 .idea/compiler.xml
+.idea/caches/
 .idea/copyright/profiles_settings.xml
 .idea/encodings.xml
 .idea/misc.xml
@@ -35,3 +36,4 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+build/
