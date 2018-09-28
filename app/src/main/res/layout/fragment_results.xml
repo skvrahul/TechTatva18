@@ -1,7 +1,7 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/results_swipe_refresh_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -13,29 +13,29 @@
         android:gravity="center"
         android:orientation="vertical">
 
-            <include
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:id="@+id/no_results_layout"
-                android:visibility="gone"
-                layout="@layout/layout_no_data_results"
-                android:layout_gravity="center" />
+        <include
+            android:id="@+id/no_results_layout"
+            layout="@layout/layout_no_data_results"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <FrameLayout
-                android:id="@+id/results_available"
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            android:id="@+id/results_available"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
             tools:context=".fragments.ResultsFragment">
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/results_recycler_view"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:padding="@dimen/padding_quarter"
-                    tools:context=".fragments.ResultsFragment" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/results_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:padding="@dimen/padding_quarter"
+                tools:context=".fragments.ResultsFragment" />
 
         </FrameLayout>
 

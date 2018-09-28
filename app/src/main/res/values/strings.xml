@@ -68,5 +68,6 @@
     <string name="login">Login</string>
     <string name="login_as_guest">Continue as guest</string>
     <string name="sign_up">Sign up</string>
+    <string name="outstation">I\'m not a MAHE student</string>
 
 </resources>
