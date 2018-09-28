@@ -47,15 +47,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.LoginActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.SignUpActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activities.EventRegistrationActivity"></activity>
     </application>
 
 </manifest>

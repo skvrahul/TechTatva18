@@ -258,7 +258,7 @@ public class HomeFragment extends Fragment {
                     eventsList.add(0, event);
                 }
             }
-        }
+        //}
 //        }
         if (eventsList.size() > 10) {
             eventsList.subList(10, eventsList.size()).clear();
