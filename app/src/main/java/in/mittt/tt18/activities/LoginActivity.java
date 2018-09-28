@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestBody body =  RequestBody.create(MediaType.parse("text/plain"), "email="+email.getText().toString()+"&password="+password.getText().toString());
         Call<LoginResponse> call = RegistrationClient.getRegistrationInterface(LoginActivity.this).attemptLogin(body);
+        //TODO: Add a Loading Spinner here
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
