@@ -27,6 +27,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -245,16 +246,17 @@ public class HomeFragment extends Fragment {
 //        }
         //Main Tech Tatva Events
 //        else {
-        eventsList.clear();
-        eventsList = mDatabase.copyFromRealm(mDatabase.where(ScheduleModel.class)
-                /*.equalTo("isRevels", "1")*/.equalTo("day", dayOfEvent + "")
-                .findAll().sort(sortCriteria, sortOrder));
-        for (int i = 0; i < eventsList.size(); i++) {
-            ScheduleModel event = eventsList.get(i);
-            if (isFavourite(event)) {
-                //Move to top if the event is a Favourite
-                eventsList.remove(event);
-                eventsList.add(0, event);
+            eventsList.clear();
+            eventsList = mDatabase.copyFromRealm(mDatabase.where(ScheduleModel.class)
+                    /*.equalTo("isRevels", "1")*/.equalTo("day", dayOfEvent + "")
+                    .findAll().sort(sortCriteria, sortOrder));
+            for (int i = 0; i < eventsList.size(); i++) {
+                ScheduleModel event = eventsList.get(i);
+                if (isFavourite(event)) {
+                    //Move to top if the event is a Favourite
+                    eventsList.remove(event);
+                    eventsList.add(0, event);
+                }
             }
         }
 //        }

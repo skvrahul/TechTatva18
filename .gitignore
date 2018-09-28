@@ -21,6 +21,7 @@ local.properties
 .idea/compiler.xml
 .idea/caches/
 .idea/copyright/profiles_settings.xml
+.idea/caches/build_file_checksums.ser
 .idea/encodings.xml
 .idea/misc.xml
 .idea/modules.xml
@@ -37,3 +38,4 @@ local.properties
 ehthumbs.db
 Thumbs.db
 build/
+
