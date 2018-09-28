@@ -27,7 +27,6 @@
                 android:layout_width="@dimen/padding_3x"
                 android:layout_height="@dimen/padding_3x"
                 android:background="@drawable/background_circle"
-                android:padding="@dimen/padding_half"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"

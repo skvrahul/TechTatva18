@@ -1,10 +1,7 @@
 package in.mittt.tt18.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -69,6 +66,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+    private MainActivity mMainActivity;
     SwipeRefreshLayout swipeRefreshLayout;
     View v;
     String TAG = "HomeFragment";
@@ -99,6 +97,7 @@ public class HomeFragment extends Fragment {
     private List<CategoryModel> categoriesList = new ArrayList<>();
     private List<ScheduleModel> eventsList = new ArrayList<>();
     private FirebaseRemoteConfig firebaseRemoteConfig;
+
     public HomeFragment() {
     }
 
@@ -109,7 +108,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.fest_name);
+        if (getActivity() != null) {
+            mMainActivity = (MainActivity) getActivity();
+            mMainActivity.setTitle(R.string.fest_name);
+        }
         setHasOptionsMenu(true);
         mDatabase = Realm.getDefaultInstance();
 
@@ -149,9 +151,9 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        //Checking User's Network Status
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+//        //Checking User's Network Status
+//        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         if (imageSlider == null)
             imageSlider = view.findViewById(R.id.home_image_slider);
@@ -167,7 +169,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 //MORE Clicked - Take user to Results Fragment
                 Log.i(TAG, "onClick: Results more");
-                ((MainActivity) getActivity()).changeFragment(new ResultsFragment());
+                if (mMainActivity != null)
+                    mMainActivity.changeFragment(new ResultsFragment());
             }
         });
 
@@ -189,8 +192,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 //MORE Clicked - Take user to Categories Fragment
                 Log.i(TAG, "onClick: Categories More");
-                ((MainActivity) getActivity()).changeFragment(CategoriesFragment.newInstance());
-
+                if (mMainActivity != null)
+                    mMainActivity.changeFragment(CategoriesFragment.newInstance());
             }
         });
         if (categoriesList.size() == 0) {
@@ -244,7 +247,6 @@ public class HomeFragment extends Fragment {
         //Main Tech Tatva Events
 //        else {
             eventsList.clear();
-        Toast.makeText(getContext(), "Day : " + dayOfEvent, Toast.LENGTH_SHORT).show();
             eventsList = mDatabase.copyFromRealm(mDatabase.where(ScheduleModel.class)
                     /*.equalTo("isRevels", "1")*/.equalTo("day", dayOfEvent + "")
                     .findAll().sort(sortCriteria, sortOrder));
@@ -256,6 +258,7 @@ public class HomeFragment extends Fragment {
                     eventsList.add(0, event);
                 }
             }
+        }
 //        }
         if (eventsList.size() > 10) {
             eventsList.subList(10, eventsList.size()).clear();
@@ -270,7 +273,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 //MORE Clicked - Take user to Events Fragment
                 Log.i(TAG, "onClick: Events More");
-                ((MainActivity) getActivity()).changeFragment(EventsFragment.newInstance());
+                if (mMainActivity != null)
+                    mMainActivity.changeFragment(EventsFragment.newInstance());
             }
         });
         if (eventsList.size() == 0) {
