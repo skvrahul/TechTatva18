@@ -43,7 +43,7 @@ public class TabbedDialog extends DialogFragment {
 
         // Set transparent background and no title
         if (getDialog() != null && getDialog().getWindow() != null) {
-            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
 
