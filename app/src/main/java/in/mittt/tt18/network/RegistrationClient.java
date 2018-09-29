@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import in.mittt.tt18.models.registration.LoginResponse;
+import in.mittt.tt18.models.registration.ProfileResponse;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -20,6 +21,8 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -39,12 +42,16 @@ public class RegistrationClient {
                         public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
                             //Storing the Cookie when receive in Response
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+                            Log.d(TAG, "saveFromResponse: cookie list size"+cookies.size());
                             for(Cookie cookie:cookies){
                                 cookieStore.put(url, cookies);
-                                if(cookie.name().contains("my_session")) {
-                                    editor.putString("COOKIE", cookie.value());
-                                    Log.d(TAG, "saveFromResponse: Putting cookie "+cookie.value());
-                                    break;
+                                if(cookie.name().equals("my_session")) {
+                                    editor.putString("SESSION_COOKIE", cookie.value());
+                                    Log.d(TAG, "saveFromResponse: Putting Session cookie "+cookie.value());
+                                }
+                                else if (cookie.name().equals("__cfduid")){
+                                    editor.putString("cloudflare_COOKIE", cookie.value());
+                                    Log.d(TAG, "saveFromResponse: Putting cloudfarecookie "+cookie.value());
                                 }
                             }
                             editor.apply();
@@ -52,7 +59,7 @@ public class RegistrationClient {
 
                         @Override
                         public List<Cookie> loadForRequest(HttpUrl url) {
-                            //Adding a cookie to the Reques
+                            //Adding a cookie to the Request
                             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
                             final ArrayList<Cookie> oneCookie = new ArrayList<>(1);
                             oneCookie.add(createCookie(sp.getString("COOKIE", "")));
@@ -81,6 +88,8 @@ public class RegistrationClient {
         @POST("login.php")
         Call<LoginResponse> attemptLogin(@Body RequestBody body);
 
+        @GET("get_details.php")
+        Call<ProfileResponse> getProfileDetails(@Header("Cookie")String cookie);
 
     }
 

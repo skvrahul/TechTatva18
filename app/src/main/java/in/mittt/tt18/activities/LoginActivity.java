@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     switch(response.body().getStatus()){
                         case 1: message = "Login successful!";
                             error = 2;
-                            login();
+                            login(response.body().getQr());
                             break;
                         default: message = "Incorrect email or password! Please try again.";
                             error = 1;
@@ -73,9 +73,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public void login(){
+    public void login(String QR){
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit();
         editor.putBoolean("loggedIn", true);
+        editor.putString("QR",QR);
         editor.apply();
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
