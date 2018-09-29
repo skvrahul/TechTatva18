@@ -14,6 +14,15 @@
     <string name="title_results">Results</string>
     <string name="team_position">0</string>
     <string name="no_events">No events</string>
+    <string name="event_registration">Event Registration</string>
+    <string name="register_team">Register Team</string>
+    <string name="team_id2">Team ID:</string>
+    <string name="max_team_size">Max Team Size:</string>
+    <string name="add_team_member">Add Team Member</string>
+    <string name="scan_qr_code_2">Scan Delegate QR</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="reset">Reset</string>
+    <string name="toggle_flash">Toggle Flash</string>
     <string name="day_1">Day 1</string>
     <string name="day_2">Day 2</string>
     <string name="day_3">Day 3</string>
