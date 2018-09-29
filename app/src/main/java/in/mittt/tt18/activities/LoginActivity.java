@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             showAlert("Please enter email and password!");
             return;
         }
-        if (!NetworkUtils.isInternetConnected(LoginActivity.this)){
+        if (!NetworkUtils.isInternetConnected(this)){
             showAlert("Please connect to the internet and try again!");
             return;
         }
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 String message = "";
                 int error = 0;
+                Log.d("LoginActivity", "onResponse: "+response.body());
                 if (response != null && response.body() != null) {
                     switch(response.body().getStatus()){
                         case 1: message = "Login successful!";
@@ -72,6 +74,11 @@ public class LoginActivity extends AppCompatActivity {
                 showAlert("Could not connect to server! Please check your internet connect or try again later.");
             }
         });
+    }
+
+    public void gotoSignup(View view){
+        Intent i = new Intent(this, SignUpActivity.class);
+        startActivity(i);
     }
     public void login(String QR){
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit();

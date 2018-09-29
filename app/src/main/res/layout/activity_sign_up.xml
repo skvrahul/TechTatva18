@@ -50,7 +50,7 @@
                     app:cardCornerRadius="@dimen/padding_2x">
 
                     <EditText
-                        android:id="@+id/username_edit_text"
+                        android:id="@+id/signup_name_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -75,12 +75,12 @@
                     app:cardCornerRadius="@dimen/padding_half">
 
                     <EditText
-                        android:id="@+id/password_edit_text"
+                        android:id="@+id/signup_regno_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="Registration No."
-                        android:inputType="textPassword"
+                        android:inputType="number"
                         android:padding="12dp"
                         android:textColor="@color/black"
                         android:textColorHint="#808080"
@@ -98,12 +98,12 @@
                     app:cardCornerRadius="@dimen/padding_half">
 
                     <EditText
-                        android:id="@+id/password"
+                        android:id="@+id/signup_email_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="Email"
-                        android:inputType="textPassword"
+                        android:inputType="textEmailAddress"
                         android:padding="12dp"
                         android:textColor="@color/black"
                         android:textColorHint="#808080"
@@ -121,12 +121,12 @@
                     app:cardCornerRadius="@dimen/padding_half">
 
                     <EditText
-                        android:id="@+id/email"
+                        android:id="@+id/signup_phone_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="Phone No."
-                        android:inputType="textPassword"
+                        android:inputType="phone"
                         android:padding="12dp"
                         android:textColor="@color/black"
                         android:textColorHint="#808080"
@@ -144,12 +144,12 @@
                     app:cardCornerRadius="@dimen/padding_half">
 
                     <EditText
-                        android:id="@+id/text"
+                        android:id="@+id/signup_college_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="College"
-                        android:inputType="textPassword"
+                        android:inputType="text"
                         android:padding="12dp"
                         android:textColor="@color/black"
                         android:textColorHint="#808080"
@@ -167,6 +167,7 @@
                     app:cardCornerRadius="@dimen/padding_half">
 
                     <CheckBox
+                        android:id="@+id/signup_outstation_checkbox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -178,7 +179,7 @@
                 </android.support.v7.widget.CardView>
 
                 <Button
-                    android:id="@+id/sign_up_button"
+                    android:id="@+id/signup_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"

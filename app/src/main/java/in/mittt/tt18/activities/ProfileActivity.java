@@ -124,12 +124,13 @@ public class ProfileActivity extends AppCompatActivity {
             noConnectionAlert("Please connect to the internet and try again!");
         }else{
             dialog.show();
-            String cookie = generateCookie();
+            String cookie = RegistrationClient.generateCookie(this);
             Call<ProfileResponse> call = RegistrationClient.getRegistrationInterface(this).getProfileDetails(cookie);
             Log.i("ProfileActivity", "loadProfile: "+call.request().headers().toString());
             call.enqueue(new Callback<ProfileResponse>() {
                 @Override
                 public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                    Log.d("ProfileActivity", "onResponse: ");
                     dialog.dismiss();
                     if (response != null && response.body() != null){
                         ProfileResponse profileResponse = response.body();
@@ -186,10 +187,7 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
     }
-    public String generateCookie(){
-        SharedPreferences  ck = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this);
-        return "__cfduid="+ck.getString("cloudflare_COOKIE","")+";my_session="+ck.getString("SESSION_COOKIE","");
-    }
+
 
     public void noConnectionAlert(String message){
         new AlertDialog.Builder(ProfileActivity.this)
@@ -224,7 +222,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (dialog != null && !dialog.isShowing());
-            loadProfile();
+
     }
 }
