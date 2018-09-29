@@ -45,6 +45,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         regno = (EditText) findViewById(R.id.signup_regno_et);
         college = (EditText) findViewById(R.id.signup_college_et);
         name = (EditText) findViewById(R.id.signup_name_et);
+        outstation = (CheckBox) findViewById(R.id.signup_outstation_checkbox);
         Button b = (Button) findViewById(R.id.signup_button);
         b.setOnClickListener(this);
 
@@ -52,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view){
         final SignUpDetails details = new SignUpDetails();
         if (email.getText().toString().isEmpty() || phone.getText().toString().isEmpty() || regno.getText().toString().isEmpty() || college.getText().toString().isEmpty() || name.getText().toString().isEmpty()){
-            showAlert("Please fill in all the fields!");
+            showAlert("Please fill in all the fields!", false);
             return;
         }else{
             details.setCollege(college.getText().toString().trim());
@@ -69,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if (!NetworkUtils.isInternetConnected(this)){
-            showAlert("Please connect to the internet and try again!");
+            showAlert("Please connect to the internet and try again!", false);
             return;
         }
         SafetyNet.getClient(this).verifyWithRecaptcha(CAPTCHA_KEY)
@@ -102,12 +103,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //
     }
 
-    public void showAlert(String message){
+    public void showAlert(String message, final boolean finish){
         new AlertDialog.Builder(this).setTitle("Alert").setMessage(message)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        if(finish){
+                            finish();
+                        }
                     }
                 }).setCancelable(true).show();
 
@@ -118,24 +121,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         call.enqueue(new Callback<SignupResponse>() {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-                showAlert("onResponse");
                 String message = "";
                 int error = 0;
-                showAlert("response Body:"+response.body().toString());
                 if (response != null && response.body() != null) {
-                    switch(response.body().getStatus()){
-                        case 1: message = "Login successful!";
-                            break;
-                        default: message = "Error!Please try again.";
-                    }
+                    showAlert(response.body().getMessage(), response.body().getStatus()==1);
                 }else{
-                    showAlert("Could not connect to server! Please check your internet connect or try again later.");
+                    showAlert("Null Response", false);
                 }
             }
 
             @Override
             public void onFailure(Call<SignupResponse> call, Throwable t) {
-                showAlert("Could not connect to server! Please check your internet connect or try again later.");
+                showAlert("Could not connect to server! Please check your internet connect or try again later.", false);
             }
         });
     }

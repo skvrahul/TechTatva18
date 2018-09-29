@@ -115,7 +115,7 @@ public class RegistrationClient {
 
 }
 class LoggingInterceptor implements Interceptor {
-    final boolean DEBUG = false;
+    final boolean DEBUG = true;
     @Override
     public Response intercept(Chain chain) throws IOException {
         if(DEBUG)
