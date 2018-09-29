@@ -61,6 +61,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             details.setName(name.getText().toString().trim());
             details.setPhone(phone.getText().toString().trim());
             details.setCollege(college.getText().toString().trim());
+            if(outstation.isChecked()){
+                details.setOutstation("1");
+            }else{
+                details.setOutstation("0");
+            }
         }
 
         if (!NetworkUtils.isInternetConnected(this)){
@@ -108,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
     public void performSignUp(SignUpDetails details, String captchaToken){
-        Call<SignupResponse> call = RegistrationClient.getRegistrationInterface(this).attemptRegistration(details.name, details.regno,details.email, details.phone, details.college, captchaToken, "0", "android");
+        Call<SignupResponse> call = RegistrationClient.getRegistrationInterface(this).attemptRegistration(details.name, details.regno,details.email, details.phone, details.college, captchaToken, details.outstation, "android");
         //TODO: Add a Loading Spinner here
         call.enqueue(new Callback<SignupResponse>() {
             @Override
@@ -138,7 +143,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
 class SignUpDetails{
-    String email, phone, regno, college, name;
+    String email, phone, regno, college, name, outstation;
+
+    public String getOutstation() {
+        return outstation;
+    }
+
+    public void setOutstation(String outstation) {
+        this.outstation = outstation;
+    }
 
     public String getEmail() {
         return email;
