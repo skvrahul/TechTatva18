@@ -12,27 +12,22 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.safetynet.SafetyNet;
 import com.google.android.gms.safetynet.SafetyNetApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.util.concurrent.Executor;
-
 import in.mittt.tt18.R;
-import in.mittt.tt18.models.registration.LoginResponse;
 import in.mittt.tt18.models.registration.SignupResponse;
 import in.mittt.tt18.network.RegistrationClient;
 import in.mittt.tt18.utilities.NetworkUtils;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     EditText email, phone, regno, college, name;
+    View loadingSpinner;
     CheckBox outstation;
     String TAG = "SignUpActivity";
     String CAPTCHA_KEY = "6Lfho3IUAAAAAEu6JHZojPoo55KE885x5LJVIIfN";
@@ -40,14 +35,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        email = (EditText) findViewById(R.id.signup_email_et);
-        phone = (EditText) findViewById(R.id.signup_phone_et);
-        regno = (EditText) findViewById(R.id.signup_regno_et);
-        college = (EditText) findViewById(R.id.signup_college_et);
-        name = (EditText) findViewById(R.id.signup_name_et);
-        outstation = (CheckBox) findViewById(R.id.signup_outstation_checkbox);
-        Button b = (Button) findViewById(R.id.signup_button);
+        email = findViewById(R.id.signup_email_et);
+        phone = findViewById(R.id.signup_phone_et);
+        regno = findViewById(R.id.signup_regno_et);
+        college = findViewById(R.id.signup_college_et);
+        name = findViewById(R.id.signup_name_et);
+        outstation = findViewById(R.id.signup_outstation_checkbox);
+        Button b = findViewById(R.id.signup_button);
         b.setOnClickListener(this);
+        loadingSpinner = findViewById(R.id.loading_spinner);
 
     }
     public void onClick(View view){
@@ -117,10 +113,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
     public void performSignUp(SignUpDetails details, String captchaToken){
         Call<SignupResponse> call = RegistrationClient.getRegistrationInterface(this).attemptRegistration(details.name, details.regno,details.email, details.phone, details.college, captchaToken, details.outstation, "android");
-        //TODO: Add a Loading Spinner here
+        //done: Add a Loading Spinner here
+        loadingSpinner.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<SignupResponse>() {
             @Override
             public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+                loadingSpinner.setVisibility(View.GONE);
                 String message = "";
                 int error = 0;
                 if (response != null && response.body() != null) {

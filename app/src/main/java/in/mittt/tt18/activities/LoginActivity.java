@@ -4,14 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import in.mittt.tt18.R;
 import in.mittt.tt18.models.registration.LoginResponse;
@@ -25,12 +23,14 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     EditText email, password;
+    View loadingSpiner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        email = (EditText) findViewById(R.id.username_edit_text);
-        password = (EditText) findViewById(R.id.password_edit_text);
+        email = findViewById(R.id.username_edit_text);
+        password = findViewById(R.id.password_edit_text);
+        loadingSpiner = findViewById(R.id.loading_spinner);
     }
     public void loginClicked(View view){
         if (email.getText().toString().isEmpty() || password.getText().toString().isEmpty()){
@@ -44,10 +44,12 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestBody body =  RequestBody.create(MediaType.parse("text/plain"), "email="+email.getText().toString()+"&password="+password.getText().toString());
         Call<LoginResponse> call = RegistrationClient.getRegistrationInterface(LoginActivity.this).attemptLogin(body);
-        //TODO: Add a Loading Spinner here
+        //done: Add a Loading Spinner here
+        loadingSpiner.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                loadingSpiner.setVisibility(View.GONE);
                 String message = "";
                 int error = 0;
                 Log.d("LoginActivity", "onResponse: "+response.body());
