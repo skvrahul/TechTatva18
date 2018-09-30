@@ -121,6 +121,12 @@ public class RegistrationClient {
                                                 @Field("eventid")String eventID,
                                                 @Field("student_delno")String qr);
 
+        @FormUrlEncoded
+        @Headers({"Content-Type: application/x-www-form-urlencoded"})
+        @POST("leave_team.php")
+        Call<SignupResponse> leaveTeam(@Header("Cookie")String cookie,
+                                                  @Field("eventid")String eventID);
+
     }
 
 }

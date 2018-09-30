@@ -18,22 +18,26 @@ import in.mittt.tt18.models.registration.RegEvent;
 public class EventRegAdapter extends RecyclerView.Adapter<EventRegAdapter.EventRegViewHolder>{
     private List<RegEvent> regEventsList;
     private Context context;
-
-    public EventRegAdapter(List<RegEvent> regEventsList, Context context) {
+    private DeleteClickListener deleteClickListener;
+    public interface DeleteClickListener{
+        void onClick(RegEvent event);
+    }
+    public EventRegAdapter(List<RegEvent> regEventsList, Context context, DeleteClickListener deleteClickListener) {
         this.regEventsList = regEventsList;
         this.context = context;
+        this.deleteClickListener = deleteClickListener;
     }
 
     @Override
     public EventRegViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         return new EventRegViewHolder(LayoutInflater.from(context).inflate(R.layout.item_event_reg, parent, false));
     }
 
     @Override
     public void onBindViewHolder(EventRegViewHolder holder, int position) {
         RegEvent regEvent = regEventsList.get(position);
-        holder.eventName.setText(regEvent.getEventName());
-        holder.teamID.setText(regEvent.getTeamID());
+        holder.onBind(regEvent);
     }
 
     @Override
@@ -44,11 +48,24 @@ public class EventRegAdapter extends RecyclerView.Adapter<EventRegAdapter.EventR
     class EventRegViewHolder extends RecyclerView.ViewHolder {
         TextView eventName;
         TextView teamID;
-
+        View deleteEvent;
+        public void onBind(final RegEvent regEvent){
+            eventName.setText(regEvent.getEventName());
+            teamID.setText(regEvent.getTeamID());
+            deleteEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(deleteClickListener!=null){
+                        deleteClickListener.onClick(regEvent);
+                    }
+                }
+            });
+        }
         public EventRegViewHolder(View itemView) {
             super(itemView);
             eventName = (TextView)itemView.findViewById(R.id.event_name);
             teamID = (TextView)itemView.findViewById(R.id.team_id);
+            deleteEvent = itemView.findViewById(R.id.event_delete);
         }
     }
 }

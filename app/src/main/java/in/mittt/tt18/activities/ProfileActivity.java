@@ -23,16 +23,20 @@ import android.widget.TextView;
 
 import net.glxn.qrgen.android.QRCode;
 
+import java.util.List;
+
 import in.mittt.tt18.R;
 import in.mittt.tt18.adapters.EventRegAdapter;
 import in.mittt.tt18.models.registration.ProfileResponse;
+import in.mittt.tt18.models.registration.RegEvent;
+import in.mittt.tt18.models.registration.SignupResponse;
 import in.mittt.tt18.network.RegistrationClient;
 import in.mittt.tt18.utilities.NetworkUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity  implements EventRegAdapter.DeleteClickListener{
     private TextView name;
     private TextView delID;
     private TextView phone;
@@ -45,7 +49,49 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView noEvents;
     private LinearLayout eventRegHeader;
     private ProgressDialog dialog;
+    private List<RegEvent> eventDataList;
+    EventRegAdapter adapter;
 
+    //Delete Clicked on an Event
+    public void onClick(final RegEvent event){
+        //Send request to delete the event here
+        String eventID = event.getEventID();
+        Call<SignupResponse> call = RegistrationClient.getRegistrationInterface(this).leaveTeam(RegistrationClient.generateCookie(this), eventID);
+        //TODO: Add confirmation Dialog here
+        call.enqueue(new Callback<SignupResponse>() {
+            @Override
+            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
+                String message = "";
+                int error = 0;
+                if (response != null && response.body() != null) {
+                    showAlert(response.body().getMessage());
+                    if(response.body().getStatus() == 3){
+                        //Succesfully removed from backend. Remove from frontend and refresh adapter
+                        if(eventDataList.contains(event))
+                            eventDataList.remove(event);
+
+                        adapter.notifyDataSetChanged();
+                    }
+                }else{
+                    showAlert("Null Response");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignupResponse> call, Throwable t) {
+                showAlert("Error.Failed to delete the event. Please try again!");
+            }
+        });
+    }
+    public void showAlert(String message){
+        new AlertDialog.Builder(this).setTitle("Alert").setMessage(message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                }).setCancelable(true).show();
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +191,8 @@ public class ProfileActivity extends AppCompatActivity {
                                 noEvents.setVisibility(View.VISIBLE);
                             }
                             else{
-                                EventRegAdapter adapter = new EventRegAdapter(profileResponse.getEventData(), ProfileActivity.this);
+                                eventDataList = profileResponse.getEventData();
+                                adapter = new EventRegAdapter(eventDataList, ProfileActivity.this,ProfileActivity.this);
                                 eventRegRecyclerView.setAdapter(adapter);
                                 eventRegRecyclerView.setLayoutManager(new LinearLayoutManager(ProfileActivity.this));
                                 eventRegRecyclerView.setVisibility(View.VISIBLE);
