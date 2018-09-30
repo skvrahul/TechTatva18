@@ -34,7 +34,7 @@
                 <ImageView
                     android:layout_width="137dp"
                     android:layout_height="122dp"
-                    android:src="@drawable/tt18_text" />
+                    android:src="@drawable/tt18" />
 
                 <LinearLayout
                     android:id="@+id/login_child_linear_layout"

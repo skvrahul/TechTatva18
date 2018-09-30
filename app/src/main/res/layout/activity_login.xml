@@ -34,7 +34,7 @@
                 <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/tt18_text" />
+                    android:src="@drawable/tt18" />
 
                 <LinearLayout
                     android:id="@+id/login_child_linear_layout"
@@ -114,6 +114,7 @@
                         android:layout_marginRight="16dp"
                         android:background="@color/colorPrimaryDark"
                         android:text="@string/login_as_guest"
+                        android:onClick="guestContinue"
                         android:textColor="@color/white"
                         android:textSize="@dimen/typography_title" />
 

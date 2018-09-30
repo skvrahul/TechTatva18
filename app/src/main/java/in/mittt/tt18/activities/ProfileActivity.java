@@ -27,11 +27,13 @@ import java.util.List;
 
 import in.mittt.tt18.R;
 import in.mittt.tt18.adapters.EventRegAdapter;
+import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.registration.ProfileResponse;
 import in.mittt.tt18.models.registration.RegEvent;
 import in.mittt.tt18.models.registration.SignupResponse;
 import in.mittt.tt18.network.RegistrationClient;
 import in.mittt.tt18.utilities.NetworkUtils;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,47 +53,20 @@ public class ProfileActivity extends AppCompatActivity  implements EventRegAdapt
     private ProgressDialog dialog;
     private List<RegEvent> eventDataList;
     EventRegAdapter adapter;
+    private Realm mDatabase;
+    private EventDetailsModel eventDetails;
 
-    //Delete Clicked on an Event
+    //Modify Clicked on an Event
     public void onClick(final RegEvent event){
-        //Send request to delete the event here
-        String eventID = event.getEventID();
-        Call<SignupResponse> call = RegistrationClient.getRegistrationInterface(this).leaveTeam(RegistrationClient.generateCookie(this), eventID);
-        //TODO: Add confirmation Dialog here
-        call.enqueue(new Callback<SignupResponse>() {
-            @Override
-            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-                String message = "";
-                int error = 0;
-                if (response != null && response.body() != null) {
-                    showAlert(response.body().getMessage());
-                    if(response.body().getStatus() == 3){
-                        //Succesfully removed from backend. Remove from frontend and refresh adapter
-                        if(eventDataList.contains(event))
-                            eventDataList.remove(event);
-
-                        adapter.notifyDataSetChanged();
-                    }
-                }else{
-                    showAlert("Null Response");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SignupResponse> call, Throwable t) {
-                showAlert("Error.Failed to delete the event. Please try again!");
-            }
-        });
+        Intent intent = new Intent(ProfileActivity.this, RegisterTeamActivity.class);
+        intent.putExtra("eventID", event.getEventID());
+        intent.putExtra("teamID",event.getTeamID());
+        intent.putExtra("eventName", event.getEventName());
+        eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventId", event.getEventID()).findFirst();
+        intent.putExtra("maxTeamSize", eventDetails.getMaxTeamSize());
+        startActivity(intent);
     }
-    public void showAlert(String message){
-        new AlertDialog.Builder(this).setTitle("Alert").setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                }).setCancelable(true).show();
 
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity  implements EventRegAdapt
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+        mDatabase= Realm.getDefaultInstance();
 
         name = (TextView)findViewById(R.id.name_text_view);
         delID = (TextView)findViewById(R.id.del_id_text_view);
