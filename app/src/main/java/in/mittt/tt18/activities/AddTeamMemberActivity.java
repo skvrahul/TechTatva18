@@ -13,16 +13,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.zxing.Result;
 
 import in.mittt.tt18.R;
-import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.registration.EventRegistrationResponse;
 import in.mittt.tt18.network.RegistrationClient;
-import io.realm.Realm;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -30,18 +29,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventRegistrationActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class AddTeamMemberActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private static final int REQUEST_CAMERA = 316;
     private ZXingScannerView scannerView;
-    private Realm mDatabase;
-    EventDetailsModel eventDetails;
+    private String eventID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_registration);
-        setTitle(R.string.event_registration);
-        if (getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.scan_qr_code);
+        setContentView(R.layout.activity_add_team_member);
+        setTitle(R.string.add_team_member);
+
+        Intent intent=getIntent();
+        eventID=intent.getStringExtra("eventID");
+
+        if (getSupportActionBar() != null) getSupportActionBar().setSubtitle(R.string.scan_qr_code_2);
 
         scannerView = (ZXingScannerView)findViewById(R.id.event_scanner);
 
@@ -52,7 +54,6 @@ public class EventRegistrationActivity extends AppCompatActivity implements ZXin
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         scannerView.setResultHandler(this);
-        mDatabase=Realm.getDefaultInstance();
     }
 
     @Override
@@ -60,14 +61,12 @@ public class EventRegistrationActivity extends AppCompatActivity implements ZXin
         if (result.getText().isEmpty()) return;
 
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Loading Event... please wait!");
+        dialog.setMessage("Adding member... please wait!");
         dialog.setCancelable(false);
         dialog.show();
 
-        RequestBody body =  RequestBody.create(MediaType.parse("text/plain"), "eventid="+result.getText());
-        eventDetails = mDatabase.where(EventDetailsModel.class).equalTo("eventId", result.getText()).findFirst();
         String cookie = RegistrationClient.generateCookie(this);
-        Call<EventRegistrationResponse> call = RegistrationClient.getRegistrationInterface(this).eventReg(cookie,body);
+        Call<EventRegistrationResponse> call = RegistrationClient.getRegistrationInterface(this).addToTeam(cookie,eventID,result.getText());
         call.enqueue(new Callback<EventRegistrationResponse>() {
             @Override
             public void onResponse(Call<EventRegistrationResponse> call, Response<EventRegistrationResponse> response) {
@@ -85,69 +84,44 @@ public class EventRegistrationActivity extends AppCompatActivity implements ZXin
                 noConnectionAlert();
             }
         });
-
     }
 
     private void showAlert(final EventRegistrationResponse response){
-        String message[] = {"Session expired. Login again to continue!","" ,"Invalid QR code!",
-                "Already registered for "+eventDetails.getEventName()+"! You may still add new team members.", "You can proceed to creating your team for "+eventDetails.getEventName()+"!"};
         final int status = response.getStatus();
+        Log.d("Status", response.getStatus()+"");
+        Log.d("Message", response.getMessage());
 
-        if (status <= 1){
-            new AlertDialog.Builder(this).setTitle("Error").setMessage(message[status+1])
-                    .setIcon(R.drawable.ic_error)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (status < 0){
-                                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(EventRegistrationActivity.this).edit();
-                                editor.remove("loggedIn");
-                                editor.remove("session_cookie");
-                                editor.remove("cloudflare_cookie");
-                                editor.apply();
-                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }else {
-                                scannerView.stopCamera();
-                                scannerView.startCamera();
-                                scannerView.setResultHandler(EventRegistrationActivity.this);
-                            }
-                        }
-                    }).setCancelable(false).show();
-        }else if (status == 3 || status==2){
-            new AlertDialog.Builder(this).setTitle("Success").setMessage(message[status+1])
-                    .setIcon(R.drawable.ic_success)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(EventRegistrationActivity.this, RegisterTeamActivity.class);
-                            intent.putExtra("eventID", eventDetails.getEventID());
-                            intent.putExtra("teamID",response.getTeamid());
-                            intent.putExtra("eventName", eventDetails.getEventName());
-                            intent.putExtra("maxTeamSize", eventDetails.getMaxTeamSize());
+        new AlertDialog.Builder(this).setTitle(status<3? "Error":"Success").setMessage(response.getMessage())
+                .setIcon(status<4 ? R.drawable.ic_error:R.drawable.ic_success)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (status == -1){
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(AddTeamMemberActivity.this).edit();
+                            editor.remove("loggedIn");
+                            editor.remove("session_cookie");
+                            editor.remove("cloudflare_cookie");
+                            editor.apply();
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
+                        } else if (status == 1){
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } else if (status == 2){
+                            scannerView.stopCamera();
+                            scannerView.startCamera();
+                            scannerView.setResultHandler(AddTeamMemberActivity.this);
+                        }
+                        else if(status==3){
+                            Intent intent = new Intent();
+                            intent.putExtra("success", true);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
-                    }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            }).setCancelable(false).show();
-        }else{
-            String respMsg = "";
-            if (response.getMessage() != null)
-                respMsg = response.getMessage();
-
-            new AlertDialog.Builder(this).setMessage(respMsg)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    }).setCancelable(false).show();
-        }
+                    }
+                }).setCancelable(false).show();
     }
 
     public void noConnectionAlert(){

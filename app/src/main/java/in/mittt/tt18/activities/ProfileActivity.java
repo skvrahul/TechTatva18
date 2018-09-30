@@ -35,10 +35,8 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
     private TextView name;
     private TextView delID;
-    private TextView regNo;
     private TextView phone;
     private TextView email;
-    private TextView college;
     private LinearLayout profileCard;
     private Button logoutButton;
     private Button eventRegButton;
@@ -67,10 +65,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         name = (TextView)findViewById(R.id.name_text_view);
         delID = (TextView)findViewById(R.id.del_id_text_view);
-        regNo = (TextView)findViewById(R.id.reg_no_text_view);
         phone = (TextView)findViewById(R.id.phone_text_view);
         email = (TextView)findViewById(R.id.email_text_view);
-        college = (TextView)findViewById(R.id.college_text_view);
         profileCard = (LinearLayout)findViewById(R.id.profile_layout);
         logoutButton = (Button)findViewById(R.id.logout_button);
         qrCode = (ImageView)findViewById(R.id.qr_image_view);
@@ -91,7 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit();
                                 editor.remove("loggedIn");
-                                editor.remove("COOKIE");
+                                editor.remove("session_cookie");
+                                editor.remove("cloudflare_cookie");
                                 editor.apply();
                                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -165,7 +162,8 @@ public class ProfileActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit();
                                             editor.remove("loggedIn");
-                                            editor.remove("COOKIE");
+                                            editor.remove("session_cookie");
+                                            editor.remove("cloudflare_cookie");
                                             editor.apply();
                                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -222,6 +220,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (dialog != null && !dialog.isShowing())
+            loadProfile();
     }
 }

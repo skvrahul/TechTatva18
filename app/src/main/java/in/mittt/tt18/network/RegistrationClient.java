@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import in.mittt.tt18.activities.ProfileActivity;
+import in.mittt.tt18.models.registration.EventRegistrationResponse;
 import in.mittt.tt18.models.registration.LoginResponse;
 import in.mittt.tt18.models.registration.ProfileResponse;
 import in.mittt.tt18.models.registration.SignupResponse;
@@ -109,7 +110,16 @@ public class RegistrationClient {
                                                  @Field("outstation")String outstation,
                                                  @Field("from")String from);
 
+        @Headers({"Content-Type: application/x-www-form-urlencoded"})
+        @POST("eventreg.php")
+        Call<EventRegistrationResponse> eventReg(@Header("Cookie")String cookie,@Body RequestBody body);
 
+        @FormUrlEncoded
+        @Headers({"Content-Type: application/x-www-form-urlencoded"})
+        @POST("add_team.php")
+        Call<EventRegistrationResponse> addToTeam(@Header("Cookie")String cookie,
+                                                @Field("eventid")String eventID,
+                                                @Field("student_delno")String qr);
 
     }
 
