@@ -34,8 +34,6 @@ import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,7 +98,7 @@ public class HomeFragment extends Fragment {
     private List<EventResultModel> resultsList = new ArrayList<>();
     private List<CategoryModel> categoriesList = new ArrayList<>();
     private List<ScheduleModel> eventsList = new ArrayList<>();
-    private FirebaseRemoteConfig firebaseRemoteConfig;
+    //private FirebaseRemoteConfig firebaseRemoteConfig;
 
     public HomeFragment() {
     }
@@ -175,14 +173,14 @@ public class HomeFragment extends Fragment {
         });
 
         //Setting up Firebase
-        try {
+        /*try {
             firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
             FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                     .build();
             firebaseRemoteConfig.setConfigSettings(configSettings);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
 //        //Checking User's Network Status
 //        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
