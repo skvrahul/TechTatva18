@@ -38,4 +38,4 @@ local.properties
 ehthumbs.db
 Thumbs.db
 build/
-
+.idea/assetWizardSettings.xml

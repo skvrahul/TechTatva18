@@ -44,7 +44,7 @@ public class RegistrationClient {
     private static Retrofit retrofit = null;
     private static final String BASE_URL = "https://testing.mitportals.in/includes/";
     private static final String TAG = "RegistrationClient";
-
+    private static final String COOKIE_NAME = "my_session";
     public static RegistrationInterface getRegistrationInterface(final Context context){
         if (retrofit == null){
             OkHttpClient client = new OkHttpClient.Builder()
@@ -57,7 +57,7 @@ public class RegistrationClient {
                             Log.d(TAG, "saveFromResponse: cookie list size"+cookies.size());
                             for(Cookie cookie:cookies){
                                 cookieStore.put(url, cookies);
-                                if(cookie.name().contains("my_session")) {
+                                if(cookie.name().contains(COOKIE_NAME)) {
                                     editor.putString("session_cookie", cookie.value());
                                     Log.d(TAG, "saveFromResponse: Putting Session cookie "+cookie.value());
                                 }
@@ -86,7 +86,7 @@ public class RegistrationClient {
     }
     public static String generateCookie(Context context){
         SharedPreferences  ck = PreferenceManager.getDefaultSharedPreferences(context);
-        return "__cfduid="+ck.getString("cloudflare_cookie","")+";my_session="+ck.getString("session_cookie","");
+        return "__cfduid="+ck.getString("cloudflare_cookie","")+";"+COOKIE_NAME+"="+ck.getString("session_cookie","");
 
     }
     public interface RegistrationInterface {

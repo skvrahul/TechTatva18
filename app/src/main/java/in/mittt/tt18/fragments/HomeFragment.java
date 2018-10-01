@@ -1,17 +1,21 @@
 package in.mittt.tt18.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +31,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -83,6 +86,7 @@ public class HomeFragment extends Fragment {
     private TextView categoriesMore;
     private TextView eventsMore;
     private TextView resultsNone;
+    private View blogButton, newsletterButton;
     private FrameLayout homeResultsItem;
     private ProgressBar progressBar;
     private BottomNavigationView navigation;
@@ -140,6 +144,35 @@ public class HomeFragment extends Fragment {
         progressBar = view.findViewById(R.id.insta_progress);
         instaTextView = view.findViewById(R.id.insta_text_view);
         displayInstaFeed();
+
+        blogButton = view.findViewById(R.id.home_blog);
+        newsletterButton = view.findViewById(R.id.home_newsletter);
+        blogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCCT("https://themitpost.com/techtatva18-liveblog/", getContext());
+            }
+        });
+
+        newsletterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                int today = c.get(Calendar.DATE);
+                final int startDate = 3;
+                int dayOfFest = today - startDate;
+                String URL ;
+                switch (dayOfFest){
+                    case 0:URL = "https://themitpost.com/techtatva18-newsletter-day-0/";break;
+                    case 1:URL = "https://themitpost.com/techtatva18-newsletter-day-1/";break;
+                    case 2:URL = "https://themitpost.com/techtatva18-newsletter-day-2/";break;
+                    case 3:URL = "https://themitpost.com/techtatva18-newsletter-day-3/";break;
+                    default:
+                        URL = "https://themitpost.com/";
+                }
+                launchCCT(URL, getContext());
+            }
+        });
 
         //Setting up Firebase
         try {
@@ -389,6 +422,16 @@ public class HomeFragment extends Fragment {
         } else {
             homeResultsItem.setVisibility(View.VISIBLE);
         }
+    }
+    private void launchCCT(String url, Context context){
+
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(context, R.color.mitpost));
+// set toolbar color and/or setting custom actions before invoking build()
+// Once ready, call CustomTabsIntent.Builder.build() to create a CustomTabsIntent
+        CustomTabsIntent customTabsIntent = builder.build();
+// and launch the desired Url with CustomTabsIntent.launchUrl()
+        customTabsIntent.launchUrl(context, Uri.parse(url));
     }
 
 //    private void getImageURLSfromFirebase() {

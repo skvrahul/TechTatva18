@@ -10,6 +10,8 @@
     <string name="title_home">Home</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_categories">Categories</string>
+    <string name="title_mitpost">TT18 on The MIT Post</string>
+
     <string name="title_workshops">Workshops</string>
     <string name="title_results">Results</string>
     <string name="team_position">0</string>
@@ -69,7 +71,7 @@
     <string name="event_fragment">Events</string>
     <string name="more">MORE</string>
     <string name="no_categories">No categories available</string>
-    <string name="home_insta_title">#TT18 on Instagram</string>
+    <string name="home_insta_title">TT18 on Instagram</string>
     <string name="unable_to_load_insta">Unable to load Instagram feed. Swipe down to retry!</string>
     <string name="about_us_text">It is said that history is the best teacher.This TechTatva we recall our glorious past, by learning what history taught us - adapting to changing circumstances, creating solutions for yesterday\'s problems, and innovating for the future generations.With projects and events culminating to give our fest a fitting theme: Reminiscing Greatness, along with our logo that boasts of our progress, we transcend into the future- a future that has been reinforced by the work done by great people with the help of technological advancement.With this in mind, we can see that the logo portrays a human and a robotic aspect working together, imagining and building the future.Come together this TechTatva, and bask in the glory of our forefathers as we remember the steps they have carved for us that helped us climb to greater heights.</string>
     <string name="email2">Email</string>

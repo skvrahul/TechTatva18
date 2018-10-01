@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void guestContinue(View view) {
         Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

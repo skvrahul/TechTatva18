@@ -28,7 +28,8 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
 
                     <LinearLayout
@@ -59,15 +60,14 @@
                                 android:layout_weight="0"
                                 android:background="?android:attr/selectableItemBackground"
                                 android:clickable="true"
+                                android:focusable="true"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/more"
                                 android:textColor="@color/colorPrimary"
-                                android:focusable="true"
                                 android:textSize="@dimen/typography_small" />
                         </LinearLayout>
 
                         <android.support.v7.widget.CardView
-                            app:cardCornerRadius="@dimen/padding_half"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/padding_half"
@@ -75,7 +75,8 @@
                             android:layout_marginRight="@dimen/padding_half"
                             android:layout_marginTop="@dimen/padding_half"
                             android:paddingBottom="@dimen/padding_half"
-                            android:paddingTop="@dimen/padding_half">
+                            android:paddingTop="@dimen/padding_half"
+                            app:cardCornerRadius="@dimen/padding_half">
 
                             <TextView
                                 android:id="@+id/home_events_none_text_view"
@@ -100,7 +101,8 @@
                 <!--Categories Card-->
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -131,10 +133,10 @@
                                 android:layout_weight="0"
                                 android:background="?android:attr/selectableItemBackground"
                                 android:clickable="true"
+                                android:focusable="true"
                                 android:fontFamily="sans-serif-medium"
                                 android:text="@string/more"
                                 android:textColor="@color/colorPrimary"
-                                android:focusable="true"
                                 android:textSize="@dimen/typography_small" />
                         </LinearLayout>
 
@@ -146,8 +148,8 @@
                             android:layout_marginRight="@dimen/padding_half"
                             android:layout_marginTop="@dimen/padding_half"
                             android:paddingBottom="@dimen/padding_half"
-                            app:cardCornerRadius="@dimen/padding_half"
-                            android:paddingTop="@dimen/padding_half">
+                            android:paddingTop="@dimen/padding_half"
+                            app:cardCornerRadius="@dimen/padding_half">
 
                             <TextView
                                 android:id="@+id/home_categories_none_text_view"
@@ -173,7 +175,7 @@
                     android:id="@+id/home_results_frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
 
                     <LinearLayout
@@ -250,6 +252,102 @@
                     android:layout_marginBottom="@dimen/padding_half"
                     android:layout_marginTop="@dimen/padding_half"
                     android:background="@android:drawable/divider_horizontal_bright" />
+
+                <!--MIT Post Section-->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/home_mitpost_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/title_mitpost"
+                            android:textSize="@dimen/typography_title" />
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/padding_half"
+                            android:layout_marginLeft="@dimen/padding_half"
+                            android:layout_marginRight="@dimen/padding_half"
+                            android:layout_marginTop="@dimen/padding_half"
+                            android:paddingBottom="@dimen/padding_half"
+                            android:paddingTop="@dimen/padding_half"
+                            app:cardCornerRadius="@dimen/padding_half">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="@dimen/padding_default"
+                                android:orientation="horizontal"
+                                android:paddingTop="@dimen/padding_half">
+                                <LinearLayout
+                                    android:gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+                                    <TextView
+                                        android:padding="8dp"
+                                        android:text="Daily Newsletter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <ImageView
+                                        android:id="@+id/home_newsletter"
+                                        android:padding="8dp"
+                                        android:src="@drawable/ic_chevron_right_black_24dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:maxWidth="30dp"/>
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="@dimen/padding_half"
+                                    android:layout_marginTop="@dimen/padding_half"
+                                    android:background="@android:drawable/divider_horizontal_bright" />
+                                <LinearLayout
+                                    android:layout_weight="1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:layout_gravity="center"
+                                        android:padding="8dp"
+                                        android:text="Live Blog"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+                                    <ImageView
+                                        android:id="@+id/home_blog"
+                                        android:padding="8dp"
+                                        android:src="@drawable/ic_chevron_right_black_24dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:maxWidth="30dp"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+                        </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+                </FrameLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="@dimen/padding_half"
+                    android:layout_marginTop="@dimen/padding_half"
+                    android:background="@android:drawable/divider_horizontal_bright" />
+
 
                 <TextView
                     android:id="@+id/instagram_textview"

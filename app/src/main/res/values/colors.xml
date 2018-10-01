@@ -16,4 +16,6 @@
     <color name="white_developers">#FFFFFF</color>
     <color name="splash_bg">#1b1b1b</color>
     <color name="light_grey">#9E9E9E</color>
+    <color name="mitpost">#ff6633</color>
+
 </resources>
