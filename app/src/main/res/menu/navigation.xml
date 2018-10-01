@@ -16,10 +16,6 @@
         android:icon="@drawable/ic_categories"
         android:title="@string/title_categories" />
 
-    <item
-        android:id="@+id/navigation_workshops"
-        android:icon="@drawable/ic_workshops"
-        android:title="@string/title_workshops" />
 
     <item
         android:id="@+id/navigation_results"

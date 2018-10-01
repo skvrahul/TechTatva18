@@ -65,7 +65,7 @@ public class EventRegAdapter extends RecyclerView.Adapter<EventRegAdapter.EventR
             super(itemView);
             eventName = (TextView)itemView.findViewById(R.id.event_name);
             teamID = (TextView)itemView.findViewById(R.id.team_id);
-            deleteEvent = itemView.findViewById(R.id.event_delete);
+            deleteEvent = itemView.findViewById(R.id.event_modify);
         }
     }
 }

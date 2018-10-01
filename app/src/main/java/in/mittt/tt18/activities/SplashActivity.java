@@ -25,6 +25,10 @@ import in.mittt.tt18.models.categories.CategoriesListModel;
 import in.mittt.tt18.models.categories.CategoryModel;
 import in.mittt.tt18.models.events.EventDetailsModel;
 import in.mittt.tt18.models.events.EventsListModel;
+import in.mittt.tt18.models.events.ScheduleListModel;
+import in.mittt.tt18.models.events.ScheduleModel;
+import in.mittt.tt18.models.results.ResultModel;
+import in.mittt.tt18.models.results.ResultsListModel;
 import in.mittt.tt18.network.APIClient;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -47,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
     private Context context = this;
     private Handler mHandler = new Handler();
     private boolean eventsDataAvailableLocally = false;
-    private boolean schedulesDataAvailableLocally = true;
+    private boolean schedulesDataAvailableLocally = false;
     private boolean categoriesDataAvailableLocally = false;
     private String TAG = SplashActivity.class.getSimpleName();
 
@@ -55,7 +59,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Log.d(TAG, "What is this?");
         mDatabase = Realm.getDefaultInstance();
         rootLayout = findViewById(R.id.splash_root_layout);
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -71,12 +74,12 @@ public class SplashActivity extends AppCompatActivity {
         final ImageView text = findViewById(R.id.tt_text);
         final FrameLayout container = findViewById(R.id.frameLayout4);
 
-        iconLeft.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
+        iconLeft.startAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.fade_in_first));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 iconRight.setVisibility(View.VISIBLE);
-                iconRight.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
+                iconRight.startAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.fade_in_first));
             }
         }, 500);
 
@@ -84,11 +87,11 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 text.setVisibility(View.VISIBLE);
-                text.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in_first));
+                text.startAnimation(AnimationUtils.loadAnimation(SplashActivity.this, R.anim.fade_in_first));
             }
         }, 1000);
 
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_in_first);
+        Animation animation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.fade_in_first);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -111,6 +114,7 @@ public class SplashActivity extends AppCompatActivity {
                                 //Snackbar.make(rootLayout, "Updating data", Snackbar.LENGTH_SHORT).show();
 
                                 //loadAllFromInternet();
+                                Log.d(TAG, "moveForward called");
                                 moveForward();
                             }
                         }, 1500);
@@ -267,10 +271,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadAllFromInternet() {
         loadEventsFromInternet();
-        //loadSchedulesFromInternet();
+        loadSchedulesFromInternet();
         loadCategoriesFromInternet();
-        //loadResultsFromInternet();
-        //loadWorkshopsFromInternet();
 
         test = new Runnable() {
             @Override
@@ -315,27 +317,6 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
-//    private void loadResultsFromInternet() {
-//        Call<ResultsListModel> resultsCall = APIClient.getAPIInterface().getResultsList();
-//        resultsCall.enqueue(new Callback<ResultsListModel>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ResultsListModel> call,
-//                                   @NonNull Response<ResultsListModel> response) {
-//                if (response.isSuccessful() && response.body() != null && mDatabase != null) {
-//                    mDatabase.beginTransaction();
-//                    mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
-//                    mDatabase.copyToRealm(response.body().getData());
-//                    mDatabase.commitTransaction();
-//                    Log.d("TAG", "Results");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<ResultsListModel> call, @NonNull Throwable t) {
-//            }
-//        });
-//    }
-
     private void loadCategoriesFromInternet() {
         Call<CategoriesListModel> categoriesCall = APIClient.getAPIInterface().getCategoriesList();
         categoriesCall.enqueue(new Callback<CategoriesListModel>() {
@@ -360,28 +341,28 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-//    private void loadSchedulesFromInternet() {
-//        Call<ScheduleListModel> schedulesCall = APIClient.getAPIInterface().getScheduleList();
-//        schedulesCall.enqueue(new Callback<ScheduleListModel>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ScheduleListModel> call, @NonNull Response<ScheduleListModel> response) {
-//                if (response.isSuccessful() && response.body() != null && mDatabase != null) {
-//                    apiCallsRecieved++;
-//                    mDatabase.beginTransaction();
-//                    mDatabase.where(ScheduleModel.class).findAll().deleteAllFromRealm();
-//                    mDatabase.copyToRealm(response.body().getData());
-//                    mDatabase.commitTransaction();
-//                    schedulesDataAvailableLocally = true;
-//                    Log.d(TAG, "Schedules");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<ScheduleListModel> call, @NonNull Throwable t) {
-//                apiCallsRecieved++;
-//            }
-//        });
-//    }
+    private void loadSchedulesFromInternet() {
+        Call<ScheduleListModel> schedulesCall = APIClient.getAPIInterface().getScheduleList();
+        schedulesCall.enqueue(new Callback<ScheduleListModel>() {
+            @Override
+            public void onResponse(@NonNull Call<ScheduleListModel> call, @NonNull Response<ScheduleListModel> response) {
+                if (response.isSuccessful() && response.body() != null && mDatabase != null) {
+                    apiCallsRecieved++;
+                    mDatabase.beginTransaction();
+                    mDatabase.where(ScheduleModel.class).findAll().deleteAllFromRealm();
+                    mDatabase.copyToRealm(response.body().getData());
+                    mDatabase.commitTransaction();
+                    schedulesDataAvailableLocally = true;
+                    Log.d(TAG, "Schedules");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ScheduleListModel> call, @NonNull Throwable t) {
+                apiCallsRecieved++;
+            }
+        });
+    }
 
     private void loadEventsFromInternet() {
 
@@ -407,26 +388,6 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-//    private void loadWorkshopsFromInternet() {
-//        Call<WorkshopsListModel> workshopsCall = APIClient.getAPIInterface().getWorkshopsList();
-//        workshopsCall.enqueue(new Callback<WorkshopsListModel>() {
-//            @Override
-//            public void onResponse(@NonNull Call<WorkshopsListModel> call,
-//                                   @NonNull Response<WorkshopsListModel> response) {
-//                if (response.isSuccessful() && response.body() != null && mDatabase != null) {
-//                    mDatabase.beginTransaction();
-//                    mDatabase.copyToRealmOrUpdate(response.body().getWorkshopsList());
-//                    mDatabase.commitTransaction();
-//                    Log.d(TAG, response.body().getWorkshopsList().size() + "Workshops updated in background");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<WorkshopsListModel> call, @NonNull Throwable t) {
-//                Log.d(TAG, "onFailure: Workshops not updated");
-//            }
-//        });
-//}
 
 
     @Override

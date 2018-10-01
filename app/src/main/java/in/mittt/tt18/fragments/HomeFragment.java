@@ -202,10 +202,10 @@ public class HomeFragment extends Fragment {
 
         //Display Events of current day
         Calendar cal = Calendar.getInstance();
-        Calendar day1 = new GregorianCalendar(2018, 9, 7);
-        Calendar day2 = new GregorianCalendar(2018, 9, 8);
-        Calendar day3 = new GregorianCalendar(2018, 9, 9);
-        Calendar day4 = new GregorianCalendar(2018, 9, 10);
+        Calendar day1 = new GregorianCalendar(2018, 9, 3);
+        Calendar day2 = new GregorianCalendar(2018, 9, 4);
+        Calendar day3 = new GregorianCalendar(2018, 9, 5);
+        Calendar day4 = new GregorianCalendar(2018, 9, 6);
         Calendar curDay = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
         int dayOfEvent;
@@ -531,6 +531,7 @@ public class HomeFragment extends Fragment {
                     startActivity(new Intent(getActivity(), ProfileActivity.class));
                 else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
                 return true;

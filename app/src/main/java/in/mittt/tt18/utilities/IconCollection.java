@@ -17,7 +17,7 @@ public class IconCollection {
     public int getIconResource(Context context, String catName) {
         if (catName == null) return R.mipmap.ic_launcher;
 
-        switch (catName.toLowerCase()) {
+        switch (catName.toLowerCase().trim()) {
             case "acumen":
                 return R.drawable.acumen;
             case "airborne":
@@ -26,6 +26,8 @@ public class IconCollection {
                 return R.drawable.alacrity;
             case "bizzmaestro":
                 return R.drawable.bizzmaestro;
+            case "bizzventure":
+                return R.drawable.bizzventure;
             case "cheminova":
                 return R.drawable.cheminova;
             case "chrysalis":
@@ -40,12 +42,26 @@ public class IconCollection {
                 return R.drawable.electrific;
             case "energia":
                 return R.drawable.energia;
+            case "epsilon":
+                return R.drawable.epsilon;
+            case "fuel rc":
+                return  R.drawable.fuelrclogo;
             case "kraftwagen":
                 return R.drawable.kraftwagen;
             case "mechanize":
                 return R.drawable.mechanize;
             case "mechatron":
                 return R.drawable.mechatron;
+            case "overclocked by techquila":
+                return  R.drawable.techquila;
+            case "questionable intelligence":
+                return R.drawable.qi;
+            case "robotrek":
+                return R.drawable.robotrek;
+            case "robowars":
+                return R.drawable.robowars;
+            case "techquila":
+                return  R.drawable.techquila;
             case "turing":
                 return R.drawable.turing;
 
