@@ -37,9 +37,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-/**
- * Created by anurag on 13/2/18.
- */
+
 public class RegistrationClient {
     private static Retrofit retrofit = null;
     private static final String BASE_URL = "https://testing.mitportals.in/includes/";
