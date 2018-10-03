@@ -73,7 +73,11 @@ public class EventRegistrationActivity extends AppCompatActivity implements ZXin
             public void onResponse(Call<EventRegistrationResponse> call, Response<EventRegistrationResponse> response) {
                 dialog.dismiss();
                 if (response != null && response.body() != null){
-                    showAlert(response.body());
+                    try {
+                        showAlert(response.body());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }else{
                     noConnectionAlert();
                 }

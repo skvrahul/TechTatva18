@@ -96,7 +96,6 @@ public class EventsFragment extends Fragment {
         venueList.add("All");
         eventTypeList.add("All");
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.bottom_nav_events);
         realm = Realm.getDefaultInstance();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

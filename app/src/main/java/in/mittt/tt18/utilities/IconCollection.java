@@ -38,6 +38,8 @@ public class IconCollection {
                 return R.drawable.cosmic_con;
             case "cryptoss":
                 return R.drawable.cryptoss;
+            case "drone racing league":
+                return R.drawable.idc_logo_black_final;
             case "electrific":
                 return R.drawable.electrific;
             case "energia":
@@ -54,6 +56,8 @@ public class IconCollection {
                 return R.drawable.mechatron;
             case "overclocked by techquila":
                 return  R.drawable.techquila;
+            case "paper presentation":
+                return R.drawable.paper_presentation_logo;
             case "questionable intelligence":
                 return R.drawable.qi;
             case "robotrek":
@@ -64,6 +68,8 @@ public class IconCollection {
                 return  R.drawable.techquila;
             case "turing":
                 return R.drawable.turing;
+            case "vedanth":
+                return R.drawable.vedanth;
 
             default: {
                 String TAG = "IconCollection";

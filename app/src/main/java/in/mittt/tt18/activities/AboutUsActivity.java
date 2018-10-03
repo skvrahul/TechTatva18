@@ -13,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
+
 import in.mittt.tt18.R;
 
 public class AboutUsActivity extends AppCompatActivity {
-    String URL_SNAPCHAT = "https://www.snapchat.com/add/revelsmit";
-    String URL_TWITTER = "http://www.twitter.com/revelsmit";
-    String URL_FB = "http://www.facebook.com/mitrevels";
-    String URL_INSTA = "http://www.instagram.com/revelsmit";
+    String URL_SNAPCHAT = "https://www.snapchat.com/add/techtatva";
+    String URL_TWITTER = "https://twitter.com/mittechtatva?lang=en";
+    String URL_FB = "https://www.facebook.com/MITtechtatva/";
+    String URL_INSTA = "http://www.instagram.com/mittechtatva";
     ImageView instaIV, fbIV, snapchatIV, twitterIV;
     private String TAG = "AboutUsActivity";
 
@@ -68,7 +70,6 @@ public class AboutUsActivity extends AppCompatActivity {
                 launchURL(URL_TWITTER);
             }
         });
-
     }
 
     public void launchURL(String URL) {
