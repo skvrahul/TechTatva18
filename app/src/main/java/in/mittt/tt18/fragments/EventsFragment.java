@@ -627,7 +627,11 @@ public class EventsFragment extends Fragment {
                 Log.d(TAG, "queryFilter: " + currentDayEvents.get(i).getEventName());
             }
         }
-        adapter.updateList(temp);
+        try {
+            adapter.updateList(temp);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

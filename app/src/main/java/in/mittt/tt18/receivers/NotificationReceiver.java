@@ -33,10 +33,11 @@ public class NotificationReceiver extends BroadcastReceiver {
             Notification notify = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
                     .setContentTitle(NOTIFICATION_TITLE)
                     .setContentText(notificationText)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent)
                     .setDefaults(NotificationCompat.DEFAULT_SOUND)
                     .setAutoCancel(true)
-                    .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                    .setColor(ContextCompat.getColor(context, R.color.white))
                     .addAction(new android.support.v4.app.NotificationCompat.Action(0, LAUNCH_APPLICATION, pendingIntent))
                     .build();
 

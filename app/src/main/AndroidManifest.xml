@@ -26,6 +26,10 @@
             android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <receiver
+            android:name="in.mittt.tt18.receivers.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true"/>
         <activity
             android:name=".activities.DevelopersActivity"
             android:configChanges="smallestScreenSize|screenLayout|orientation|screenSize"

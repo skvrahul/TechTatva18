@@ -38,9 +38,9 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
     private final EventClickListener eventListener;
     private final int PRE_REVELS_DAY_ZERO = 18;
-    private final int EVENT_DAY_ZERO = 6;
+    private final int EVENT_DAY_ZERO = 2;
     private final int PRE_REVELS_EVENT_MONTH = Calendar.FEBRUARY;
-    private final int EVENT_MONTH = Calendar.MARCH;
+    private final int EVENT_MONTH = Calendar.OCTOBER;
     FragmentActivity activity;
     private List<ScheduleModel> events;
     private Context context;
@@ -224,7 +224,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
                 return;
             }
 //            if (isRevelsSTR.contains("1")) {
-                int eventDate = EVENT_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 07th March
+                int eventDate = EVENT_DAY_ZERO + Integer.parseInt(event.getDay());   //event dates start from 04th October
                 Calendar calendar1 = Calendar.getInstance();
                 calendar1.setTime(d);
                 calendar1.set(Calendar.MONTH, EVENT_MONTH);
@@ -246,7 +246,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
                 calendar3.set(Calendar.MINUTE, 30);
                 calendar3.set(Calendar.HOUR, 8);
                 calendar3.set(Calendar.AM_PM, Calendar.AM);
-                calendar3.set(Calendar.MONTH, Calendar.MARCH);
+                calendar3.set(Calendar.MONTH, Calendar.OCTOBER);
                 calendar3.set(Calendar.YEAR, 2018);
                 calendar3.set(Calendar.DATE, eventDate);
                 Log.d("Calendar 3", calendar3.getTimeInMillis() + "");

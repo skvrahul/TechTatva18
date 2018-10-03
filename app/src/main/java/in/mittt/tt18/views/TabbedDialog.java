@@ -41,10 +41,11 @@ public class TabbedDialog extends DialogFragment {
         mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Event"), Fragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Description"), Fragment.class, null);
 
-        // Set transparent background and no title
-        if (getDialog() != null && getDialog().getWindow() != null) {
+        try {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         adapter = new PagerAdapter(getChildFragmentManager(), getArguments());

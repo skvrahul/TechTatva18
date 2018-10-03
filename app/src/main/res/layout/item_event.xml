@@ -95,6 +95,7 @@
                     android:paddingBottom="2dp"
                     android:paddingLeft="@dimen/padding_quarter"
                     android:paddingRight="@dimen/padding_quarter"
+                    android:maxLength="26"
                     android:paddingTop="2dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/typography_small"
@@ -111,6 +112,7 @@
                     android:paddingLeft="@dimen/padding_quarter"
                     android:paddingRight="@dimen/padding_quarter"
                     android:paddingTop="2dp"
+                    android:ellipsize="end"
                     android:textColor="@color/white"
                     android:textSize="@dimen/typography_small"
                     tools:text="R1" />
