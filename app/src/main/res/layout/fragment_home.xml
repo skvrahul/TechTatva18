@@ -289,6 +289,8 @@
                                 android:layout_marginRight="@dimen/padding_default"
                                 android:orientation="horizontal">
                                 <LinearLayout
+                                    android:id="@+id/home_newsletter"
+                                    android:background="?selectableItemBackground"
                                     android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -299,7 +301,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content" />
                                     <ImageView
-                                        android:id="@+id/home_newsletter"
                                         android:padding="8dp"
                                         android:src="@drawable/ic_chevron_right_black_24dp"
                                         android:layout_width="wrap_content"
@@ -314,7 +315,10 @@
                                     android:layout_marginTop="@dimen/padding_half"
                                     android:background="@android:drawable/divider_horizontal_bright" />
                                 <LinearLayout
+                                    android:id="@+id/home_blog"
+                                    android:background="?selectableItemBackground"
                                     android:layout_weight="1"
+                                    android:paddingLeft="@dimen/padding_default"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center">
@@ -325,7 +329,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content" />
                                     <ImageView
-                                        android:id="@+id/home_blog"
                                         android:padding="8dp"
                                         android:src="@drawable/ic_chevron_right_black_24dp"
                                         android:layout_width="wrap_content"

@@ -496,32 +496,36 @@ public class HomeFragment extends Fragment {
 
     public void fetchResults() {
         processes++;
-        Call<ResultsListModel> callResultsList = APIClient.getAPIInterface().getResultsList();
-        callResultsList.enqueue(new Callback<ResultsListModel>() {
-            List<ResultModel> results = new ArrayList<>();
+        try {
+            Call<ResultsListModel> callResultsList = APIClient.getAPIInterface().getResultsList();
+            callResultsList.enqueue(new Callback<ResultsListModel>() {
+                List<ResultModel> results = new ArrayList<>();
 
-            @Override
-            public void onResponse(@NonNull Call<ResultsListModel> call, @NonNull Response<ResultsListModel> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    results = response.body().getData();
-                    mDatabase.beginTransaction();
-                    mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
-                    mDatabase.copyToRealm(results);
-                    mDatabase.commitTransaction();
-                    //homeResultsItem.setVisibility(View.VISIBLE);
-                    updateResultsList();
-                    resultsNone.setVisibility(View.GONE);
-                    resultsNone.setText("");
+                @Override
+                public void onResponse(@NonNull Call<ResultsListModel> call, @NonNull Response<ResultsListModel> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        results = response.body().getData();
+                        mDatabase.beginTransaction();
+                        mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
+                        mDatabase.copyToRealm(results);
+                        mDatabase.commitTransaction();
+                        //homeResultsItem.setVisibility(View.VISIBLE);
+                        updateResultsList();
+                        resultsNone.setVisibility(View.GONE);
+                        resultsNone.setText("");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ResultsListModel> call, @NonNull Throwable t) {
-                if (homeResultsItem.getVisibility() == View.VISIBLE)
-                    //homeResultsItem.setVisibility(View.GONE);
-                    processes--;
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<ResultsListModel> call, @NonNull Throwable t) {
+                    if (homeResultsItem.getVisibility() == View.VISIBLE)
+                        //homeResultsItem.setVisibility(View.GONE);
+                        processes--;
+                }
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public boolean isFavourite(ScheduleModel event) {
