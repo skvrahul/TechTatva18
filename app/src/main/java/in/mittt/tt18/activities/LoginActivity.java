@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.putBoolean("loggedIn", true);
         editor.putString("QR", QR);
         editor.apply();
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
         startActivity(intent);
     }
 

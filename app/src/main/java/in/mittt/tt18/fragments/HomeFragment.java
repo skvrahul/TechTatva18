@@ -1,6 +1,8 @@
 package in.mittt.tt18.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +48,7 @@ import in.mittt.tt18.activities.FavouritesActivity;
 import in.mittt.tt18.activities.LoginActivity;
 import in.mittt.tt18.activities.MainActivity;
 import in.mittt.tt18.activities.ProfileActivity;
+import in.mittt.tt18.adapters.EventsAdapter;
 import in.mittt.tt18.adapters.HomeAdapter;
 import in.mittt.tt18.adapters.HomeCategoriesAdapter;
 import in.mittt.tt18.adapters.HomeEventsAdapter;
@@ -53,15 +57,19 @@ import in.mittt.tt18.models.categories.CategoryModel;
 import in.mittt.tt18.models.events.ScheduleModel;
 import in.mittt.tt18.models.favourites.FavouritesModel;
 import in.mittt.tt18.models.instagram.InstagramFeed;
+import in.mittt.tt18.models.registration.EventRegistrationResponse;
 import in.mittt.tt18.models.results.EventResultModel;
 import in.mittt.tt18.models.results.ResultModel;
 import in.mittt.tt18.models.results.ResultsListModel;
 import in.mittt.tt18.network.APIClient;
 import in.mittt.tt18.network.InstaFeedAPIClient;
+import in.mittt.tt18.network.RegistrationClient;
 import in.mittt.tt18.utilities.NetworkUtils;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -127,6 +135,7 @@ public class HomeFragment extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+        showUpdateAlert();
     }
 
     @Override
@@ -294,7 +303,14 @@ public class HomeFragment extends Fragment {
         if (eventsList.size() > 10) {
             eventsList.subList(10, eventsList.size()).clear();
         }
-        eventsAdapter = new HomeEventsAdapter(eventsList, null, getActivity());
+        HomeEventsAdapter.EventLongPressListener longPressListener = new HomeEventsAdapter.EventLongPressListener() {
+            @Override
+            public void onItemLongPress(ScheduleModel event) {
+
+                registerForEvent(event.getEventId());
+            }
+        };
+        eventsAdapter = new HomeEventsAdapter(eventsList, null, longPressListener,getActivity());
         Log.i(TAG, "onCreateView: eventsList size" + eventsList.size());
         eventsRV.setAdapter(eventsAdapter);
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -612,6 +628,71 @@ public class HomeFragment extends Fragment {
             imageSlider = null;
         }
         super.onStop();
+    }
+
+    private void showUpdateAlert(){
+        final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+         final AlertDialog updateDialog=new AlertDialog.Builder(getActivity()).create();
+         if(!sp.getBoolean("displayedLongPressHint",false)) {
+             updateDialog.setIcon(R.drawable.ic_success);
+             updateDialog.setTitle("What's new");
+             updateDialog.setCancelable(false);
+             updateDialog.setMessage("You can now register for events by long pressing on an event");
+             updateDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+                     sp.edit().putBoolean("displayedLongPressHint", true).apply();
+                     Log.d(TAG, "onClickUpdateAlert: " + sp.getBoolean("displayedLongPressHint", false));
+                     updateDialog.dismiss();
+                 }
+             });
+             updateDialog.show();
+         }
+    }
+
+    private void registerForEvent(String eventID) {
+        Log.d(TAG, "registerForEvent: called");
+        final ProgressDialog dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Trying to register you for event... please wait!");
+        dialog.setCancelable(false);
+        dialog.show();
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), "eventid=" + eventID);
+        Call<EventRegistrationResponse> call = RegistrationClient.getRegistrationInterface(getContext()).eventReg(RegistrationClient.generateCookie(getContext()), body);
+        call.enqueue(new Callback<EventRegistrationResponse>() {
+            @Override
+            public void onResponse(Call<EventRegistrationResponse> call, Response<EventRegistrationResponse> response) {
+                dialog.cancel();
+                if (response != null && response.body() != null) {
+                    try {
+                        showAlert(response.body().getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    showAlert("Error! Please try again.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventRegistrationResponse> call, Throwable t) {
+                dialog.cancel();
+                showAlert("Error connecting to server! Please try again.");
+            }
+        });
+    }
+
+    public void showAlert(String message) {
+        try {
+            new AlertDialog.Builder(getContext()).setIcon(R.drawable.ic_info).setTitle("Info").setMessage(message)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).setCancelable(true).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

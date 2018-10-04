@@ -42,7 +42,7 @@ public class TabbedDialog extends DialogFragment {
         mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Description"), Fragment.class, null);
 
         try {
-            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            //getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }catch (Exception e){
             e.printStackTrace();
