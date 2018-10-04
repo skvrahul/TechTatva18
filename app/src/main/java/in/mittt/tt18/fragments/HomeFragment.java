@@ -505,6 +505,8 @@ public class HomeFragment extends Fragment {
                 public void onResponse(@NonNull Call<ResultsListModel> call, @NonNull Response<ResultsListModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         results = response.body().getData();
+                        if(mDatabase==null)
+                            mDatabase = Realm.getDefaultInstance();
                         mDatabase.beginTransaction();
                         mDatabase.where(ResultModel.class).findAll().deleteAllFromRealm();
                         mDatabase.copyToRealm(results);
