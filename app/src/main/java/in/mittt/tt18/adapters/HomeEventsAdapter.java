@@ -49,9 +49,11 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
     private List<FavouritesModel> favourites = mDatabase.copyFromRealm(favouritesRealm);
     private PendingIntent pendingIntent1 = null;
     private PendingIntent pendingIntent2 = null;
+    private final EventLongPressListener eventLongPressListener;
     private String TAG = "HomeEvntsAdp";
 
-    public HomeEventsAdapter(List<ScheduleModel> events, EventClickListener eventListener, FragmentActivity activity) {
+    public HomeEventsAdapter(List<ScheduleModel> events, EventClickListener eventListener,EventLongPressListener eventLongPressListener ,FragmentActivity activity) {
+        this.eventLongPressListener=eventLongPressListener;
         this.events = events;
         this.activity = activity;
         this.eventListener = eventListener;
@@ -81,6 +83,9 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
     public interface EventClickListener {
         void onItemClick(ScheduleModel event);
+    }
+    public interface EventLongPressListener {
+        void onItemLongPress(ScheduleModel event);
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
@@ -113,6 +118,15 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
                     }
                     displayEventDialog(event, context);
 //                    displayBottomSheet(event);
+                }
+            });
+            eventItem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(eventLongPressListener!=null){
+                        eventLongPressListener.onItemLongPress(event);
+                    }
+                    return true;
                 }
             });
         }
