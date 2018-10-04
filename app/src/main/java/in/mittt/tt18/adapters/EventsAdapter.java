@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -330,8 +334,29 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
                 @Override
                 public void onClick(View view) {
                     Log.i(TAG, "onClick: Event clicked" + event.getEventName());
+                    final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+                    if(!sp.getBoolean("displayedLongPressHint",false)){
+                        Snackbar.make(view, "HINT:Long press on an event to register for it!", Snackbar.LENGTH_LONG)
+                                .setAction("Got It!", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        sp.edit().putBoolean("displayedLongPressHint", true);
+                                        sp.edit().apply();
+                                    }
+                                })
+                                .show();
+                    }
                     displayEventDialog(event, view.getContext());
 
+                }
+            });
+            container.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(eventLongPressListener!=null){
+                        eventLongPressListener.onItemLongPress(event);
+                    }
+                    return true;
                 }
             });
         }

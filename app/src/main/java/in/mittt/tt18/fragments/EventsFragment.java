@@ -1,9 +1,11 @@
 package in.mittt.tt18.fragments;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,6 +15,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,16 +46,25 @@ import java.util.List;
 import java.util.Locale;
 
 import in.mittt.tt18.R;
+import in.mittt.tt18.activities.EventRegistrationActivity;
 import in.mittt.tt18.activities.FavouritesActivity;
 import in.mittt.tt18.activities.LoginActivity;
 import in.mittt.tt18.activities.ProfileActivity;
 import in.mittt.tt18.adapters.EventsAdapter;
 import in.mittt.tt18.application.TT18;
 import in.mittt.tt18.models.events.ScheduleModel;
+import in.mittt.tt18.models.registration.EventRegistrationResponse;
+import in.mittt.tt18.models.registration.LoginResponse;
+import in.mittt.tt18.network.RegistrationClient;
 import in.mittt.tt18.views.SwipeScrollView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventsFragment extends Fragment {
     private final int NUM_DAYS = 4;
@@ -110,6 +122,16 @@ public class EventsFragment extends Fragment {
         }
     }
 
+    public void showAlert(String message) {
+        new AlertDialog.Builder(getContext()).setTitle("Info").setMessage(message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).setCancelable(true).show();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,6 +161,14 @@ public class EventsFragment extends Fragment {
             getAllCategories();
             getAllEvents();
             getAllVenues();
+
+            EventsAdapter.EventLongPressListener longPressListener = new EventsAdapter.EventLongPressListener() {
+                @Override
+                public void onItemLongPress(ScheduleModel event) {
+
+                    registerForEvent(event.getEventId());
+                }
+            };
 
             //Binding the Events RecyclerView to the EventsAdapter
             adapter = new EventsAdapter(getActivity(), filteredEvents, null, null, favClickListener);
@@ -181,7 +211,35 @@ public class EventsFragment extends Fragment {
             e.printStackTrace();
         }
     }
+    private void registerForEvent(String eventID){
+        final ProgressDialog dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Trying to register you for event... please wait!");
+        dialog.setCancelable(false);
+        dialog.show();
+        RequestBody body =  RequestBody.create(MediaType.parse("text/plain"), "eventid="+eventID);
+        Call<EventRegistrationResponse> call = RegistrationClient.getRegistrationInterface(getContext()).eventReg(RegistrationClient.generateCookie(getContext()),body);
+        call.enqueue(new Callback<EventRegistrationResponse>() {
+            @Override
+            public void onResponse(Call<EventRegistrationResponse> call, Response<EventRegistrationResponse> response) {
+                dialog.cancel();
+                if (response != null && response.body() != null){
+                    try {
+                        showAlert(response.body().getMessage());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    showAlert("Error! Please try again.");
+                }
+            }
+            @Override
+            public void onFailure(Call<EventRegistrationResponse> call, Throwable t) {
+                dialog.cancel();
+                showAlert("Error connecting to server! Please try again.");
+            }
+        });
 
+    }
     private void getAllCategories() {
         RealmResults<ScheduleModel> scheduleResult = realm.where(ScheduleModel.class).findAll()
                 .sort(sortCriteria, sortOrder);
