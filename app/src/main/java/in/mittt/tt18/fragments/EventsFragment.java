@@ -123,7 +123,7 @@ public class EventsFragment extends Fragment {
     }
 
     public void showAlert(String message) {
-        new AlertDialog.Builder(getContext()).setTitle("Info").setMessage(message)
+        new AlertDialog.Builder(getContext()).setIcon(R.drawable.ic_info).setTitle("Info").setMessage(message)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -171,7 +171,7 @@ public class EventsFragment extends Fragment {
             };
 
             //Binding the Events RecyclerView to the EventsAdapter
-            adapter = new EventsAdapter(getActivity(), filteredEvents, null, null, favClickListener);
+            adapter = new EventsAdapter(getActivity(), filteredEvents, null, longPressListener, favClickListener);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
             eventsRV.setLayoutManager(layoutManager);
             eventsRV.setItemAnimator(new DefaultItemAnimator());
@@ -212,6 +212,7 @@ public class EventsFragment extends Fragment {
         }
     }
     private void registerForEvent(String eventID){
+        Log.d(TAG, "registerForEvent: called");
         final ProgressDialog dialog = new ProgressDialog(getContext());
         dialog.setMessage("Trying to register you for event... please wait!");
         dialog.setCancelable(false);
